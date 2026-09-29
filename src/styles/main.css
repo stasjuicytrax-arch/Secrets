@@ -1,0 +1,10 @@
+/* Единственная точка входа стилей. Порядок @layer задаёт приоритет
+   независимо от порядка @import — ТЗ §1. */
+
+@layer reset, tokens, base, layout, components, utils;
+
+@import url('./fonts.css');
+@import url('./reset.css') layer(reset);
+@import url('./tokens.css') layer(tokens);
+@import url('./base.css') layer(base);
+@import url('./layout.css') layer(layout);

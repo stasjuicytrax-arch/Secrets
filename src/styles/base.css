@@ -1,0 +1,211 @@
+/* База: типографика, поверхности браузера, утилиты доступности.
+   Метрики — из 02-design/design-system.md §4. Ни одного hex: только токены. */
+
+html {
+  color-scheme: dark; /* тёмная тема единственная — дизайн-система §9 */
+  background-color: var(--c-void);
+}
+
+body {
+  font-family: var(--f-text);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--t-primary);
+  background-color: var(--c-ink);
+  overflow-x: clip;
+}
+
+/* ---------- Типографическая шкала ---------- */
+
+.t-display,
+.t-h1,
+.t-h2,
+.t-h3,
+.t-h4 {
+  font-family: var(--f-display);
+  text-wrap: balance;
+}
+
+.t-display {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+.t-h1 {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.t-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.t-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+.t-h4 {
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.t-lead {
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  color: var(--t-secondary);
+}
+
+.t-body {
+  font-size: var(--fs-body);
+  line-height: 1.6;
+}
+
+.t-small {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+/* Длина строки основного текста — 58–68 знаков (дизайн-система §4). */
+.t-measure {
+  max-width: 62ch;
+}
+
+/* Двухцветный заголовок: ключевое слово оранжевым, остальное белым.
+   Главный типографический приём проекта. Зелёным заголовки не красим. */
+.t-accent {
+  color: var(--c-orange);
+}
+
+.t-dim {
+  color: var(--t-muted);
+}
+
+/* Цифры — display-шрифт, tabular-nums (дизайн-система §4). */
+.t-num {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Микро-лейбл секции ---------- */
+/* Отклонение от impeccable craft-floor (кикеры и номера секций запрещены)
+   и от taste-skill §9.F. Дизайн-система §6 требует их для каждой секции:
+   «✳ 03 / КАЛЬЯН». Приоритет у дизайн-системы — ТЗ §0. */
+.t-label {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: baseline;
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  color: var(--t-muted);
+  text-transform: uppercase;
+}
+
+.t-label::before {
+  content: '✳';
+  color: var(--c-orange);
+  letter-spacing: 0;
+}
+
+/* ---------- Поверхности браузера ---------- */
+/* Выделение, каретка, скроллбар и фокус приходят с дефолтами, которые
+   не принадлежат никакой дизайн-системе. Красим их из палитры. */
+
+::selection {
+  color: var(--c-void);
+  background-color: var(--c-amber);
+}
+
+:root {
+  caret-color: var(--c-orange-hot);
+  accent-color: var(--c-orange);
+  scrollbar-color: var(--c-concrete) var(--c-void);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--c-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--c-concrete);
+  border: 2px solid var(--c-void);
+  border-radius: var(--r-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--c-concrete-hi);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-orange-hot);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:where([href]) {
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+/* ---------- Доступность ---------- */
+
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.u-skip-link {
+  position: fixed;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  z-index: var(--z-overlay);
+  padding: var(--sp-3) var(--sp-5);
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-void);
+  background-color: var(--c-amber);
+  border-radius: var(--r-pill);
+  transform: translateY(calc(-100% - var(--sp-6)));
+  transition: transform var(--d-base) var(--e-out);
+}
+
+.u-skip-link:focus-visible {
+  transform: translateY(0);
+}
