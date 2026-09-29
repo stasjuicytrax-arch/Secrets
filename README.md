@@ -1,23 +1,43 @@
-# Secrets Lounge — рабочая папка
+# Secrets Lounge
 
-Подготовка к вёрстке нового сайта взамен secretslounge.ru (Tilda).
+Новый сайт взамен secretslounge.ru (Tilda). Vite + TypeScript, нативный CSS,
+GSAP + ScrollTrigger + SplitText, Lenis. Публикуется на GitHub Pages.
 
 ```
 Secrets/
-├─ README.md                        ← этот файл
-├─ Referens/                        ← исходные референсы (13.jpg, 8.jpg)
-├─ 01-content/
-│  ├─ site-content.md               ← весь текст со старого сайта, дословно
-│  └─ links-and-media.md            ← ссылки, PDF меню, файлы с Tilda CDN
-├─ 02-design/
-│  ├─ design-system.md              ← разбор референсов, палитра, типографика,
-│  │                                  сетка, ритм блоков, компоненты, запреты
-│  └─ tokens.css                    ← готовые CSS-переменные для проекта
-└─ 03-tz/
-   └─ TZ-secrets-website.md         ← техническое задание
+├─ index.html · menu.html         ← страницы
+├─ src/
+│  ├─ styles/                     ← tokens, reset, base, layout, components/
+│  ├─ scripts/                    ← main, lenis, header, preloader, anim/
+│  └─ data/                       ← типизированный контент
+├─ public/
+│  ├─ fonts/                      ← self-hosted woff2, latin + cyrillic
+│  └─ img/                        ← AVIF + WebP, собирается npm run images
+├─ scripts/
+│  ├─ fetch-fonts.mjs             ← шрифты из Google Fonts в public/fonts
+│  ├─ build-images.mjs            ← assets/ → public/img
+│  ├─ shots.mjs                   ← скриншоты 375/768/1280/1920
+│  └─ contrast.mjs                ← контраст текста под глифами
+├─ assets/                        ← исходники, в сайт напрямую не подключаются
+│  ├─ venue/                      ← настоящие фото зала, кухни, бара, кальянов
+│  ├─ menu-scans/                 ← сканы меню (НЕ фото зала)
+│  ├─ brand/ · menu-pdf/ · html/
+│  └─ MANIFEST.csv · venue/SOURCES.csv
+├─ Referens/                      ← референсы 13.jpg, 8.jpg
+├─ 01-content/ · 02-design/ · 03-tz/
+└─ PRODUCT.md                     ← продуктовый контекст для impeccable
 ```
 
-## С чего начинать вёрстку
+## Команды
+
+```
+npm run dev       — дев-сервер
+npm run build     — типы + прод-сборка
+npm run images    — пережать assets/ в public/img
+npm run fonts     — перекачать шрифты
+```
+
+## Порядок работ
 
 1. Прочитать `03-tz/TZ-secrets-website.md` целиком.
 2. Скопировать `02-design/tokens.css` в `src/styles/` нового проекта.

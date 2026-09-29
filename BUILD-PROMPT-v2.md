@@ -26,7 +26,8 @@
 
 Скачанные материалы лежат в `assets/`:
 
-- `assets/interior/interior-01..20.jpg` — фото зала (1680×2986 и 1654×2339).
+- `assets/menu-scans/scan-01..20.jpg` — сканы меню (закуски, вина, виски, кальянная карта). Не фото зала.
+- `assets/venue/` — настоящие фото зала, кухни, бара и кальянов, снятые с CDN старого сайта. Оптимизированные версии — в `public/img/venue`, `public/img/food`, `public/img/bar`, `public/img/hookah`.
 - `assets/brand/` — `logo.png`, `icon.svg`, `og.jpg`.
 - `assets/menu-pdf/menu-1..5.pdf` — меню. **`menu-2.pdf` повреждён** (это HTML), не используй его.
 - `assets/html/` — HTML старого сайта, для сверки текста.
