@@ -53,6 +53,7 @@ const SOURCES = [
 
   // Бар
   { src: 'assets/venue/20-DSC05123.jpg', out: 'bar/citrus-highball', preset: 'card' },
+  { src: 'assets/venue/18-DSC08807.jpg', out: 'bar/pour-hero', preset: 'card' },
 
   // Кальян и гости
   { src: 'assets/venue/15-DSC02430_1.jpg', out: 'hookah/guests-smoke', preset: 'card' },

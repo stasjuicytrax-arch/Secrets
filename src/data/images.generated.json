@@ -172,6 +172,16 @@
     "width": 700,
     "height": 1050
   },
+  "bar/pour-hero": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6667,
+    "width": 1680,
+    "height": 2520
+  },
   "hookah/guests-smoke": {
     "widths": [
       420,

@@ -1,0 +1,155 @@
+/* 04 · Бар. ТЗ §2 блок 05, §4: pinned-секция — вертикальный скролл
+   прокручивает карточки коктейлей горизонтально. Самая тяжёлая сцена
+   ТЗ §9 (этап 6).
+
+   По умолчанию карточки лежат в обычной горизонтальной прокрутке
+   (без JS работает уже так — прогрессивное улучшение). anim/bar.ts
+   включает pin только когда есть точный курсор и разрешено движение;
+   ТЗ §7 отдельно требует, чтобы на тач pinned-секции заменялись
+   вертикальным листанием — здесь это не запасной путь на случай сбоя,
+   а СОЗНАТЕЛЬНО дефолтное поведение для тач. */
+
+.bar {
+  position: relative;
+  background-color: var(--c-ink-2);
+}
+
+.bar__head {
+  max-width: 62ch;
+}
+
+.bar__lead {
+  margin-block-start: var(--sp-5);
+}
+
+.bar__wrap {
+  position: relative;
+  margin-block-start: var(--sp-8);
+  overflow: clip;
+}
+
+.bar__track {
+  display: flex;
+  gap: var(--sp-5);
+  padding-inline: var(--gutter);
+  padding-block-end: var(--sp-3);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+/* Режим pin включает anim/bar.ts на десктопе с точным курсором и без
+   prefers-reduced-motion. Секция занимает экран целиком, трек ведёт GSAP
+   трансформом, а не нативной прокруткой — своя прокрутка тут не нужна
+   и мешала бы твину. */
+.bar__wrap[data-bar-mode='pinned'] {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  margin-block-start: 0;
+}
+
+.bar__wrap[data-bar-mode='pinned'] .bar__track {
+  overflow: visible;
+  padding-inline-start: var(--gutter);
+  padding-block-end: 0;
+}
+
+.bar-card {
+  flex: none;
+  scroll-snap-align: start;
+  width: clamp(230px, 22vw, 300px);
+  aspect-ratio: 2 / 3;
+  position: relative;
+  overflow: clip;
+  border-radius: var(--r-md);
+}
+
+/* ---------- Фото-карточки ---------- */
+/* Только две: реальных снимков конкретных коктейлей у заказчика два
+   (см. src/data/cocktails.ts). Остальные — бархат, не фото-заглушка. */
+
+.bar-card--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bar-card--photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--c-void) 88%, transparent) 0%,
+    color-mix(in oklab, var(--c-void) 55%, transparent) 30%,
+    transparent 58%
+  );
+}
+
+.bar-card__caption {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--sp-4);
+  font-family: var(--f-display);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--t-primary);
+}
+
+/* ---------- Карточка-«бархат» ---------- */
+/* Дизайн-система §7 прямо называет коктейли её случаем. */
+
+.bar-card--drink {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--sp-5);
+  background-image: var(--g-moss);
+  border: 1px solid var(--s-stroke-moss);
+  transition:
+    border-color var(--d-base) var(--e-out),
+    transform var(--d-base) var(--e-out);
+}
+
+.bar-card--drink:hover {
+  border-color: var(--s-stroke-warm);
+  transform: translateY(-4px);
+}
+
+.bar-card__name {
+  font-family: var(--f-display);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.bar-card__notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-block-start: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+}
+
+.bar-card__price {
+  margin-block-start: var(--sp-4);
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--c-amber);
+}
+
+@media (width < 600px) {
+  .bar-card {
+    width: clamp(180px, 62vw, 240px);
+  }
+}

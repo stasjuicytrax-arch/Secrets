@@ -16,5 +16,6 @@
 @import url('./components/about.css') layer(components);
 @import url('./components/hookah.css') layer(components);
 @import url('./components/menu.css') layer(components);
+@import url('./components/bar.css') layer(components);
 @import url('./components/menu-page.css') layer(components);
 @import url('./components/footer.css') layer(components);

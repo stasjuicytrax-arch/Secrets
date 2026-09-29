@@ -691,6 +691,173 @@
         </div>
       </section>
 
+      <!-- ---------- 04 · Бар ---------- -->
+      <section class="l-section bar" id="bar" data-bar>
+        <div class="l-container">
+          <header class="l-section__head bar__head">
+            <p class="t-label" data-reveal="text">04 / Бар</p>
+            <h2 class="t-h2" data-reveal="title">Коктейли</h2>
+            <p class="t-lead bar__lead" data-reveal="text">
+              Мы детально проработали меню бара, чтобы каждый гость мог провести время
+              в соответствии со своими предпочтениями, а наши бармены готовят как классические
+              коктейли, так и авторские рецепты, разработанные нашей командой.
+            </p>
+          </header>
+        </div>
+
+        <!-- Дефолт без JS — обычная горизонтальная прокрутка со snap: это же
+             поведение сохраняется на тач по ТЗ §7. anim/bar.ts включает pin
+             поверх него только на десктопе с мышью и без reduce. -->
+        <div class="bar__wrap" data-bar-wrap>
+          <ul class="bar__track" data-bar-track>
+            <li class="bar-card bar-card--photo">
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="/img/bar/pour-hero-420.avif 420w, /img/bar/pour-hero-720.avif 720w"
+                  sizes="300px"
+                />
+                <img
+                  src="/img/bar/pour-hero-720.webp"
+                  srcset="/img/bar/pour-hero-420.webp 420w, /img/bar/pour-hero-720.webp 720w"
+                  sizes="300px"
+                  width="1680"
+                  height="2520"
+                  alt="Бармен наливает коктейль в дымящийся бокал"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <p class="bar-card__caption">Бар Secrets</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Дайкири</h3>
+                <ul class="bar-card__notes">
+                  <li>белый ром</li>
+                  <li>сок лимона</li>
+                  <li>сахарный сироп</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">750 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Негрони</h3>
+                <ul class="bar-card__notes">
+                  <li>джин</li>
+                  <li>красный вермут</li>
+                  <li>биттер</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">850 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Апероль Спритц</h3>
+                <ul class="bar-card__notes">
+                  <li>апероль</li>
+                  <li>игристое вино</li>
+                  <li>содовая</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">800 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--photo">
+              <picture>
+                <source type="image/avif" srcset="/img/bar/citrus-highball-420.avif 420w" sizes="300px" />
+                <img
+                  src="/img/bar/citrus-highball-420.webp"
+                  sizes="300px"
+                  width="700"
+                  height="1050"
+                  alt="Цитрусовый коктейль в высоком бокале"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <p class="bar-card__caption">Цитрусовый хайбол</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Секрет</h3>
+                <ul class="bar-card__notes">
+                  <li>белый ром</li>
+                  <li>Мартини Фиеро</li>
+                  <li>кордиал роза-грейпфрут</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">800 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Обнажённый</h3>
+                <ul class="bar-card__notes">
+                  <li>белый ром</li>
+                  <li>пюре маракуйя и манго</li>
+                  <li>игристое вино</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">800 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Осака</h3>
+                <ul class="bar-card__notes">
+                  <li>амаретто</li>
+                  <li>персиковый ликёр</li>
+                  <li>сок лимона</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">700 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Лимончелло Спритц</h3>
+                <ul class="bar-card__notes">
+                  <li>лимончелло</li>
+                  <li>игристое вино</li>
+                  <li>содовая</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">750 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Электро</h3>
+                <ul class="bar-card__notes">
+                  <li>апероль</li>
+                  <li>белый вермут</li>
+                  <li>ананасовый сок</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">800 ₽</p>
+            </li>
+
+            <li class="bar-card bar-card--drink">
+              <div>
+                <h3 class="bar-card__name">Мозаика</h3>
+                <ul class="bar-card__notes">
+                  <li>джин</li>
+                  <li>красный вермут</li>
+                  <li>сироп чёрная смородина</li>
+                </ul>
+              </div>
+              <p class="bar-card__price">800 ₽</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section class="l-section" id="promos">
         <div class="l-container">
           <header class="l-section__head">
