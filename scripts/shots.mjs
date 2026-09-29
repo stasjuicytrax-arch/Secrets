@@ -19,6 +19,9 @@ const ORIGIN = process.env.SHOT_ORIGIN ?? 'http://localhost:5173/Secrets';
 
 const DEFAULT_WIDTHS = [375, 768, 1280, 1920];
 
+/** Реальные высоты устройств: герой — 100svh, на выдуманной высоте он врёт. */
+const HEIGHTS = { 375: 667, 390: 844, 768: 1024, 1024: 768, 1280: 800, 1440: 900, 1920: 1080 };
+
 const argv = process.argv.slice(2);
 const flags = new Set(argv.filter((a) => a.startsWith('--')));
 const at = argv.includes('--at') ? Number(argv[argv.indexOf('--at') + 1]) : 0;
@@ -42,7 +45,7 @@ const run = async () => {
 
   for (const width of targets) {
     const tab = await context.newPage();
-    await tab.setViewportSize({ width, height: Math.round(width * 0.62) + 300 });
+    await tab.setViewportSize({ width, height: HEIGHTS[width] ?? Math.round(width * 0.62) });
     await tab.goto(`${ORIGIN}/${page}.html`, { waitUntil: 'networkidle' });
     // Прелоадер уходит по window.load или таймауту — даём ему закончить.
     await tab.waitForTimeout(reduced ? 300 : 1900);

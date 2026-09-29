@@ -221,3 +221,10 @@ a:where([href]) {
 .u-skip-link:focus-visible {
   transform: translateY(0);
 }
+
+/* Перенос только на десктопе: ниже 900px строки ломаются сами. */
+@media (width < 900px) {
+  .u-br {
+    display: none;
+  }
+}

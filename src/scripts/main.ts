@@ -7,6 +7,7 @@ import { initLenis, destroyLenis, scrollToTarget } from './lenis';
 import { onMotionPreferenceChange, prefersReducedMotion } from './motion';
 import { runPreloader } from './preloader';
 import { initHeader } from './header';
+import { initHero } from './anim/hero';
 
 const bootstrap = (): void => {
   document.documentElement.classList.toggle('is-reduced', prefersReducedMotion());
@@ -38,6 +39,7 @@ const bootstrap = (): void => {
   // иначе страница успевает уехать, пока её ещё не видно.
   runPreloader(() => {
     initLenis();
+    void initHero();
   });
 };
 
