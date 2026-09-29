@@ -9,7 +9,6 @@ import { runPreloader } from './preloader';
 import { initHeader } from './header';
 import { initHero } from './anim/hero';
 import { initReveal } from './anim/reveal';
-import { initHookah } from './anim/hookah';
 import { initMenu } from './anim/menu';
 
 const bootstrap = (): void => {
@@ -44,7 +43,6 @@ const bootstrap = (): void => {
     initLenis();
     void initHero();
     void initReveal();
-    void initHookah();
     void initMenu();
   });
 };

@@ -334,7 +334,7 @@
 
       <!-- ---------- 02 · Кальян ---------- -->
       <section class="l-section hookah" id="hookah" data-hookah>
-        <div class="hookah__concrete" data-hookah-concrete aria-hidden="true"></div>
+        <div class="hookah__glow" aria-hidden="true"></div>
 
         <div class="l-container">
           <div class="hookah__grid">
@@ -352,54 +352,133 @@
                 сделают для вас идеальный кальян, в зависимости от ваших предпочтений по вкусу,
                 крепости, дымности и другим критериям.
               </p>
-
-              <ul class="hookah__pick" data-reveal="text">
-                <li class="chip">По вкусу</li>
-                <li class="chip">По крепости</li>
-                <li class="chip">По дымности</li>
-              </ul>
             </header>
 
             <!-- Авторские миксы. Названия, состав и цены — из кальянного меню
-                 заказчика, assets/menu-scans/scan-15,17,18,19.jpg. -->
-            <ul class="hookah__blends">
+                 заказчика (assets/menu-scans/scan-15,17,18,19.jpg), фото —
+                 кроп самого кальяна оттуда же, текст и плашка с ценой срезаны. -->
+            <ul class="hookah__blends" data-reveal="cards">
               <li class="blend">
-                <h3 class="blend__name">Тайны древней Греции</h3>
-                <ul class="blend__notes">
-                  <li>сливочный сыр</li>
-                  <li>креплёное вино</li>
-                  <li>олива</li>
-                </ul>
-                <p class="blend__price">4300 ₽</p>
+                <div class="blend__media">
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/img/hookah/blend-greece-420.avif 420w, /img/hookah/blend-greece-720.avif 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                    />
+                    <img
+                      src="/img/hookah/blend-greece-720.webp"
+                      srcset="/img/hookah/blend-greece-420.webp 420w, /img/hookah/blend-greece-720.webp 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                      width="1534"
+                      height="1600"
+                      alt="Кальян «Тайны древней Греции»: чаша из апельсина на подставке с оливой"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                </div>
+                <div class="blend__body">
+                  <h3 class="blend__name">Тайны древней Греции</h3>
+                  <ul class="blend__notes">
+                    <li>сливочный сыр</li>
+                    <li>креплёное вино</li>
+                    <li>олива</li>
+                  </ul>
+                  <p class="blend__price">4300 ₽</p>
+                </div>
               </li>
 
               <li class="blend">
-                <h3 class="blend__name">Хранитель леса</h3>
-                <ul class="blend__notes">
-                  <li>ананас</li>
-                  <li>смородина</li>
-                  <li>тархун</li>
-                  <li>имбирный лимонад</li>
-                </ul>
-                <p class="blend__price">4300 ₽</p>
+                <div class="blend__media">
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/img/hookah/blend-forest-420.avif 420w, /img/hookah/blend-forest-720.avif 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                    />
+                    <img
+                      src="/img/hookah/blend-forest-720.webp"
+                      srcset="/img/hookah/blend-forest-420.webp 420w, /img/hookah/blend-forest-720.webp 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                      width="1534"
+                      height="1600"
+                      alt="Кальян «Хранитель леса»: чаша из ананаса на подставке с зеленью"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                </div>
+                <div class="blend__body">
+                  <h3 class="blend__name">Хранитель леса</h3>
+                  <ul class="blend__notes">
+                    <li>ананас</li>
+                    <li>смородина</li>
+                    <li>тархун</li>
+                    <li>имбирный лимонад</li>
+                  </ul>
+                  <p class="blend__price">4300 ₽</p>
+                </div>
               </li>
 
               <li class="blend">
-                <h3 class="blend__name">Сады Японии</h3>
-                <ul class="blend__notes">
-                  <li>сакура</li>
-                  <li>егермейстер</li>
-                  <li>пралине</li>
-                </ul>
-                <p class="blend__price">3900 ₽</p>
+                <div class="blend__media">
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/img/hookah/blend-japan-420.avif 420w, /img/hookah/blend-japan-720.avif 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                    />
+                    <img
+                      src="/img/hookah/blend-japan-720.webp"
+                      srcset="/img/hookah/blend-japan-420.webp 420w, /img/hookah/blend-japan-720.webp 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                      width="1534"
+                      height="1600"
+                      alt="Кальян «Сады Японии»: чаша с сакурой на подставке"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                </div>
+                <div class="blend__body">
+                  <h3 class="blend__name">Сады Японии</h3>
+                  <ul class="blend__notes">
+                    <li>сакура</li>
+                    <li>егермейстер</li>
+                    <li>пралине</li>
+                  </ul>
+                  <p class="blend__price">3900 ₽</p>
+                </div>
               </li>
 
               <li class="blend">
-                <h3 class="blend__name">Флэш-рояль</h3>
-                <ul class="blend__notes">
-                  <li>малиновый мартини</li>
-                </ul>
-                <p class="blend__price">3900 ₽</p>
+                <div class="blend__media">
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset="/img/hookah/blend-flash-420.avif 420w, /img/hookah/blend-flash-720.avif 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                    />
+                    <img
+                      src="/img/hookah/blend-flash-720.webp"
+                      srcset="/img/hookah/blend-flash-420.webp 420w, /img/hookah/blend-flash-720.webp 720w"
+                      sizes="(width < 900px) 72vw, 25vw"
+                      width="1534"
+                      height="1600"
+                      alt="Кальян «Флэш-рояль»: чаша с игральными картами и фишками на подставке"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                </div>
+                <div class="blend__body">
+                  <h3 class="blend__name">Флэш-рояль</h3>
+                  <ul class="blend__notes">
+                    <li>малиновый мартини</li>
+                  </ul>
+                  <p class="blend__price">3900 ₽</p>
+                </div>
               </li>
             </ul>
 

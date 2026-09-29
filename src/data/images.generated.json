@@ -192,6 +192,166 @@
     "width": 1333,
     "height": 2000
   },
+  "hookah/blend-greece": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.9587,
+    "width": 1534,
+    "height": 1600
+  },
+  "hookah/blend-forest": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.9587,
+    "width": 1534,
+    "height": 1600
+  },
+  "hookah/blend-japan": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.9587,
+    "width": 1534,
+    "height": 1600
+  },
+  "hookah/blend-flash": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.9587,
+    "width": 1534,
+    "height": 1600
+  },
+  "menu-pages/01-starters": {
+    "widths": [
+      480,
+      800,
+      1200
+    ],
+    "ratio": 0.5626,
+    "width": 1680,
+    "height": 2986
+  },
+  "menu-pages/02-mains": {
+    "widths": [
+      480,
+      800,
+      1200
+    ],
+    "ratio": 0.5626,
+    "width": 1680,
+    "height": 2986
+  },
+  "menu-pages/03-japan": {
+    "widths": [
+      480,
+      800,
+      1200
+    ],
+    "ratio": 0.5626,
+    "width": 1680,
+    "height": 2986
+  },
+  "menu-pages/04-antipasti": {
+    "widths": [
+      480,
+      800,
+      1200
+    ],
+    "ratio": 0.5626,
+    "width": 1680,
+    "height": 2986
+  },
+  "menu-pages/05-cocktails-classic": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/06-cocktails-hits": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/07-cocktails-new": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/08-wine-sparkling": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/09-wine-bottles": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/10-spirits-vodka": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/11-spirits-whisky": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/12-spirits-other": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/13-soft-drinks": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
+  "menu-pages/14-tea": {
+    "widths": [
+      480
+    ],
+    "ratio": 0.4743,
+    "width": 793,
+    "height": 1672
+  },
   "brand/logo": {
     "widths": [
       280,
