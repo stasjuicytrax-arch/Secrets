@@ -7,7 +7,7 @@
  */
 import type { gsap as Gsap } from 'gsap';
 import type { ScrollTrigger as ScrollTriggerType } from 'gsap/ScrollTrigger';
-import { getLenis } from './lenis';
+import { getLenis, driveLenisFromGsapTicker } from './lenis';
 import { prefersReducedMotion } from './motion';
 
 export interface GsapBundle {
@@ -46,6 +46,14 @@ export const loadGsap = (): Promise<GsapBundle | null> => {
     // Lenis крутит настоящий window, поэтому scrollerProxy не нужен —
     // хватает того, чтобы ScrollTrigger пересчитывался на каждый кадр Lenis.
     getLenis()?.on('scroll', ScrollTrigger.update);
+
+    // Критично для порядка кадров: Lenis до этого жил в собственном rAF,
+    // отдельном от тикера GSAP. Два несинхронизированных цикла гонялись
+    // друг за другом — ScrollTrigger.update() мог прийти в середине рендера
+    // твина GSAP, и stagger-анимации с function-based значениями (сцена
+    // «Кальян») застывали на промежуточном кадре навсегда. Подробности —
+    // в комментарии над driveLenisFromGsapTicker в lenis.ts.
+    driveLenisFromGsapTicker(gsap);
 
     return { gsap, ScrollTrigger };
   })();
