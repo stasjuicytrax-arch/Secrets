@@ -8,7 +8,7 @@
     <title>Меню — Secrets Lounge · Полтавская, 7</title>
     <meta
       name="description"
-      content="Меню лаунж-бара Secrets: японская кухня, бар и кальянная карта. Санкт-Петербург, Полтавская, 7."
+      content="Полное меню лаунж-бара Secrets: кухня, коктейли, вино, крепкий алкоголь, безалкогольные напитки и чай. Санкт-Петербург, Полтавская, 7."
     />
 
     <link rel="icon" href="/img/brand/icon.svg" type="image/svg+xml" />
@@ -18,21 +18,599 @@
   </head>
 
   <body>
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
+      <symbol id="i-arrow-ne" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17 17 7" />
+          <path d="M8.5 7H17v8.5" />
+        </g>
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.2 4h3l1.4 3.6-2 1.3a10.6 10.6 0 0 0 4.5 4.5l1.3-2 3.6 1.4v3a1.8 1.8 0 0 1-2 1.8A14.4 14.4 0 0 1 4.4 6a1.8 1.8 0 0 1 1.8-2Z" />
+        </g>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M4 9h16" />
+          <path d="M4 15h16" />
+        </g>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="m6 6 12 12" />
+          <path d="m18 6-12 12" />
+        </g>
+      </symbol>
+    </svg>
+
     <a class="u-skip-link" href="#main">К основному содержанию</a>
 
-    <main id="main">
-      <!-- Этап 5 (ТЗ §9): категории слева, позиции справа, фильтр, ленивые фото. -->
-      <section class="l-section">
-        <div class="l-container">
-          <header class="l-section__head">
-            <p class="t-label">Меню</p>
-            <h1 class="t-h1">Меню <span class="t-accent">Secrets</span></h1>
-          </header>
-          <div class="l-section__body">
-            <p class="t-lead t-measure">Страница собирается на этапе 5.</p>
+    <!-- Тот же хедер, что на главной (src/scripts/header.ts переиспользуется). -->
+    <header class="hdr" data-header>
+      <div class="hdr__progress" aria-hidden="true"></div>
+
+      <div class="hdr__shell">
+        <a class="hdr__logo" href="/" aria-label="Secrets Lounge, на главную">
+          <picture>
+            <source srcset="/img/brand/logo-280.avif" type="image/avif" />
+            <img src="/img/brand/logo-280.webp" alt="Secrets Lounge" width="738" height="207" />
+          </picture>
+        </a>
+
+        <nav class="hdr__nav" aria-label="Основная навигация">
+          <a class="hdr__link" href="/#about">О нас</a>
+          <a class="hdr__link" href="/#menu" aria-current="true">Меню</a>
+          <a class="hdr__link" href="/#promos">Акции</a>
+          <a class="hdr__link" href="/#contacts">Контакты</a>
+        </nav>
+
+        <div class="hdr__actions">
+          <a class="hdr__phone" href="tel:+79936412986">
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-phone" /></svg>
+            +7 (993) 641-29-86
+          </a>
+          <a class="btn btn--primary btn--compact" href="/#book">Забронировать</a>
+          <button
+            class="hdr__burger"
+            type="button"
+            data-burger
+            aria-expanded="false"
+            aria-controls="nav-panel"
+            aria-label="Открыть меню"
+          >
+            <svg class="hdr__burger-open" width="24" height="24" aria-hidden="true">
+              <use href="#i-menu" />
+            </svg>
+            <svg class="hdr__burger-close" width="24" height="24" aria-hidden="true">
+              <use href="#i-close" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="nav-panel" id="nav-panel" data-nav-panel data-open="false">
+      <div class="nav-panel__glow" aria-hidden="true"></div>
+      <nav class="nav-panel__list" aria-label="Навигация по сайту">
+        <a class="nav-panel__link" href="/#about">О нас</a>
+        <a class="nav-panel__link" href="/#menu">Меню</a>
+        <a class="nav-panel__link" href="/#promos">Акции</a>
+        <a class="nav-panel__link" href="/#contacts">Контакты</a>
+      </nav>
+      <div class="nav-panel__foot">
+        <a class="nav-panel__phone" href="tel:+79936412986">+7 (993) 641-29-86</a>
+        <p class="t-small t-dim">Санкт-Петербург, ул. Полтавская, 7</p>
+      </div>
+    </div>
+
+    <main id="main" class="menu-page">
+      <div class="l-container">
+        <header class="menu-page__head">
+          <p class="t-label">Меню</p>
+          <h1 class="t-h1">Меню <span class="t-accent">Secrets</span></h1>
+          <p class="t-lead menu-page__lead">
+            Кухня, бар и карта напитков целиком — печатное меню заведения, страница за страницей.
+            Данных для отдельных позиций заказчик пока не передал (ТЗ §10), поэтому ниже — те же
+            страницы, что лежат на столах в зале.
+          </p>
+        </header>
+
+        <div class="menu-page__layout">
+          <!-- Категории слева, sticky — ТЗ §2. -->
+          <nav class="menu-page__nav" aria-label="Разделы меню">
+            <a class="menu-page__nav-link" href="#kitchen">Кухня</a>
+            <a class="menu-page__nav-link" href="#cocktails">Коктейли</a>
+            <a class="menu-page__nav-link" href="#wine">Вино</a>
+            <a class="menu-page__nav-link" href="#spirits">Крепкий алкоголь</a>
+            <a class="menu-page__nav-link" href="#soft">Безалкогольное</a>
+          </nav>
+
+          <!-- Позиции справа. Разметка группами страниц вместо карточек-блюд —
+               ТЗ §2: «разметку сразу закладывать под позиции», пока у заказчика
+               нет данных построчно. Группа = категория, страница = фото
+               печатного разворота, названия разделов на ней — в чипах снизу. -->
+          <div class="menu-page__groups">
+            <section aria-labelledby="kitchen-h">
+              <header class="menu-group__head" id="kitchen">
+                <h2 class="t-h2 menu-group__title" id="kitchen-h">Кухня</h2>
+              </header>
+              <div class="menu-group__pages">
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/01-starters-1200.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/01-starters-480.avif 480w, /img/menu-pages/01-starters-800.avif 800w, /img/menu-pages/01-starters-1200.avif 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/01-starters-800.webp"
+                        srcset="/img/menu-pages/01-starters-480.webp 480w, /img/menu-pages/01-starters-800.webp 800w, /img/menu-pages/01-starters-1200.webp 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                        width="1680"
+                        height="2986"
+                        alt="Страница меню: стартеры"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Стартеры</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/02-mains-1200.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/02-mains-480.avif 480w, /img/menu-pages/02-mains-800.avif 800w, /img/menu-pages/02-mains-1200.avif 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/02-mains-800.webp"
+                        srcset="/img/menu-pages/02-mains-480.webp 480w, /img/menu-pages/02-mains-800.webp 800w, /img/menu-pages/02-mains-1200.webp 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                        width="1680"
+                        height="2986"
+                        alt="Страница меню: горячее, гарниры, десерты"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Горячее</span>
+                    <span class="menu-doc__chip">Гарниры</span>
+                    <span class="menu-doc__chip">Десерты</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/03-japan-1200.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/03-japan-480.avif 480w, /img/menu-pages/03-japan-800.avif 800w, /img/menu-pages/03-japan-1200.avif 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/03-japan-800.webp"
+                        srcset="/img/menu-pages/03-japan-480.webp 480w, /img/menu-pages/03-japan-800.webp 800w, /img/menu-pages/03-japan-1200.webp 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                        width="1680"
+                        height="2986"
+                        alt="Страница меню: Япония, стрит-фуд"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Япония</span>
+                    <span class="menu-doc__chip">Стрит-фуд</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/04-antipasti-1200.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/04-antipasti-480.avif 480w, /img/menu-pages/04-antipasti-800.avif 800w, /img/menu-pages/04-antipasti-1200.avif 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/04-antipasti-800.webp"
+                        srcset="/img/menu-pages/04-antipasti-480.webp 480w, /img/menu-pages/04-antipasti-800.webp 800w, /img/menu-pages/04-antipasti-1200.webp 1200w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                        width="1680"
+                        height="2986"
+                        alt="Страница меню: антипасти, салаты, супы, паста и ризотто"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Антипасти</span>
+                    <span class="menu-doc__chip">Салаты</span>
+                    <span class="menu-doc__chip">Супы</span>
+                    <span class="menu-doc__chip">Паста и ризотто</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <section aria-labelledby="cocktails-h">
+              <header class="menu-group__head" id="cocktails">
+                <h2 class="t-h2 menu-group__title" id="cocktails-h">Коктейли</h2>
+              </header>
+              <div class="menu-group__pages">
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/05-cocktails-classic-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/05-cocktails-classic-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/05-cocktails-classic-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница барной карты: классические коктейли"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Классика</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/06-cocktails-hits-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/06-cocktails-hits-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/06-cocktails-hits-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница барной карты: хиты"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Хиты</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/07-cocktails-new-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/07-cocktails-new-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/07-cocktails-new-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница барной карты: новый сезон 25/26"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Новый сезон 25/26</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <section aria-labelledby="wine-h">
+              <header class="menu-group__head" id="wine">
+                <h2 class="t-h2 menu-group__title" id="wine-h">Вино</h2>
+              </header>
+              <div class="menu-group__pages">
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/08-wine-sparkling-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/08-wine-sparkling-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/08-wine-sparkling-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты вин: игристое"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Игристое вино</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/09-wine-bottles-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/09-wine-bottles-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/09-wine-bottles-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты вин: белые, розовые, красные"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Белые вина</span>
+                    <span class="menu-doc__chip">Розовые вина</span>
+                    <span class="menu-doc__chip">Красные вина</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <section aria-labelledby="spirits-h">
+              <header class="menu-group__head" id="spirits">
+                <h2 class="t-h2 menu-group__title" id="spirits-h">Крепкий алкоголь</h2>
+              </header>
+              <div class="menu-group__pages">
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/10-spirits-vodka-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/10-spirits-vodka-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/10-spirits-vodka-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты крепкого алкоголя: водка, джин, текила, ром"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Водка</span>
+                    <span class="menu-doc__chip">Джин</span>
+                    <span class="menu-doc__chip">Текила</span>
+                    <span class="menu-doc__chip">Ром</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/11-spirits-whisky-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/11-spirits-whisky-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/11-spirits-whisky-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты крепкого алкоголя: виски"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Виски</span>
+                    <span class="menu-doc__chip">Купажированный</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/12-spirits-other-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/12-spirits-other-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/12-spirits-other-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты крепкого алкоголя: ирландский виски, бурбон, коньяк, вермут, ликёры, настойки, пиво"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Ирландский виски</span>
+                    <span class="menu-doc__chip">Бурбон</span>
+                    <span class="menu-doc__chip">Коньяк</span>
+                    <span class="menu-doc__chip">Вермут</span>
+                    <span class="menu-doc__chip">Ликёры</span>
+                    <span class="menu-doc__chip">Настойки</span>
+                    <span class="menu-doc__chip">Пиво</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <section aria-labelledby="soft-h">
+              <header class="menu-group__head" id="soft">
+                <h2 class="t-h2 menu-group__title" id="soft-h">Безалкогольное</h2>
+              </header>
+              <div class="menu-group__pages">
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/13-soft-drinks-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/13-soft-drinks-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/13-soft-drinks-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты безалкогольных напитков: лимонады, соки, кофе"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Лимонады</span>
+                    <span class="menu-doc__chip">Свежевыжатый сок</span>
+                    <span class="menu-doc__chip">Кофе</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="menu-doc">
+                  <a
+                    class="menu-doc__frame"
+                    href="/img/menu-pages/14-tea-480.webp"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <picture>
+                      <source
+                        type="image/avif"
+                        srcset="/img/menu-pages/14-tea-480.avif 480w"
+                        sizes="(width < 600px) 90vw, (width < 1000px) 45vw, 300px"
+                      />
+                      <img
+                        src="/img/menu-pages/14-tea-480.webp"
+                        width="793"
+                        height="1672"
+                        alt="Страница карты напитков: чай и фирменные чаи"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  </a>
+                  <figcaption class="menu-doc__sections">
+                    <span class="menu-doc__chip">Чай</span>
+                    <span class="menu-doc__chip">Фирменные чаи</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <!-- Кальянная карта уже на главной — не дублируем те же четыре
+                 фото ещё раз здесь, просто ведём к ним. -->
+            <p class="t-small t-dim">
+              Кальянная карта — в разделе
+              <a class="link" href="/#hookah">«Кальян»</a> на главной странице.
+            </p>
           </div>
         </div>
-      </section>
+
+        <!-- ТЗ §2: «временно оставить PDF-вьюер». Основной вид страницы — фото
+             разворотов выше (те же страницы, что и в зале, читаются на телефоне
+             без плагинов). Здесь — те же данные как оригинальные PDF-файлы,
+             для тех, кто хочет открыть или распечатать файл целиком.
+             menu-2.pdf не публикуется: внутри HTML, а не PDF (BUILD-PROMPT §4). -->
+        <div class="menu-page__pdf">
+          <p class="t-label">Оригиналы файлов</p>
+          <div class="menu-page__pdf-list">
+            <a class="link" href="/menu-pdf/menu-1.pdf" target="_blank" rel="noopener">Файл 1 (PDF)</a>
+            <a class="link" href="/menu-pdf/menu-3.pdf" target="_blank" rel="noopener">Файл 2 (PDF)</a>
+            <a class="link" href="/menu-pdf/menu-4.pdf" target="_blank" rel="noopener">Файл 3 (PDF)</a>
+            <a class="link" href="/menu-pdf/menu-5.pdf" target="_blank" rel="noopener">Файл 4 (PDF)</a>
+          </div>
+        </div>
+      </div>
     </main>
 
     <div class="l-grain" aria-hidden="true"></div>

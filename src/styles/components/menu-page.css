@@ -1,0 +1,181 @@
+/* Страница /menu. Остаётся тёмной темой сайта (дизайн-система §9:
+   «тёмная тема — единственная и основная», светлая секция — одна на весь
+   сайт, и она уже занята «Кухней» на главной). Печатные страницы меню —
+   белые документы, которые «лежат» на тёмном фоне, как архивные карточки. */
+
+.menu-page {
+  padding-block-start: var(--header-offset);
+}
+
+.menu-page__head {
+  padding-block-end: var(--sp-8);
+}
+
+.menu-page__lead {
+  max-width: 56ch;
+  margin-block-start: var(--sp-5);
+}
+
+.menu-page__layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: var(--gutter-col);
+  align-items: start;
+}
+
+/* ---------- Сайдбар ---------- */
+
+.menu-page__nav {
+  position: sticky;
+  top: calc(var(--header-offset) + var(--sp-5));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.menu-page__nav-link {
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+  border-radius: var(--r-sm);
+  transition:
+    color var(--d-fast) var(--e-out),
+    background-color var(--d-fast) var(--e-out);
+}
+
+.menu-page__nav-link:hover {
+  color: var(--t-primary);
+  background-color: var(--s-glass);
+}
+
+.menu-page__nav-link[aria-current='true'] {
+  color: var(--c-orange);
+  background-color: var(--s-glass-hi);
+}
+
+/* ---------- Группы и страницы ---------- */
+
+.menu-page__groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-11);
+  min-width: 0;
+}
+
+.menu-group__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-block-end: var(--sp-6);
+  scroll-margin-top: calc(var(--header-offset) + var(--sp-5));
+}
+
+.menu-group__title {
+  font-size: clamp(28px, 3.2vw, 44px);
+}
+
+/* Тонкие карточки: страница меню — портретный документ (1680×2986 или
+   793×1672), при 300px+ ширины превращается в простыню под 2000px
+   высотой. 190px даёт узнаваемый превью-корешок, читать текст едут
+   по клику — полный кадр открывается в новой вкладке. */
+.menu-group__pages {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--sp-5);
+}
+
+.menu-doc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  /* Не даём миниатюре растянуться на всю дорожку грида, если в группе
+     мало страниц (например, «Вино» — только две). */
+  max-width: 220px;
+}
+
+.menu-doc__frame {
+  overflow: clip;
+  background-color: var(--c-white);
+  border-radius: var(--r-sm);
+  box-shadow: var(--sh-card);
+}
+
+.menu-doc__frame img {
+  width: 100%;
+  height: auto;
+  /* Соотношение сторон не фиксируем здесь: страницы кухни и бара разного
+     формата (1680×2986 и 793×1672). Держат width/height в разметке —
+     браузер сам считает aspect-ratio из них, макет не прыгает
+     до загрузки картинки (ТЗ §7, CLS < 0.05). */
+}
+
+.menu-doc__sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.menu-doc__chip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding-inline: var(--sp-3);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--t-secondary);
+  text-transform: uppercase;
+  background-color: var(--s-glass);
+  border: 1px solid var(--s-stroke);
+  border-radius: var(--r-pill);
+}
+
+/* ---------- PDF-ссылка ---------- */
+
+.menu-page__pdf {
+  margin-block-start: var(--sp-11);
+  padding-block-start: var(--sp-6);
+  border-block-start: 1px solid var(--s-stroke);
+}
+
+.menu-page__pdf-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-4);
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (width < 1000px) {
+  .menu-page__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Полоса категорий липнет под шапкой и листается вбок — на телефоне
+     это самый быстрый способ перейти к разделу, без долгого скролла. */
+  .menu-page__nav {
+    flex-direction: row;
+    position: sticky;
+    top: var(--header-offset);
+    z-index: var(--z-sticky);
+    padding-block: var(--sp-3);
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    background-color: color-mix(in oklab, var(--c-ink) 92%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .menu-page__nav-link {
+    flex: none;
+    white-space: nowrap;
+  }
+}
+
+@media (width < 600px) {
+  .menu-group__pages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

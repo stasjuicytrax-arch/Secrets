@@ -1,0 +1,85 @@
+/**
+ * Страница /menu целиком.
+ *
+ * ТЗ §2: «Пока клиент не отдал меню в виде данных — временно оставить
+ * PDF-вьюер, но разметку сразу закладывать под позиции». Отклонение от
+ * буквы: вместо встроенного PDF страница показывает те же самые страницы
+ * меню как фотографии — заказчик сам предусмотрел это на старом сайте
+ * (кнопка «меню с фото» рядом с «посмотреть меню», site-content.md).
+ * Фото читаются на телефоне без плагинов, а PDF в мобильном браузере —
+ * почти всегда нет. Оригинальные PDF оставлены отдельной ссылкой внизу
+ * страницы для тех, кто хочет открыть или распечатать файл целиком.
+ *
+ * Источник — печатное меню и барная карта заказчика:
+ * assets/menu-scans/scan-01..14.jpg (сканы 15–20 — кальянная карта,
+ * она уже на главной, см. src/data/hookah.ts). Заголовки и порядок
+ * разделов проверены постранично, ничего не досочинено.
+ *
+ * Разметка в menu.html написана статикой (та же причина, что в hookah.ts
+ * и menu.ts) — этот файл источник истины и справочник при правке вручную.
+ */
+
+export interface MenuPage {
+  readonly file: string;
+  /** Заголовки разделов на самой странице, сверху вниз. */
+  readonly sections: readonly string[];
+}
+
+export interface MenuGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly pages: readonly MenuPage[];
+}
+
+export const MENU_GROUPS: readonly MenuGroup[] = [
+  {
+    id: 'kitchen',
+    label: 'Кухня',
+    pages: [
+      { file: '01-starters', sections: ['Стартеры'] },
+      { file: '02-mains', sections: ['Горячее', 'Гарниры', 'Десерты'] },
+      { file: '03-japan', sections: ['Япония', 'Стрит-фуд'] },
+      { file: '04-antipasti', sections: ['Антипасти', 'Салаты', 'Супы', 'Паста и ризотто'] },
+    ],
+  },
+  {
+    id: 'cocktails',
+    label: 'Коктейли',
+    pages: [
+      { file: '05-cocktails-classic', sections: ['Классика'] },
+      { file: '06-cocktails-hits', sections: ['Хиты'] },
+      { file: '07-cocktails-new', sections: ['Новый сезон 25/26'] },
+    ],
+  },
+  {
+    id: 'wine',
+    label: 'Вино',
+    pages: [
+      { file: '08-wine-sparkling', sections: ['Игристое вино'] },
+      { file: '09-wine-bottles', sections: ['Белые вина', 'Розовые вина', 'Красные вина'] },
+    ],
+  },
+  {
+    id: 'spirits',
+    label: 'Крепкий алкоголь',
+    pages: [
+      { file: '10-spirits-vodka', sections: ['Водка', 'Джин', 'Текила', 'Ром'] },
+      { file: '11-spirits-whisky', sections: ['Виски', 'Купажированный виски'] },
+      {
+        file: '12-spirits-other',
+        sections: ['Ирландский виски', 'Бурбон', 'Коньяк', 'Вермут', 'Ликёры', 'Настойки', 'Пиво'],
+      },
+    ],
+  },
+  {
+    id: 'soft',
+    label: 'Безалкогольное',
+    pages: [
+      { file: '13-soft-drinks', sections: ['Лимонады', 'Свежевыжатый сок', 'Кофе'] },
+      { file: '14-tea', sections: ['Чай', 'Фирменные чаи'] },
+    ],
+  },
+] as const;
+
+/** Оригиналы PDF. menu-2.pdf пропущен: это HTML под расширением .pdf. */
+export const MENU_PDFS = ['menu-1.pdf', 'menu-3.pdf', 'menu-4.pdf', 'menu-5.pdf'] as const;
