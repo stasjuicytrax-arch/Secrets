@@ -4,6 +4,11 @@
 html {
   color-scheme: dark; /* тёмная тема единственная — дизайн-система §9 */
   background-color: var(--c-void);
+  /* Именно на html, а не на body: пока у html значение visible, свойство с body
+     пробрасывается во вьюпорт, а сам body становится visible и ничего не режет.
+     Из-за этого свечения давали 24px горизонтального скролла на 375px.
+     clip, а не hidden: clip не создаёт контейнер прокрутки и не ломает sticky. */
+  overflow-x: clip;
 }
 
 body {
@@ -13,6 +18,9 @@ body {
   line-height: 1.6;
   color: var(--t-primary);
   background-color: var(--c-ink);
+  /* Нужны оба: значение с одного элемента пробрасывается во вьюпорт,
+     а сам элемент остаётся visible. По отдельности html и body дают
+     те же 24px скролла, вместе — ноль. Проверено замером. */
   overflow-x: clip;
 }
 
@@ -206,6 +214,9 @@ a:where([href]) {
   top: var(--sp-4);
   left: var(--sp-4);
   z-index: var(--z-overlay);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: var(--sp-3) var(--sp-5);
   font-family: var(--f-mono);
   font-size: var(--fs-label);

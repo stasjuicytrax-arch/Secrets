@@ -67,9 +67,20 @@
 .ftr__list {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
   font-size: var(--fs-small);
   color: var(--t-secondary);
+}
+
+/* Ссылки в футере добирают 44px по высоте паддингом, а не увеличением кегля
+   (дизайн-система §9). Отрицательный отступ сверху сохраняет прежний ритм. */
+.ftr__list > * {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.ftr__list > :first-child {
+  margin-block-start: calc(var(--sp-3) * -1);
 }
 
 .ftr__list a:hover {

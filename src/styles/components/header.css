@@ -72,8 +72,10 @@
 /* ---------- Лого ---------- */
 
 .hdr__logo {
-  display: block;
+  display: flex;
   flex: none;
+  align-items: center;
+  min-height: 44px;
 }
 
 .hdr__logo img {
@@ -90,6 +92,10 @@
 }
 
 .hdr__link {
+  /* Паддинг добирает тач-зону до 44px по высоте, не меняя ритм строки. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: var(--fs-small);
   font-weight: 500;
   color: var(--t-secondary);
@@ -111,6 +117,7 @@
   display: inline-flex;
   gap: var(--sp-2);
   align-items: center;
+  min-height: 44px;
   font-family: var(--f-mono);
   font-size: var(--fs-label);
   letter-spacing: 0.04em;
@@ -190,6 +197,9 @@
   gap: var(--sp-8);
   padding: calc(var(--header-h) + var(--sp-8)) var(--gutter) var(--sp-8);
   background-color: var(--c-void);
+  /* Панель fixed, поэтому overflow-x: clip на body её не режет:
+     свечение вылезало за вьюпорт и давало 24px горизонтального скролла. */
+  overflow: clip;
   visibility: hidden;
   opacity: 0;
   transition:
@@ -222,6 +232,9 @@
 }
 
 .nav-panel__link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--f-display);
   font-size: var(--fs-h3);
   font-weight: 700;
@@ -239,6 +252,9 @@
 }
 
 .nav-panel__phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--f-mono);
   font-size: var(--fs-body);
   letter-spacing: 0.04em;
