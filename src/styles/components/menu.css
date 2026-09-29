@@ -29,22 +29,34 @@
 
 /* ---------- Категории ---------- */
 /* Секция уже полностью песочная к моменту, когда карточки входят в кадр —
-   им статичный «светлый» набор цветов, скраб им не нужен. */
+   им статичный «светлый» набор цветов, скраб им не нужен.
+
+   Переделано 30.09.2026: карточки были 619px высотой — контейнер растягивал
+   их на всю ширину колонки грида, а фото при этом держало СВОЙ портретный
+   натуральный aspect-ratio (0.667), а не заданные в CSS 4:3. Причина —
+   классический флекс-капкан: у флекс-итема есть неявный min-height:auto,
+   и он послушно перекрывает aspect-ratio, пока не обнулишь его явно.
+   Плюс сетка карточек ограничена по max-width — иначе на 1920px колонки
+   растягиваются и высота 4:3 уходит далеко за 300px. */
 
 .menu__categories {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--gutter-col);
+  gap: var(--sp-5) var(--gutter-col);
+  max-width: 920px;
   margin-block-start: var(--sp-9);
 }
 
 .category-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: clip;
   background-color: var(--c-white);
   border: 1px solid var(--c-sand-2);
   border-radius: var(--r-md);
+  /* Тень и обводка вместе не сочетаются на одном элементе — здесь обводка
+     статична, тень появляется только на ховере и обводку не дублирует. */
   transition:
     transform var(--d-base) var(--e-out),
     box-shadow var(--d-base) var(--e-out);
@@ -58,6 +70,9 @@
 .category-card__media {
   position: relative;
   aspect-ratio: 4 / 3;
+  /* Гасит min-height: auto флекс-итема — без этого правило выше не работает
+     и высота съезжает к натуральному aspect-ratio картинки. */
+  min-height: 0;
   overflow: clip;
 }
 
@@ -69,7 +84,7 @@
 }
 
 .category-card:hover .category-card__media img {
-  scale: 1.05;
+  scale: 1.03;
 }
 
 .category-card__body {
@@ -77,24 +92,37 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--sp-3);
-  padding: var(--sp-5);
+  padding: var(--sp-4);
+  transition: color var(--d-fast) var(--e-out);
 }
 
 .category-card__name {
   font-family: var(--f-display);
-  font-size: var(--fs-h4);
+  font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--t-on-light);
+  transition: transform var(--d-base) var(--e-out);
 }
 
+.category-card:hover .category-card__name {
+  transform: translateY(-2px);
+}
+
+/* Оранжевый только здесь и на ховерах — не заливка карточек
+   (дизайн-система §3: акцент ≈12% площади экрана). */
 .category-card__price {
   flex: none;
   font-family: var(--f-mono);
-  font-size: var(--fs-small);
-  color: var(--t-on-light-2);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-orange);
   white-space: nowrap;
 }
+
+/* Отдельный @media (prefers-reduced-motion) здесь не нужен: --d-fast/base/slow
+   уже обнуляются глобально в tokens.css, все transition выше используют
+   эти токены и под reduce схлопываются в мгновенные без анимации. */
 
 /* Кнопка secondary создавалась для тёмного фона (белая обводка и текст).
    На песке нужна инверсия — своя, а не переопределение через .menu на лету:
@@ -121,12 +149,31 @@
 @media (width < 1100px) {
   .menu__categories {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 640px;
   }
 }
 
 @media (width < 600px) {
+  /* Компактные карточки в два столбца, не один на всю ширину —
+     4:3 на ~150px ширины остаётся читаемым, а список короче. */
   .menu__categories {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--sp-4);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+    max-width: none;
+  }
+
+  .category-card__body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-1);
+    padding: var(--sp-3);
+  }
+
+  .category-card__name {
+    font-size: 14px;
+  }
+
+  .category-card__price {
+    font-size: 12px;
   }
 }
