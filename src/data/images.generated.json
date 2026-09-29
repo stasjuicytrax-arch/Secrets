@@ -1,0 +1,214 @@
+{
+  "venue/bar-counter": {
+    "widths": [
+      768,
+      1280,
+      1600
+    ],
+    "ratio": 1.5013,
+    "width": 1680,
+    "height": 1119
+  },
+  "venue/bar-portrait": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/hall-neon": {
+    "widths": [
+      640,
+      1024
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/hall-tables": {
+    "widths": [
+      640,
+      1024
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/velvet-sofas": {
+    "widths": [
+      640,
+      1024
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/wreath-glow": {
+    "widths": [
+      640,
+      1024
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/graffiti-wall": {
+    "widths": [
+      640,
+      1024
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "venue/terrazzo-nook": {
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
+    "ratio": 1.5013,
+    "width": 1680,
+    "height": 1119
+  },
+  "venue/hall-dark": {
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
+    "ratio": 1.5013,
+    "width": 1680,
+    "height": 1119
+  },
+  "venue/hall-portrait": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/sushi-platter": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 1.5013,
+    "width": 1680,
+    "height": 1119
+  },
+  "food/tartare-set": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/roast-beef": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/burger": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/poke-bowl": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/pasta": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "food/salad": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "bar/citrus-highball": {
+    "widths": [
+      420
+    ],
+    "ratio": 0.6667,
+    "width": 700,
+    "height": 1050
+  },
+  "hookah/guests-smoke": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "hookah/guest-table": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 0.6665,
+    "width": 1333,
+    "height": 2000
+  },
+  "brand/logo": {
+    "widths": [
+      280,
+      560
+    ],
+    "ratio": 1,
+    "width": 1000,
+    "height": 1000
+  },
+  "brand/og": {
+    "widths": [
+      640,
+      1024,
+      1600
+    ],
+    "ratio": 1.5004,
+    "width": 2000,
+    "height": 1333
+  }
+}
