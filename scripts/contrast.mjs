@@ -37,6 +37,16 @@ const run = async () => {
     await tab.goto(`${ORIGIN}/${page}.html`, { waitUntil: 'networkidle' });
     await tab.waitForTimeout(2400);
 
+    // Секцию нужно сначала привести в кадр, иначе бокс уходит в минус
+    // и извлечь область снимка нечем.
+    await tab.evaluate((sel) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      window.scrollTo(0, r.top + window.scrollY - window.innerHeight * 0.3);
+    }, selector);
+    await tab.waitForTimeout(2200);
+
     const box = await tab.evaluate((sel) => {
       const el = document.querySelector(sel);
       if (!el) return null;

@@ -1,0 +1,131 @@
+/* 01 · О нас. Тёмная воздушная секция: крупный двухцветный текст,
+   три цифры-факта, фото. ТЗ §2 блок 03, дизайн-система §6. */
+
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--sp-8) var(--gutter-col);
+  align-items: start;
+}
+
+.about__head {
+  grid-column: 1 / span 7;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.about__title {
+  font-size: clamp(30px, 4.4vw, 68px);
+}
+
+.about__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: 54ch;
+}
+
+/* Фото приподнято относительно текста: колонки не должны начинаться
+   на одной линии, иначе секция читается как таблица. */
+.about__media {
+  grid-column: 9 / -1;
+  position: relative;
+  margin-block-start: calc(var(--sp-8) * -1);
+  overflow: clip;
+  border-radius: var(--r-md);
+}
+
+.about__media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* ---------- Цифры-факты ---------- */
+
+.about__facts {
+  grid-column: 1 / -1;
+  display: grid;
+  /* Намеренно неравные доли: три одинаковые карточки в ряд —
+     прямой пункт запретов дизайн-системы §8. */
+  grid-template-columns: 5fr 4fr 3fr;
+  gap: var(--sp-5);
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-6);
+  background-image: var(--g-card);
+  border: 1px solid var(--s-stroke);
+  border-radius: var(--r-md);
+  transition:
+    background-color var(--d-base) var(--e-out),
+    transform var(--d-base) var(--e-out);
+}
+
+.fact:hover {
+  background-color: var(--s-glass-hi);
+  transform: translateY(-4px);
+}
+
+.fact__num {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 3.6vw, 60px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--c-amber);
+}
+
+.fact__unit {
+  font-size: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.fact__caption {
+  max-width: 30ch;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--t-secondary);
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (width < 1200px) {
+  .about__head {
+    grid-column: 1 / span 5;
+  }
+
+  .about__media {
+    grid-column: 6 / -1;
+  }
+}
+
+@media (width < 900px) {
+  .about__grid {
+    gap: var(--sp-7) var(--gutter-col);
+  }
+
+  .about__head,
+  .about__media,
+  .about__facts {
+    grid-column: 1 / -1;
+  }
+
+  .about__media {
+    margin-block-start: 0;
+  }
+
+  .about__media img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .about__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

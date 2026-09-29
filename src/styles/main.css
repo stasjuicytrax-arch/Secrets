@@ -13,4 +13,5 @@
 @import url('./components/preloader.css') layer(components);
 @import url('./components/header.css') layer(components);
 @import url('./components/hero.css') layer(components);
+@import url('./components/about.css') layer(components);
 @import url('./components/footer.css') layer(components);

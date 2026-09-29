@@ -248,19 +248,87 @@
         </p>
       </section>
 
-      <!-- Блоки 03–11 собираются на этапах 4–9 (ТЗ §9).
-           Якоря стоят уже сейчас, чтобы навигация работала на каждом коммите. -->
-      <section class="l-section" id="about">
+      <!-- ---------- 01 · О нас ---------- -->
+      <!-- Порядок секций по дизайн-системе §6 (О нас → Кальян → Меню → Бар →
+           Интерьер → Акции), а не по таблице ТЗ §2: §6 задаёт чередование
+           плотности, и ТЗ §0 отдаёт приоритет дизайн-системе. -->
+      <section class="l-section about" id="about">
         <div class="l-container">
-          <header class="l-section__head">
-            <p class="t-label">03 / О нас</p>
-            <h2 class="t-h2">Твой секретный лаунж</h2>
-          </header>
-          <p class="t-lead t-measure l-section__body">
-            Secrets&nbsp;Lounge — твой секретный лаунж расположенный в самом сердце Северной столицы.
-            Место для тех, кто ценит атмосферу расслабленного комфорта, качественные напитки и
-            необычные гастрономические впечатления.
-          </p>
+          <div class="about__grid">
+            <header class="about__head">
+              <p class="t-label" data-reveal="text">01 / О нас</p>
+
+              <!-- Текст заказчика перенесён дословно. Единственное изменение:
+                   вторая фраза разнесена между заголовком и абзацем, поэтому
+                   «от ароматных кальянов» начинается с прописной. Слова те же. -->
+              <h2 class="about__title" data-reveal="title">
+                Здесь каждый<br class="u-br" />
+                найдёт что-то<br class="u-br" />
+                <span class="t-accent">по душе</span>
+              </h2>
+
+              <div class="about__text">
+                <p class="t-lead" data-reveal="text">
+                  Secrets&nbsp;Lounge — твой секретный лаунж расположенный в самом сердце Северной
+                  столицы. Место для тех, кто ценит атмосферу расслабленного комфорта, качественные
+                  напитки и необычные гастрономические впечатления.
+                </p>
+                <p class="t-body t-measure" data-reveal="text">
+                  От ароматных кальянов до изысканных коктейлей и блюд японской кухни.
+                </p>
+              </div>
+            </header>
+
+            <figure class="about__media" data-reveal="image">
+              <picture>
+                <source
+                  type="image/avif"
+                  sizes="(width < 900px) 100vw, 33vw"
+                  srcset="
+                    /img/venue/velvet-sofas-640.avif   640w,
+                    /img/venue/velvet-sofas-1024.avif 1024w
+                  "
+                />
+                <img
+                  src="/img/venue/velvet-sofas-1024.webp"
+                  srcset="
+                    /img/venue/velvet-sofas-640.webp   640w,
+                    /img/venue/velvet-sofas-1024.webp 1024w
+                  "
+                  sizes="(width < 900px) 100vw, 33vw"
+                  width="1333"
+                  height="2000"
+                  alt="Диваны из зелёного бархата и столик с терраццо-столешницей в зале Secrets"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </figure>
+
+            <div class="about__facts" data-reveal="cards">
+              <div class="fact">
+                <p class="fact__num">
+                  <span data-count="17">17</span><span class="fact__unit"> часов</span>
+                </p>
+                <p class="fact__caption">подряд по пятницам и субботам, с 13:00 до 06:00</p>
+              </div>
+
+              <div class="fact">
+                <p class="fact__num">
+                  <span class="fact__unit">от </span><span data-count="1800">1800</span
+                  ><span class="fact__unit"> ₽</span>
+                </p>
+                <p class="fact__caption">классическая чаша кальяна</p>
+              </div>
+
+              <div class="fact">
+                <p class="fact__num"><span data-count="1000">1000</span></p>
+                <p class="fact__caption">
+                  бонусов в подарок новым участникам системы лояльности
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

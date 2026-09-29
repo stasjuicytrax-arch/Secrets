@@ -8,6 +8,7 @@ import { onMotionPreferenceChange, prefersReducedMotion } from './motion';
 import { runPreloader } from './preloader';
 import { initHeader } from './header';
 import { initHero } from './anim/hero';
+import { initReveal } from './anim/reveal';
 
 const bootstrap = (): void => {
   document.documentElement.classList.toggle('is-reduced', prefersReducedMotion());
@@ -40,6 +41,7 @@ const bootstrap = (): void => {
   runPreloader(() => {
     initLenis();
     void initHero();
+    void initReveal();
   });
 };
 
