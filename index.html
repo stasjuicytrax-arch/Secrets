@@ -24,46 +24,272 @@
     />
     <link rel="preload" href="/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
 
+    <script>
+      /* Синхронно, до первой отрисовки: решаем, показывать ли шторку прелоадера.
+         Без JS атрибута нет и шторка остаётся display:none — страница видна сразу.
+         При prefers-reduced-motion шторки тоже нет (ТЗ §4). */
+      (function () {
+        var root = document.documentElement;
+        root.classList.remove('no-js');
+        root.dataset.boot = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'done'
+          : 'pending';
+      })();
+    </script>
+
     <script type="module" src="/src/scripts/main.ts"></script>
   </head>
 
   <body>
+    <!-- Иконки: авторские, один стиль, обводка 1.5. Юникод-глифы вместо иконок не используем. -->
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
+      <symbol id="i-arrow-ne" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17 17 7" />
+          <path d="M8.5 7H17v8.5" />
+        </g>
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.2 4h3l1.4 3.6-2 1.3a10.6 10.6 0 0 0 4.5 4.5l1.3-2 3.6 1.4v3a1.8 1.8 0 0 1-2 1.8A14.4 14.4 0 0 1 4.4 6a1.8 1.8 0 0 1 1.8-2Z" />
+        </g>
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M4 9h16" />
+          <path d="M4 15h16" />
+        </g>
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="m6 6 12 12" />
+          <path d="m18 6-12 12" />
+        </g>
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c4-4.6 6-7.8 6-10.4A6 6 0 0 0 6 10.6C6 13.2 8 16.4 12 21Z" />
+          <circle cx="12" cy="10.5" r="2.2" />
+        </g>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 7.5V12l3 1.8" />
+        </g>
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+          <path d="m4.5 7.5 7.5 5.5 7.5-5.5" />
+        </g>
+      </symbol>
+    </svg>
+
+    <!-- ---------- 00 · Прелоадер ---------- -->
+    <div class="pre" data-preloader>
+      <div class="pre__glow" data-preloader-glow aria-hidden="true"></div>
+
+      <div class="pre__logo" data-preloader-logo>
+        <picture>
+          <source srcset="/img/brand/logo-560.avif" type="image/avif" />
+          <img src="/img/brand/logo-560.webp" alt="" width="738" height="207" />
+        </picture>
+      </div>
+
+      <p class="pre__count">
+        <span>Secrets Lounge</span>
+        <span class="pre__num" data-preloader-num>0</span>
+      </p>
+      <div class="pre__bar" aria-hidden="true"></div>
+    </div>
+
     <a class="u-skip-link" href="#main">К основному содержанию</a>
 
+    <!-- ---------- 01 · Хедер ---------- -->
+    <header class="hdr" data-header>
+      <div class="hdr__progress" aria-hidden="true"></div>
+
+      <div class="hdr__shell">
+        <a class="hdr__logo" href="#main" aria-label="Secrets Lounge, на главную">
+          <picture>
+            <source srcset="/img/brand/logo-280.avif" type="image/avif" />
+            <img src="/img/brand/logo-280.webp" alt="Secrets Lounge" width="738" height="207" />
+          </picture>
+        </a>
+
+        <nav class="hdr__nav" aria-label="Основная навигация">
+          <a class="hdr__link" href="#about">О нас</a>
+          <a class="hdr__link" href="#menu">Меню</a>
+          <a class="hdr__link" href="#promos">Акции</a>
+          <a class="hdr__link" href="#contacts">Контакты</a>
+        </nav>
+
+        <div class="hdr__actions">
+          <a class="hdr__phone" href="tel:+79936412986">
+            <svg width="16" height="16" aria-hidden="true"><use href="#i-phone" /></svg>
+            +7 (993) 641-29-86
+          </a>
+          <a class="btn btn--primary btn--compact" href="#book">Забронировать</a>
+          <button
+            class="hdr__burger"
+            type="button"
+            data-burger
+            aria-expanded="false"
+            aria-controls="nav-panel"
+            aria-label="Открыть меню"
+          >
+            <svg class="hdr__burger-open" width="24" height="24" aria-hidden="true">
+              <use href="#i-menu" />
+            </svg>
+            <svg class="hdr__burger-close" width="24" height="24" aria-hidden="true">
+              <use href="#i-close" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="nav-panel" id="nav-panel" data-nav-panel data-open="false">
+      <div class="nav-panel__glow" aria-hidden="true"></div>
+
+      <nav class="nav-panel__list" aria-label="Навигация по сайту">
+        <a class="nav-panel__link" href="#about">О нас</a>
+        <a class="nav-panel__link" href="#menu">Меню</a>
+        <a class="nav-panel__link" href="#promos">Акции</a>
+        <a class="nav-panel__link" href="#contacts">Контакты</a>
+        <!-- «Забронировать» в списке нет: кнопка в шапке видна поверх панели,
+             два одинаковых CTA в одном кадре — лишние. -->
+      </nav>
+
+      <div class="nav-panel__foot">
+        <a class="nav-panel__phone" href="tel:+79936412986">+7 (993) 641-29-86</a>
+        <p class="t-small t-dim">Санкт-Петербург, ул. Полтавская, 7</p>
+      </div>
+    </div>
+
     <main id="main">
-      <!-- Этап 1 (ТЗ §9): каркас и типографика. Блоки страницы приходят на этапах 2–9. -->
-      <section class="l-section">
+      <!-- Блоки 02–11 собираются на этапах 3–9 (ТЗ §9).
+           Якоря стоят уже сейчас, чтобы навигация работала на каждом коммите. -->
+      <section class="l-section" id="about">
         <div class="l-container">
           <header class="l-section__head">
-            <p class="t-label">Этап 1 / Каркас</p>
-            <h1 class="t-h1">
-              Типографическая <span class="t-accent">шкала</span><br />
-              и сетка проекта
-            </h1>
+            <p class="t-label">02 / О нас</p>
+            <h1 class="t-h1">Твой <span class="t-accent">секретный</span> лаунж</h1>
           </header>
+          <p class="t-lead t-measure l-section__body">
+            Secrets&nbsp;Lounge — твой секретный лаунж расположенный в самом сердце Северной столицы.
+            Место для тех, кто ценит атмосферу расслабленного комфорта, качественные напитки и
+            необычные гастрономические впечатления.
+          </p>
+        </div>
+      </section>
 
-          <div class="l-section__body u-stack" style="--stack-gap: var(--sp-8)">
-            <p class="t-lead t-measure">
-              Вариативные Unbounded, Onest и JetBrains&nbsp;Mono подключены локально, с полной
-              кириллицей. Ниже — проверка кегля, межстрочного и трекинга на реальном тексте.
-            </p>
+      <section class="l-section" id="menu">
+        <div class="l-container">
+          <header class="l-section__head">
+            <p class="t-label">04 / Меню</p>
+            <h2 class="t-h2">Кухня</h2>
+          </header>
+        </div>
+      </section>
 
-            <div class="u-stack" style="--stack-gap: var(--sp-6)">
-              <p class="t-display">Display</p>
-              <p class="t-h2">Заголовок второго уровня</p>
-              <p class="t-h3">Заголовок третьего уровня</p>
-              <p class="t-h4">Заголовок четвёртого уровня</p>
-              <p class="t-body t-measure">
-                Secrets&nbsp;Lounge — твой секретный лаунж расположенный в самом сердце Северной
-                столицы. Место для тех, кто ценит атмосферу расслабленного комфорта, качественные
-                напитки и необычные гастрономические впечатления.
-              </p>
-              <p class="t-num" style="font-size: var(--fs-h2)">1000 · 1&nbsp;400&nbsp;₽ · 06:00</p>
-            </div>
-          </div>
+      <section class="l-section" id="promos">
+        <div class="l-container">
+          <header class="l-section__head">
+            <p class="t-label">08 / Акции</p>
+            <h2 class="t-h2">Акции</h2>
+          </header>
+        </div>
+      </section>
+
+      <section class="l-section" id="book">
+        <div class="l-container">
+          <header class="l-section__head">
+            <p class="t-label">09 / Бронирование</p>
+            <h2 class="t-h2">Забронировать стол</h2>
+          </header>
+        </div>
+      </section>
+
+      <section class="l-section" id="contacts">
+        <div class="l-container">
+          <header class="l-section__head">
+            <p class="t-label">11 / Контакты</p>
+            <h2 class="t-h2">Контакты</h2>
+          </header>
         </div>
       </section>
     </main>
+
+    <!-- ---------- 12 · Футер ---------- -->
+    <footer class="ftr">
+      <div class="l-container">
+        <div class="ftr__top">
+          <div class="ftr__brand">
+            <picture>
+              <source srcset="/img/brand/logo-560.avif" type="image/avif" />
+              <img src="/img/brand/logo-560.webp" alt="Secrets Lounge" width="738" height="207" />
+            </picture>
+            <p class="ftr__tagline">
+              Лаунж-бар, кальян и японская кухня. Санкт-Петербург, ул.&nbsp;Полтавская,&nbsp;7.
+            </p>
+          </div>
+
+          <nav class="ftr__col" aria-label="Разделы сайта">
+            <p class="ftr__colhead">Разделы</p>
+            <div class="ftr__list">
+              <a class="link" href="#about">О нас</a>
+              <a class="link" href="#menu">Меню</a>
+              <a class="link" href="#promos">Акции</a>
+              <a class="link" href="#book">Забронировать</a>
+              <a class="link" href="menu.html">Меню с фото</a>
+            </div>
+          </nav>
+
+          <div class="ftr__col">
+            <p class="ftr__colhead">Контакты</p>
+            <address class="ftr__list">
+              <a class="link" href="tel:+79936412986">+7 (993) 641-29-86</a>
+              <a class="link" href="tel:+78122444460">+7 (812) 244-44-60</a>
+              <a class="link" href="mailto:tsinist@bk.ru">tsinist@bk.ru</a>
+              <span class="t-dim">Санкт-Петербург, ул. Полтавская, 7</span>
+            </address>
+          </div>
+
+          <div class="ftr__col">
+            <p class="ftr__colhead">Режим работы</p>
+            <dl class="ftr__hours">
+              <dt>пн–чт, вс</dt>
+              <dd>13:00 – 00:00</dd>
+              <dt>пт, сб</dt>
+              <dd>13:00 – 06:00</dd>
+            </dl>
+            <div class="ftr__list">
+              <a class="link" href="https://vk.com/secrets.tsinist" rel="me noopener" target="_blank"
+                >ВКонтакте</a
+              >
+              <a class="link" href="https://t.me/chanelsecrets" rel="me noopener" target="_blank"
+                >Telegram</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="ftr__bottom">
+          <p class="ftr__legal">
+            <span class="ftr__age" aria-label="Восемнадцать лет и старше">18+</span>
+            <span>© 2026 Secrets Lounge</span>
+          </p>
+          <!-- Реквизиты юрлица и ссылка на политику конфиденциальности появятся,
+               когда заказчик их пришлёт (ТЗ §10, пункт 5). Заглушек здесь нет намеренно. -->
+        </div>
+
+        <p class="ftr__warning">
+          Чрезмерное употребление алкоголя вредит вашему здоровью. Курение вредит вашему здоровью.
+        </p>
+      </div>
+    </footer>
 
     <div class="l-grain" aria-hidden="true"></div>
   </body>

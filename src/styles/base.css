@@ -17,7 +17,14 @@ body {
 }
 
 /* ---------- Типографическая шкала ---------- */
+/* Роли заданы и на элементах, и на утилитах. Элемент даёт правильный
+   вид семантическому заголовку без единого класса; утилита нужна только там,
+   где визуальный уровень не совпадает с уровнем в структуре документа. */
 
+h1,
+h2,
+h3,
+h4,
 .t-display,
 .t-h1,
 .t-h2,
@@ -27,13 +34,7 @@ body {
   text-wrap: balance;
 }
 
-.t-display {
-  font-size: var(--fs-display);
-  font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: -0.03em;
-}
-
+h1,
 .t-h1 {
   font-size: var(--fs-h1);
   font-weight: 700;
@@ -42,6 +43,7 @@ body {
   text-transform: uppercase;
 }
 
+h2,
 .t-h2 {
   font-size: var(--fs-h2);
   font-weight: 700;
@@ -50,6 +52,7 @@ body {
   text-transform: uppercase;
 }
 
+h3,
 .t-h3 {
   font-size: var(--fs-h3);
   font-weight: 600;
@@ -57,11 +60,20 @@ body {
   letter-spacing: -0.015em;
 }
 
+h4,
 .t-h4 {
   font-size: var(--fs-h4);
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
+}
+
+/* Крупнее h1: только первый экран. Класс идёт после элементов, чтобы перебивать их. */
+.t-display {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
 }
 
 .t-lead {

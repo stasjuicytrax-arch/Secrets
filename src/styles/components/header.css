@@ -1,0 +1,246 @@
+/* Хедер. Sticky, на скролле вниз сжимается в капсулу, на скролле вверх разворачивается.
+   ТЗ §2 блок 01 и §4. */
+
+:root {
+  --header-h: 72px;
+  --header-pad: var(--sp-4);
+  /* Смещение для якорных переходов: высота капсулы + воздух. */
+  --header-offset: 104px;
+}
+
+@media (width < 900px) {
+  :root {
+    --header-h: 60px;
+    --header-pad: var(--sp-3);
+    --header-offset: 84px;
+  }
+}
+
+.hdr {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-header);
+  padding: var(--header-pad) var(--gutter);
+}
+
+/* Пока открыта мобильная панель, шапка поднимается над ней:
+   иначе кнопка закрытия оказывается под шторкой и панель не закрыть мышью. */
+.hdr[data-above='true'] {
+  z-index: calc(var(--z-overlay) + 1);
+}
+
+/* Прогресс чтения — тонкая оранжевая линия сверху, ТЗ §4.
+   Ширина берётся из --read-progress, который ставит ScrollTrigger. */
+.hdr__progress {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 2px;
+  background-color: var(--c-orange);
+  transform: scaleX(var(--read-progress, 0));
+  transform-origin: left;
+}
+
+.hdr__shell {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-6);
+  max-width: var(--container);
+  height: var(--header-h);
+  margin-inline: auto;
+  padding-inline: var(--sp-5);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  transition:
+    max-width var(--d-slow) var(--e-out),
+    height var(--d-slow) var(--e-out),
+    background-color var(--d-slow) var(--e-out),
+    border-color var(--d-slow) var(--e-out);
+}
+
+/* Капсула. Обводка без тени — дизайн-система §5. */
+.hdr[data-state='pill'] .hdr__shell {
+  max-width: 960px;
+  height: calc(var(--header-h) - 12px);
+  background-color: color-mix(in oklab, var(--c-ink) 78%, transparent);
+  border-color: var(--s-stroke);
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+/* ---------- Лого ---------- */
+
+.hdr__logo {
+  display: block;
+  flex: none;
+}
+
+.hdr__logo img {
+  width: auto;
+  height: clamp(18px, 1.6vw, 24px);
+}
+
+/* ---------- Навигация ---------- */
+
+.hdr__nav {
+  display: flex;
+  gap: clamp(var(--sp-5), 2.2vw, var(--sp-8));
+  justify-content: center;
+}
+
+.hdr__link {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--t-secondary);
+  transition: color var(--d-fast) var(--e-out);
+}
+
+.hdr__link:hover,
+.hdr__link[aria-current='true'] {
+  color: var(--t-primary);
+}
+
+.hdr__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.hdr__phone {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--t-secondary);
+  transition: color var(--d-fast) var(--e-out);
+}
+
+.hdr__phone:hover {
+  color: var(--c-amber);
+}
+
+/* ---------- Бургер ---------- */
+
+.hdr__burger {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-inline-end: calc(var(--sp-3) * -1);
+  color: var(--t-primary);
+  border-radius: var(--r-pill);
+}
+
+/* Иконка меняется на крестик, когда панель открыта. */
+.hdr__burger svg {
+  grid-area: 1 / 1;
+}
+
+.hdr__burger[aria-expanded='false'] .hdr__burger-close,
+.hdr__burger[aria-expanded='true'] .hdr__burger-open {
+  display: none;
+}
+
+/* ---------- Мобильная раскладка ---------- */
+
+@media (width < 1000px) {
+  .hdr__nav,
+  .hdr__phone {
+    display: none;
+  }
+
+  .hdr__burger {
+    display: grid;
+  }
+
+  .hdr__shell {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+@media (width < 480px) {
+  /* На 375px всё ещё помещается, но впритык: сжимаем поля кнопки,
+     а не прячем её. Бронь — цель сайта, убирать её с мобильного нельзя. */
+  .hdr__shell {
+    gap: var(--sp-3);
+    padding-inline: var(--sp-3);
+  }
+
+  .hdr__actions {
+    gap: var(--sp-2);
+  }
+
+  .hdr__actions .btn {
+    padding-inline: var(--sp-4);
+  }
+}
+
+/* ---------- Мобильная панель ---------- */
+
+.nav-panel {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: grid;
+  /* Два ряда: список занимает гибкий, контакты прижаты к низу. */
+  grid-template-rows: 1fr auto;
+  gap: var(--sp-8);
+  padding: calc(var(--header-h) + var(--sp-8)) var(--gutter) var(--sp-8);
+  background-color: var(--c-void);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--d-base) var(--e-out),
+    visibility var(--d-base) var(--e-out);
+}
+
+.nav-panel[data-open='true'] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav-panel__glow {
+  position: absolute;
+  inset-block-start: -30%;
+  inset-inline: -20%;
+  z-index: var(--z-glow);
+  height: 80%;
+  pointer-events: none;
+  background-image: var(--g-hero);
+}
+
+.nav-panel__list {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-self: center;
+}
+
+.nav-panel__link {
+  font-family: var(--f-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.nav-panel__foot {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.nav-panel__phone {
+  font-family: var(--f-mono);
+  font-size: var(--fs-body);
+  letter-spacing: 0.04em;
+  color: var(--c-amber);
+}

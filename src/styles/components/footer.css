@@ -1,0 +1,141 @@
+/* Футер: лого, разделы, контакты, знак 18+, предупреждения. ТЗ §2 блок 12 и §7. */
+
+.ftr {
+  position: relative;
+  padding-block: var(--sp-10) var(--sp-7);
+  background-color: var(--c-void);
+  border-block-start: 1px solid var(--s-stroke);
+}
+
+.ftr__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  gap: var(--sp-8) var(--gutter-col);
+  align-items: start;
+}
+
+@media (width < 1100px) {
+  .ftr__top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ftr__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (width < 600px) {
+  .ftr__top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-7);
+  }
+}
+
+.ftr__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  align-items: flex-start;
+}
+
+.ftr__brand img {
+  width: auto;
+  height: clamp(22px, 2.2vw, 30px);
+}
+
+.ftr__tagline {
+  max-width: 28ch;
+  font-size: var(--fs-small);
+  color: var(--t-muted);
+}
+
+.ftr__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.ftr__colhead {
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--t-muted);
+  text-transform: uppercase;
+}
+
+.ftr__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+}
+
+.ftr__list a:hover {
+  color: var(--t-primary);
+}
+
+.ftr__hours {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+}
+
+.ftr__hours dt {
+  color: var(--t-muted);
+}
+
+.ftr__hours dd {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Нижняя полоса ---------- */
+
+.ftr__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5) var(--sp-8);
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: var(--sp-9);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--s-stroke);
+}
+
+.ftr__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  align-items: center;
+  font-size: var(--fs-small);
+  color: var(--t-muted);
+}
+
+/* Знак 18+ — юридическое требование, ТЗ §7. Не декор, поэтому обводка, а не заливка. */
+.ftr__age {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding-inline: var(--sp-2);
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--t-primary);
+  border: 1px solid var(--s-stroke-hi);
+  border-radius: var(--r-pill);
+}
+
+.ftr__warning {
+  max-width: 64ch;
+  margin-block-start: var(--sp-5);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--t-muted);
+}

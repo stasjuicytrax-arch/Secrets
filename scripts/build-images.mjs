@@ -55,17 +55,25 @@ const SOURCES = [
   { src: 'assets/venue/15-DSC02430_1.jpg', out: 'hookah/guests-smoke', preset: 'card' },
   { src: 'assets/venue/16-DSC02369.jpg', out: 'hookah/guest-table', preset: 'card' },
 
-  // Бренд
-  { src: 'assets/brand/logo.png', out: 'brand/logo', preset: 'thumb', keepAlpha: true },
+  // Бренд. Исходный PNG — 1000×1000 с широкими прозрачными полями,
+  // в хедере такой не отмасштабировать: trim обрезает его по границам вордмарка.
+  { src: 'assets/brand/logo.png', out: 'brand/logo', preset: 'thumb', keepAlpha: true, trim: true },
   { src: 'assets/brand/og.jpg', out: 'brand/og', preset: 'wide' },
 ];
 
 const manifest = {};
 
-async function emit(entry) {
+/** Обрезает прозрачные поля и возвращает буфер + его метаданные. */
+async function source(entry) {
   const abs = resolve(ROOT, entry.src);
-  const input = sharp(abs, { failOn: 'none' });
-  const meta = await input.metadata();
+  if (!entry.trim) return { data: abs, meta: await sharp(abs, { failOn: 'none' }).metadata() };
+
+  const data = await sharp(abs, { failOn: 'none' }).trim({ threshold: 1 }).toBuffer();
+  return { data, meta: await sharp(data).metadata() };
+}
+
+async function emit(entry) {
+  const { data, meta } = await source(entry);
   const widths = WIDTHS[entry.preset].filter((w) => w <= meta.width);
   if (!widths.length) widths.push(meta.width);
 
@@ -74,7 +82,7 @@ async function emit(entry) {
   const sizes = [];
   for (const w of widths) {
     const base = `${entry.out}-${w}`;
-    const pipeline = sharp(abs, { failOn: 'none' }).resize({ width: w, withoutEnlargement: true });
+    const pipeline = sharp(data, { failOn: 'none' }).resize({ width: w, withoutEnlargement: true });
 
     await pipeline
       .clone()

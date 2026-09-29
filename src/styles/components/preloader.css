@@ -1,0 +1,84 @@
+/* Прелоадер: счётчик 0→100, лого проявляется из свечения, шторка уходит вверх.
+   ТЗ §2 блок 00.
+
+   Показывается только когда инлайновый скрипт в <head> проставил data-boot="pending".
+   Без JS и при prefers-reduced-motion атрибута нет — шторки тоже нет,
+   страница видна сразу и ничем не закрыта. */
+
+.pre {
+  display: none;
+}
+
+[data-boot='pending'] .pre {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  padding: var(--gutter);
+  background-color: var(--c-void);
+  will-change: transform;
+}
+
+[data-boot='done'] .pre {
+  display: none;
+}
+
+.pre__glow {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-glow);
+  pointer-events: none;
+  background-image: var(--g-hero);
+  opacity: 0;
+}
+
+.pre__logo {
+  position: relative;
+  z-index: var(--z-base);
+  justify-self: center;
+  align-self: center;
+  opacity: 0;
+}
+
+.pre__logo img {
+  width: auto;
+  height: clamp(28px, 4vw, 48px);
+}
+
+/* Счётчик прижат к низу — там же, где в герое стоит контент. */
+.pre__count {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  gap: var(--sp-3);
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  color: var(--t-muted);
+  text-transform: uppercase;
+}
+
+.pre__num {
+  font-family: var(--f-display);
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--t-primary);
+}
+
+/* Тонкая линия заполнения под счётчиком: то же значение, что и в цифрах. */
+.pre__bar {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  height: 1px;
+  background-color: var(--c-orange);
+  transform: scaleX(var(--pre-progress, 0));
+  transform-origin: left;
+}

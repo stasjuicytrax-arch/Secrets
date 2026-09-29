@@ -1,16 +1,15 @@
 /**
  * Точка входа главной страницы.
- * Этап 1 (ТЗ §9): каркас, токены, шрифты, сетка, Lenis.
+ * Этап 1: каркас и Lenis. Этап 2: прелоадер, хедер, футер (ТЗ §9).
  */
 import '../styles/main.css';
 import { initLenis, destroyLenis, scrollToTarget } from './lenis';
 import { onMotionPreferenceChange, prefersReducedMotion } from './motion';
+import { runPreloader } from './preloader';
+import { initHeader } from './header';
 
 const bootstrap = (): void => {
-  document.documentElement.classList.remove('no-js');
   document.documentElement.classList.toggle('is-reduced', prefersReducedMotion());
-
-  initLenis();
 
   onMotionPreferenceChange((reduced) => {
     document.documentElement.classList.toggle('is-reduced', reduced);
@@ -23,6 +22,7 @@ const bootstrap = (): void => {
     const link = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
     const hash = link?.getAttribute('href');
     if (!link || !hash || hash === '#') return;
+    if (link.closest('[data-nav-panel]')) return; // панель обрабатывает клики сама
 
     const node = document.querySelector<HTMLElement>(hash);
     if (!node) return;
@@ -30,6 +30,14 @@ const bootstrap = (): void => {
     event.preventDefault();
     scrollToTarget(node);
     history.replaceState(null, '', hash);
+  });
+
+  initHeader();
+
+  // Скролл включается только после того, как шторка ушла:
+  // иначе страница успевает уехать, пока её ещё не видно.
+  runPreloader(() => {
+    initLenis();
   });
 };
 

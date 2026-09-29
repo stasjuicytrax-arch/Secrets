@@ -1,0 +1,104 @@
+/* Кнопки. Геометрия — дизайн-система §7. */
+
+.btn {
+  display: inline-flex;
+  gap: var(--sp-3);
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding-inline: var(--sp-6);
+  font-family: var(--f-text);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  border-radius: var(--r-pill);
+  transition:
+    transform var(--d-base) var(--e-out),
+    box-shadow var(--d-base) var(--e-out),
+    border-color var(--d-base) var(--e-out),
+    background-color var(--d-base) var(--e-out),
+    color var(--d-base) var(--e-out);
+}
+
+@media (width < 768px) {
+  .btn {
+    min-height: 48px;
+  }
+}
+
+/* ---------- Primary ---------- */
+/* Отклонение от дизайн-системы §7: там сказано «текст белый».
+   Белый на верхнем крае --g-cta (--c-amber #FFB259) даёт 1.79:1 —
+   ниже любого порога и прямое нарушение §9 того же документа.
+   Тёмный текст на том же градиенте: 11.5:1 на янтаре, 6.1:1 на оранжевом.
+   Токен кнопки не меняли, поменяли только цвет надписи. */
+.btn--primary {
+  color: var(--c-void);
+  background-image: var(--g-cta);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh-glow);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+/* ---------- Secondary ---------- */
+
+.btn--secondary {
+  color: var(--t-primary);
+  border: 1px solid var(--s-stroke-hi);
+}
+
+.btn--secondary:hover {
+  border-color: var(--s-stroke-warm);
+}
+
+/* Стрелка уезжает вправо-вверх и возвращается — ТЗ §4. */
+.btn__arrow {
+  flex: none;
+  transition: transform var(--d-base) var(--e-out);
+}
+
+.btn--secondary:hover .btn__arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ---------- Компактный вариант для хедера ---------- */
+
+.btn--compact {
+  min-height: 44px;
+  padding-inline: var(--sp-5);
+  font-size: var(--fs-small);
+}
+
+/* ---------- Текстовая ссылка ---------- */
+/* Подчёркивание раскрывается слева направо — ТЗ §4. */
+
+.link {
+  position: relative;
+  display: inline-block;
+  padding-block-end: 2px;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: currentcolor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--d-base) var(--e-out);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+}
