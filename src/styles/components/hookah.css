@@ -1,0 +1,232 @@
+/* 02 · Кальян. Тёмная плотная секция на бетонном фоне.
+   ТЗ §2 блок 06, §4 (сетка вкусов собирается из разлёта, бетон проявляется),
+   дизайн-система §6 и §7 (карточка-«бархат»). */
+
+.hookah {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+
+  /* Бетонная крошка. Один большой нетайлящийся кадр вместо повторяющегося:
+     stitchTiles="stitch" у feTurbulence декларативно должен сшивать края
+     при background-repeat, но браузер перерастеризует SVG-data-URI на
+     каждом повторе независимо, и швы между тайлами всё равно видны —
+     ровная решётка поверх шума. cover без повтора снимает проблему целиком
+     ценой лёгкой растяжки на очень высоких секциях, что для фоновой
+     текстуры не критично. */
+  --concrete-src: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000"><filter id="c"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.016" numOctaves="5" seed="7"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer></filter><rect width="1400" height="1000" filter="url(%23c)"/></svg>');
+}
+
+/* Бетон: шум из турбулентности поверх радиального свечения, а не картинка.
+   Проявляется на скролле — непрозрачность ставит hookah.ts. */
+.hookah__concrete {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--concrete-in, 1);
+  background-color: var(--c-ink-2);
+  background-image:
+    radial-gradient(
+      120% 80% at 80% 0%,
+      color-mix(in oklab, var(--c-concrete) 30%, transparent) 0%,
+      transparent 60%
+    ),
+    var(--concrete-src);
+  background-repeat: no-repeat, no-repeat;
+  background-size:
+    auto,
+    cover;
+}
+
+/* Верхний и нижний край растворяются в фоне страницы, чтобы бетон
+   не читался как приклеенный прямоугольник. */
+.hookah__concrete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    var(--c-ink) 0%,
+    transparent 14%,
+    transparent 86%,
+    var(--c-ink) 100%
+  );
+}
+
+.hookah__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--sp-8) var(--gutter-col);
+  align-items: start;
+}
+
+.hookah__head {
+  grid-column: 1 / span 6;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.hookah__title {
+  font-size: clamp(30px, 4.2vw, 64px);
+}
+
+.hookah__lead {
+  max-width: 52ch;
+}
+
+/* Критерии подбора: вкус, крепость, дымность. */
+.hookah__pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-3);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: var(--sp-4);
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  color: var(--t-secondary);
+  text-transform: uppercase;
+  background-color: var(--c-moss-deep);
+  border: 1px solid var(--s-stroke-moss);
+  border-radius: var(--r-pill);
+}
+
+/* ---------- Авторские миксы ---------- */
+
+.hookah__blends {
+  grid-column: 7 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+/* Карточка-«бархат» — дизайн-система §7. Одна группа на секцию. */
+.blend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  justify-content: space-between;
+  min-height: 190px;
+  padding: var(--sp-5);
+  background-image: var(--g-moss);
+  border: 1px solid var(--s-stroke-moss);
+  border-radius: var(--r-md);
+  transition:
+    border-color var(--d-base) var(--e-out),
+    transform var(--d-base) var(--e-out);
+}
+
+.blend:hover {
+  border-color: var(--s-stroke-warm);
+  transform: translateY(-4px);
+}
+
+.blend__name {
+  font-family: var(--f-display);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.blend__notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+}
+
+.blend__notes li:not(:last-child)::after {
+  content: ',';
+}
+
+.blend__price {
+  font-family: var(--f-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--c-amber);
+}
+
+/* ---------- Базовые чаши ---------- */
+
+.hookah__base {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--s-stroke);
+}
+
+.base-bowl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  align-items: baseline;
+  justify-content: space-between;
+  padding-block: var(--sp-5);
+  padding-inline-end: var(--sp-5);
+}
+
+.base-bowl:not(:first-child) {
+  padding-inline-start: var(--sp-5);
+  border-inline-start: 1px solid var(--s-stroke);
+}
+
+.base-bowl__name {
+  font-size: var(--fs-body);
+  color: var(--t-secondary);
+}
+
+.base-bowl__price {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.base-bowl__from {
+  font-family: var(--f-text);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--t-muted);
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (width < 1200px) {
+  .hookah__head {
+    grid-column: 1 / -1;
+  }
+
+  .hookah__blends {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (width < 768px) {
+  .hookah__blends {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hookah__base {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .base-bowl:not(:first-child) {
+    padding-inline-start: 0;
+    border-inline-start: none;
+    border-block-start: 1px solid var(--s-stroke);
+  }
+}
