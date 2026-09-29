@@ -97,8 +97,12 @@ const SOURCES = [
   { src: 'assets/menu-scans/scan-03.jpg', out: 'menu-pages/03-japan', preset: 'doc' },
   { src: 'assets/menu-scans/scan-04.jpg', out: 'menu-pages/04-antipasti', preset: 'doc' },
   { src: 'assets/menu-scans/scan-05.jpg', out: 'menu-pages/05-cocktails-classic', preset: 'doc' },
-  { src: 'assets/menu-scans/scan-06.jpg', out: 'menu-pages/06-cocktails-hits', preset: 'doc' },
-  { src: 'assets/menu-scans/scan-07.jpg', out: 'menu-pages/07-cocktails-new', preset: 'doc' },
+  // Исправлено 01.10.2026: страница читалась только по превью в контактном
+  // листе на прошлой сессии, без открытия целиком. Полное чтение показало:
+  // scan-06 = «Новый сезон 25/26» + «Хиты» (обе коктейльные подборки на одной
+  // странице), а scan-07 — совсем не коктейли, это «Вина в бокалах».
+  { src: 'assets/menu-scans/scan-06.jpg', out: 'menu-pages/06-cocktails-season', preset: 'doc' },
+  { src: 'assets/menu-scans/scan-07.jpg', out: 'menu-pages/07-wine-glass', preset: 'doc' },
   { src: 'assets/menu-scans/scan-08.jpg', out: 'menu-pages/08-wine-sparkling', preset: 'doc' },
   { src: 'assets/menu-scans/scan-09.jpg', out: 'menu-pages/09-wine-bottles', preset: 'doc' },
   { src: 'assets/menu-scans/scan-10.jpg', out: 'menu-pages/10-spirits-vodka', preset: 'doc' },
