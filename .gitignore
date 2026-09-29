@@ -19,3 +19,4 @@ Thumbs.db
 # local helper scripts (not part of the site)
 download-assets.ps1
 download-assets-v2.ps1
+download-assets-v3.ps1
