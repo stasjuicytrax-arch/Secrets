@@ -72,8 +72,8 @@ export const initHero = async (): Promise<(() => void) | void> => {
 
   if (glow) {
     const breathe = gsap.to(glow, {
-      scale: 1.14,
-      opacity: 0.78,
+      scale: 1.12,
+      opacity: 0.58,
       duration: 8,
       ease: 'sine.inOut',
       yoyo: true,

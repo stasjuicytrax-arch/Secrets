@@ -26,28 +26,35 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Кадрируем выше середины: подсвеченная барная стойка уходит в верхнюю
-     треть, а тёмный бетонный пол остаётся там, где лежит заголовок. */
-  object-position: center 32%;
+  /* На узких экранах кадр режется по горизонтали: смещаем точку вправо,
+     чтобы неоновая вывеска и светящийся венок остались в кадре. */
+  object-position: 68% 50%;
 }
 
-/* Свечение за контентом, никогда поверх текста — дизайн-система §3. */
+/* Свечение за контентом, никогда поверх текста — дизайн-система §3.
+   Сдвинуто вправо и приглушено: настоящий свет идёт от венка справа,
+   и синтетическое зарево должно его поддерживать, а не перекрывать. */
 .hero__glow {
   position: absolute;
-  inset: -20%;
+  inset: -20% -20% -20% 15%;
   z-index: -1;
+  opacity: 0.4;
   pointer-events: none;
   background-image: var(--g-hero);
   /* Сдвиг за курсором: числа ставит hero.ts, проценты добавляет calc. */
   translate: calc(var(--glow-x, 0) * 1%) calc(var(--glow-y, 0) * 1%);
 }
 
-/* Затемнение кадра. Ступени подобраны замером контраста, а не на глаз:
-   за заголовком попадала барная подсветка, и белый давал 2.49:1,
-   а оранжевый — 1.35:1. С этими ступенями на 1280/1440/1920 выходит
-   белый 14.0–17.9:1, оранжевый 4.18–5.34:1 — при этом верх кадра
-   затемнён только на 42%, и зал остаётся виден.
-   Второй слой держит читаемость шапки, если заказчик заменит снимок. */
+/* Затемнение кадра. Градиент диагональный, а не горизонтальный, и это
+   не вкусовое решение: оранжевое слово «СЕКРЕТНЫЙ» кончается на 70% ширины,
+   и ровно там начинается неоновая вывеска. По горизонтали их не развести —
+   либо слово нечитаемо, либо вывеска гаснет. По диагонали «вниз-влево ↔
+   вверх-вправо» текст и свет расходятся: заголовок сидит на 0.60 оси,
+   вывеска на 0.71, венок на 0.79.
+
+   Ступени подобраны замером под самими глифами (scripts/contrast.mjs),
+   а не по прямоугольнику строки. На 1280/1440/1920:
+   белый 17.3–18.2:1, оранжевый 4.71–5.08:1. */
 .hero__scrim {
   position: absolute;
   inset: 0;
@@ -55,18 +62,48 @@
   pointer-events: none;
   background-image:
     linear-gradient(
-      to top,
+      to top right,
       var(--c-void) 0%,
-      var(--c-void) 32%,
-      color-mix(in oklab, var(--c-void) 88%, transparent) 52%,
-      color-mix(in oklab, var(--c-void) 55%, transparent) 74%,
-      color-mix(in oklab, var(--c-void) 42%, transparent) 100%
+      color-mix(in oklab, var(--c-void) 92%, transparent) 30%,
+      color-mix(in oklab, var(--c-void) 84%, transparent) 52%,
+      color-mix(in oklab, var(--c-void) 58%, transparent) 68%,
+      color-mix(in oklab, var(--c-void) 18%, transparent) 82%,
+      transparent 94%
     ),
-    linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--c-void) 40%, transparent) 0%,
-      transparent var(--header-offset)
-    );
+    /* Низ: контраст меты и кнопок по всей ширине. */
+      linear-gradient(
+        to top,
+        color-mix(in oklab, var(--c-void) 88%, transparent) 0%,
+        color-mix(in oklab, var(--c-void) 42%, transparent) 18%,
+        transparent 40%
+      ),
+    /* Верх: читаемость шапки. */
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--c-void) 42%, transparent) 0%,
+        transparent var(--header-offset)
+      );
+}
+
+@media (width < 900px) {
+  /* На узком экране заголовок занимает всю ширину, горизонтальный
+     градиент его не закрывает — работает вертикальный. */
+  .hero__scrim {
+    background-image:
+      linear-gradient(
+        to top,
+        var(--c-void) 0%,
+        var(--c-void) 26%,
+        color-mix(in oklab, var(--c-void) 86%, transparent) 52%,
+        color-mix(in oklab, var(--c-void) 48%, transparent) 78%,
+        color-mix(in oklab, var(--c-void) 32%, transparent) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--c-void) 42%, transparent) 0%,
+        transparent var(--header-offset)
+      );
+  }
 }
 
 /* ---------- Контент ---------- */
@@ -81,9 +118,10 @@
 
 .hero__title {
   /* Кегль подобран замером, а не на глаз: самая длинная строка при ручных
-     переносах — «ЛАУНЖ В СЕРДЦЕ». При 6.5vw она укладывается в контейнер
-     на всех ширинах от 900px, верхний предел 100px берётся с 1540px. */
-  font-size: clamp(34px, 6.5vw, 100px);
+     переносах — «ЛАУНЖ В СЕРДЦЕ». 5.6vw даёт 72px на 1280 и 84px от 1500px.
+     28px снизу — не только ради размера: на 375px при нём «ТВОЙ СЕКРЕТНЫЙ»
+     помещается в строку, и заголовок складывается в 4 строки вместо 6. */
+  font-size: clamp(28px, 5.6vw, 84px);
   margin-block-start: var(--sp-2);
 }
 
@@ -115,9 +153,8 @@
 }
 
 @media (width < 600px) {
-  /* На 375px заголовок неизбежно занимает 6 строк: «СЕВЕРНОЙ СТОЛИЦЫ»
-     набором Unbounded не влезает в 335px крупнее 25px, а это уже не заголовок.
-     Поэтому место под фотографию отыгрывается ритмом, а не кеглем. */
+  /* На 375px заголовок занимает 4 строки, и место под фотографию
+     отыгрывается ритмом блока, а не дальнейшим уменьшением кегля. */
   .hero {
     padding-block: calc(var(--header-offset) + var(--sp-3)) var(--sp-6);
   }
