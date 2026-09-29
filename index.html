@@ -423,12 +423,192 @@
         </div>
       </section>
 
-      <section class="l-section" id="menu">
+      <!-- ---------- 03 · Меню (Кухня) ---------- -->
+      <!-- Единственная светлая секция страницы (дизайн-система §6).
+           Фон перекрашивается из --c-ink в --c-sand по мере входа —
+           ведёт anim/menu.ts, сам переход целиком в токенах (menu.css). -->
+      <section class="l-section menu" id="menu" data-menu>
         <div class="l-container">
-          <header class="l-section__head">
-            <p class="t-label">03 / Меню</p>
-            <h2 class="t-h2">Кухня</h2>
+          <header class="menu__head">
+            <p class="t-label" data-reveal="text">03 / Меню</p>
+            <h2 class="t-h2" data-reveal="title">Кухня</h2>
+
+            <!-- Текст заказчика дословно, кроме опечатки «качествава» → «качества» (ТЗ §6). -->
+            <p class="t-lead menu__lead" data-reveal="text">
+              Кухня Secrets — это отражение нашей философии: проработанная рецептура блюд,
+              высокий уровень качества ингредиентов и конечно, тонкий взгляд на популярные
+              блюда от нашего шеф-повара.
+            </p>
           </header>
+
+          <!-- Категории и минимальные цены — из печатного меню заказчика,
+               assets/menu-scans/scan-01..04.jpg. Полный прайс — на /menu. -->
+          <ul class="menu__categories" data-reveal="cards">
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/tartare-set-420.avif 420w, /img/food/tartare-set-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/tartare-set-720.webp"
+                    srcset="/img/food/tartare-set-420.webp 420w, /img/food/tartare-set-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Стартеры</span>
+                <span class="category-card__price">от 550 ₽</span>
+              </a>
+            </li>
+
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/roast-beef-420.avif 420w, /img/food/roast-beef-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/roast-beef-720.webp"
+                    srcset="/img/food/roast-beef-420.webp 420w, /img/food/roast-beef-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Горячее</span>
+                <span class="category-card__price">от 790 ₽</span>
+              </a>
+            </li>
+
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/pasta-420.avif 420w, /img/food/pasta-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/pasta-720.webp"
+                    srcset="/img/food/pasta-420.webp 420w, /img/food/pasta-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Паста</span>
+                <span class="category-card__price">от 790 ₽</span>
+              </a>
+            </li>
+
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/salad-420.avif 420w, /img/food/salad-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/salad-720.webp"
+                    srcset="/img/food/salad-420.webp 420w, /img/food/salad-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Салаты</span>
+                <span class="category-card__price">от 690 ₽</span>
+              </a>
+            </li>
+
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/poke-bowl-420.avif 420w, /img/food/poke-bowl-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/poke-bowl-720.webp"
+                    srcset="/img/food/poke-bowl-420.webp 420w, /img/food/poke-bowl-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Япония</span>
+                <span class="category-card__price">от 240 ₽</span>
+              </a>
+            </li>
+
+            <li class="category-card">
+              <a class="category-card__media" href="menu.html" aria-hidden="true" tabindex="-1">
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcset="/img/food/burger-420.avif 420w, /img/food/burger-720.avif 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                  />
+                  <img
+                    src="/img/food/burger-720.webp"
+                    srcset="/img/food/burger-420.webp 420w, /img/food/burger-720.webp 720w"
+                    sizes="(width < 600px) 100vw, (width < 1100px) 50vw, 33vw"
+                    width="1333"
+                    height="2000"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </a>
+              <a class="category-card__body" href="menu.html">
+                <span class="category-card__name">Стрит-фуд</span>
+                <span class="category-card__price">от 550 ₽</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="menu__cta" data-reveal="text">
+            <a class="btn btn--secondary" href="menu.html">
+              Все категории и цены
+              <svg class="btn__arrow" width="18" height="18" aria-hidden="true">
+                <use href="#i-arrow-ne" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
