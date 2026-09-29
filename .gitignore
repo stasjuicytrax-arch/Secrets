@@ -1,0 +1,21 @@
+# dependencies and build
+node_modules/
+dist/
+.vite/
+.cache/
+
+# secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# local helper scripts (not part of the site)
+download-assets.ps1
+download-assets-v2.ps1

@@ -1,0 +1,120 @@
+/* SECRETS Lounge — design tokens
+   Источник: 02-design/design-system.md
+   Подключать первым файлом, до любых компонентных стилей.
+   ВНИМАНИЕ: бордовый / малиновый / сигнальный красный в системе отсутствуют. */
+
+:root {
+  /* ---------- Фоны ---------- */
+  --c-void:        #040403;  /* самый глубокий фон, края экрана */
+  --c-ink:         #0A0A08;  /* базовый фон страницы */
+  --c-ink-2:       #131310;  /* фон приподнятых секций */
+  --c-graphite:    #1C1C19;  /* карточки, панели */
+  --c-concrete:    #3A3A36;  /* бетон, текстурные плоскости */
+  --c-concrete-hi: #55554F;  /* светлый край бетона */
+
+  /* ---------- Акцент: оранжевый ---------- */
+  --c-orange:      #F25A1C;  /* основной акцент — кнопки, акцент в тексте */
+  --c-orange-hot:  #FF7A2E;  /* ховер, активное состояние */
+  --c-amber:       #FFB259;  /* тёплый свет, блики, верх градиента */
+  --c-rust:        #A83A12;  /* глубокий низ градиента */
+
+  /* ---------- Второй цвет: зелёный ---------- */
+  --c-moss:        #3A5A3E;  /* бархат, поверхности, теги */
+  --c-moss-deep:   #1B2C1F;  /* подложки, тёмные панели */
+  --c-moss-hi:     #6E9A6C;  /* листва, мелкие акценты */
+
+  /* ---------- Светлое ---------- */
+  --c-sand:        #EFE9DE;  /* фон светлой секции */
+  --c-sand-2:      #DCD4C6;  /* разделители на светлом */
+  --c-white:       #FFFFFF;
+
+  /* ---------- Текст ---------- */
+  --t-primary:     #FFFFFF;
+  --t-secondary:   rgba(255, 255, 255, .62);
+  --t-muted:       rgba(255, 255, 255, .38);
+  --t-on-light:    #14140F;
+  --t-on-light-2:  rgba(20, 20, 15, .62);
+
+  /* ---------- Поверхности и линии ---------- */
+  --s-glass:        rgba(255, 255, 255, .04);
+  --s-glass-hi:     rgba(255, 255, 255, .07);
+  --s-stroke:       rgba(255, 255, 255, .09);
+  --s-stroke-hi:    rgba(255, 255, 255, .18);
+  --s-stroke-warm:  rgba(242, 90, 28, .35);
+  --s-stroke-moss:  rgba(110, 154, 108, .28);
+
+  /* ---------- Свечение (тёплый вольфрам) ---------- */
+  --glow-core:     rgba(255, 150, 60, .55);
+  --glow-soft:     rgba(255, 138, 40, .18);
+  --glow-edge:     rgba(255, 138, 40, .05);
+
+  /* ---------- Градиенты ---------- */
+  --g-hero:    radial-gradient(60% 50% at 50% 38%, var(--glow-core) 0%, var(--glow-soft) 38%, transparent 72%);
+  --g-section: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-2) 55%, var(--c-ink) 100%);
+  --g-cta:     linear-gradient(135deg, var(--c-amber) 0%, var(--c-orange) 45%, var(--c-rust) 100%);
+  --g-card:    linear-gradient(160deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,.02) 100%);
+  --g-moss:    linear-gradient(160deg, rgba(110,154,108,.14) 0%, rgba(27,44,31,.35) 100%);
+
+  /* ---------- Шрифты ---------- */
+  --f-display: "TT Firs Neue", "Unbounded", system-ui, sans-serif;
+  --f-text:    "Suisse Intl", "Onest", system-ui, sans-serif;
+  --f-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---------- Кегли ---------- */
+  --fs-display: clamp(56px, 9.5vw, 168px);
+  --fs-h1:      clamp(44px, 6.4vw, 112px);
+  --fs-h2:      clamp(34px, 4.4vw, 76px);
+  --fs-h3:      clamp(26px, 2.6vw, 44px);
+  --fs-h4:      clamp(20px, 1.6vw, 28px);
+  --fs-lead:    clamp(18px, 1.35vw, 24px);
+  --fs-body:    clamp(15px, 1.05vw, 18px);
+  --fs-small:   14px;
+  --fs-label:   12px;
+
+  /* ---------- Отступы ---------- */
+  --sp-1: 4px;   --sp-2: 8px;    --sp-3: 12px;   --sp-4: 16px;
+  --sp-5: 24px;  --sp-6: 32px;   --sp-7: 48px;   --sp-8: 64px;
+  --sp-9: 96px;  --sp-10: 128px; --sp-11: 160px; --sp-12: 200px; --sp-13: 260px;
+
+  --section-y: clamp(64px, 10vw, 200px);
+  --gutter:    clamp(20px, 4vw, 80px);
+  --container: 1440px;
+
+  /* ---------- Радиусы ---------- */
+  --r-xs: 8px;
+  --r-sm: 14px;
+  --r-md: 20px;
+  --r-lg: 28px;
+  --r-xl: 40px;
+  --r-pill: 999px;
+
+  /* ---------- Тени ---------- */
+  --sh-card: 0 24px 60px -20px rgba(0, 0, 0, .65);
+  --sh-lift: 0 40px 90px -24px rgba(0, 0, 0, .75);
+  --sh-glow: 0 0 80px -10px var(--glow-soft);
+
+  /* ---------- Движение ---------- */
+  --e-out:   cubic-bezier(.22, 1, .36, 1);
+  --e-inout: cubic-bezier(.65, 0, .35, 1);
+  --d-fast:  .2s;
+  --d-base:  .4s;
+  --d-slow:  .8s;
+
+  /* ---------- Слои ---------- */
+  --z-glow: 0;
+  --z-base: 1;
+  --z-sticky: 50;
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-cursor: 300;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --d-fast: 0s; --d-base: 0s; --d-slow: 0s; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
