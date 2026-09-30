@@ -2,8 +2,14 @@
 
 .ftr {
   position: relative;
-  padding-block: var(--sp-10) var(--sp-7);
+  /* Верхний паддинг — это теперь весь зазор между последней секцией и
+     футером (её собственный padding-block-end обнулён, layout.css), поэтому
+     это не --sp-10, а отдельный clamp ровно на требуемые 96-120px. */
+  padding-block: clamp(96px, 9vw, 120px) var(--sp-7);
   background-color: var(--c-void);
+  /* Якорь пункта «Контакты» шапки/мобильного меню — секция «Контакты»
+     удалена, ссылка ведёт сюда напрямую. */
+  scroll-margin-top: var(--header-offset);
 }
 
 .ftr__top {
@@ -84,24 +90,6 @@
 
 .ftr__list a:hover {
   color: var(--t-primary);
-}
-
-.ftr__hours {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--sp-2) var(--sp-4);
-  font-size: var(--fs-small);
-  color: var(--t-secondary);
-}
-
-.ftr__hours dt {
-  color: var(--t-muted);
-}
-
-.ftr__hours dd {
-  font-family: var(--f-mono);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
 }
 
 /* ---------- Нижняя полоса ---------- */

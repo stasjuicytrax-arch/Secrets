@@ -1130,7 +1130,7 @@
       <section class="l-section promo" id="promos" data-promo>
         <div class="l-container">
           <header class="l-section__head">
-            <p class="t-label" data-reveal="text">06 / Акции</p>
+            <p class="t-label" data-reveal="text">05 / Акции</p>
             <h2 class="t-h2" data-reveal="title">Акции</h2>
           </header>
 
@@ -1183,7 +1183,7 @@
         <div class="l-container">
           <div class="book__grid">
             <header class="book__head">
-              <p class="t-label" data-reveal="text">07 / Бронирование</p>
+              <p class="t-label" data-reveal="text">06 / Бронирование</p>
               <h2 class="t-h2" data-reveal="title">Забронировать стол</h2>
               <p class="t-lead" data-reveal="text">
                 Забронируйте стол через короткую форму резерва. После заполнения, мы свяжемся
@@ -1283,19 +1283,13 @@
           </div>
         </div>
       </section>
-
-      <section class="l-section" id="contacts">
-        <div class="l-container">
-          <header class="l-section__head">
-            <p class="t-label">11 / Контакты</p>
-            <h2 class="t-h2">Контакты</h2>
-          </header>
-        </div>
-      </section>
     </main>
 
     <!-- ---------- 12 · Футер ---------- -->
-    <footer class="ftr">
+    <!-- Отдельная секция «Контакты» (была 11) удалена по указанию клиента:
+         все контакты сведены сюда, в футер. id="contacts" — цель якоря шапки
+         и мобильного меню, scroll-margin-top под шапку — footer.css. -->
+    <footer class="ftr" id="contacts">
       <div class="l-container">
         <div class="ftr__top">
           <div class="ftr__brand">
@@ -1326,17 +1320,19 @@
               <a class="link" href="tel:+78122444460">+7 (812) 244-44-60</a>
               <a class="link" href="mailto:tsinist@bk.ru">tsinist@bk.ru</a>
               <span class="t-dim">Санкт-Петербург, ул. Полтавская, 7</span>
+              <a
+                class="link"
+                href="https://yandex.ru/maps/?text=Санкт-Петербург%2C%20ул.%20Полтавская%2C%207"
+                rel="noopener"
+                target="_blank"
+                >Построить маршрут</a
+              >
             </address>
           </div>
 
           <div class="ftr__col">
             <p class="ftr__colhead">Режим работы</p>
-            <dl class="ftr__hours">
-              <dt>пн–чт, вс</dt>
-              <dd>13:00 – 00:00</dd>
-              <dt>пт, сб</dt>
-              <dd>13:00 – 06:00</dd>
-            </dl>
+            <p class="t-dim">Вс–Чт 13:00–00:00 · Пт–Сб 13:00–06:00</p>
             <div class="ftr__list">
               <a class="link" href="https://vk.com/secrets.tsinist" rel="me noopener" target="_blank"
                 >ВКонтакте</a
