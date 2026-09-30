@@ -384,8 +384,6 @@
 
       <!-- ---------- 02 · Кальян ---------- -->
       <section class="l-section hookah" id="hookah" data-hookah>
-        <div class="hookah__glow" aria-hidden="true"></div>
-
         <div class="l-container">
           <div class="hookah__grid">
             <header class="hookah__head">
@@ -403,6 +401,31 @@
                 крепости, дымности и другим критериям.
               </p>
             </header>
+
+            <!-- Пустая правая колонка рядом с заголовком: живое фото зала с
+                 кальяном вместо чипсов «вкус/крепость/дымность» — их убрали
+                 раньше в этой сессии (нет реальных данных по каждому миксу,
+                 нечем было бы наполнить не выдумывая). Параллакс ±30px —
+                 anim/hookah.ts. -->
+            <figure class="hookah__side" data-hookah-side>
+              <picture>
+                <source
+                  type="image/avif"
+                  srcset="/img/hookah/guests-smoke-420.avif 420w, /img/hookah/guests-smoke-720.avif 720w, /img/hookah/guests-smoke-1080.avif 1080w"
+                  sizes="(width < 1200px) 100vw, 42vw"
+                />
+                <img
+                  src="/img/hookah/guests-smoke-720.webp"
+                  srcset="/img/hookah/guests-smoke-420.webp 420w, /img/hookah/guests-smoke-720.webp 720w, /img/hookah/guests-smoke-1080.webp 1080w"
+                  sizes="(width < 1200px) 100vw, 42vw"
+                  width="720"
+                  height="1080"
+                  alt="Гостья с кальяном в зале Secrets"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </figure>
 
             <!-- Авторские миксы. Названия, состав и цены — из кальянного меню
                  заказчика (assets/menu-scans/scan-15,17,18,19.jpg), фото —
@@ -428,6 +451,7 @@
                     />
                   </picture>
                 </div>
+                <div class="blend__sheen" aria-hidden="true"></div>
                 <div class="blend__body">
                   <h3 class="blend__name">Тайны древней Греции</h3>
                   <ul class="blend__notes">
@@ -459,6 +483,7 @@
                     />
                   </picture>
                 </div>
+                <div class="blend__sheen" aria-hidden="true"></div>
                 <div class="blend__body">
                   <h3 class="blend__name">Хранитель леса</h3>
                   <ul class="blend__notes">
@@ -491,6 +516,7 @@
                     />
                   </picture>
                 </div>
+                <div class="blend__sheen" aria-hidden="true"></div>
                 <div class="blend__body">
                   <h3 class="blend__name">Сады Японии</h3>
                   <ul class="blend__notes">
@@ -522,6 +548,7 @@
                     />
                   </picture>
                 </div>
+                <div class="blend__sheen" aria-hidden="true"></div>
                 <div class="blend__body">
                   <h3 class="blend__name">Флэш-рояль</h3>
                   <ul class="blend__notes">
