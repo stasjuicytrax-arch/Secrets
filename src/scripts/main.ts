@@ -13,6 +13,7 @@ import { initMenu } from './anim/menu';
 import { initBar } from './anim/bar';
 import { initAbout } from './anim/about';
 import { initHookah } from './anim/hookah';
+import { initBook } from './book';
 
 const bootstrap = (): void => {
   document.documentElement.classList.toggle('is-reduced', prefersReducedMotion());
@@ -50,6 +51,7 @@ const bootstrap = (): void => {
     void initHookah();
     void initMenu();
     void initBar();
+    initBook();
   });
 };
 

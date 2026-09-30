@@ -1,0 +1,75 @@
+/* 06 · Акции. Сетка 2×2 (моб. 1 колонка), карточки без карточек-в-карточках:
+   разделители токеном --c-concrete вместо заливки/тени/рамки. ТЗ §2 блок 08. */
+
+.promo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-block-start: var(--heading-gap);
+  border-block-start: 1px solid var(--c-concrete);
+  border-inline-start: 1px solid var(--c-concrete);
+}
+
+.promo-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-height: 280px;
+  padding: var(--sp-6);
+  border-inline-end: 1px solid var(--c-concrete);
+  border-block-end: 1px solid var(--c-concrete);
+}
+
+.promo-card__value {
+  font-family: var(--f-display);
+  font-size: clamp(40px, 4vw, 64px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--t-primary);
+}
+
+/* Оранжевый только у одного акцента на всю сетку — дизайн-система §3:
+   не заливка каждой карточки. */
+.promo-card--accent .promo-card__value {
+  color: var(--c-orange);
+}
+
+.promo-card__title {
+  font-family: var(--f-display);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.promo-card__text {
+  max-width: 42ch;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--t-secondary);
+}
+
+.promo-card__link {
+  display: inline-block;
+  margin-inline-start: var(--sp-1);
+  color: var(--c-orange);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.promo__cta {
+  margin-block-start: var(--sp-7);
+}
+
+@media (width < 640px) {
+  .promo__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .promo-card {
+    min-height: 0;
+    padding-block: var(--sp-5);
+    border-inline-end: none;
+  }
+}

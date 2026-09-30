@@ -1128,21 +1128,165 @@
         </div>
       </section>
 
-      <section class="l-section" id="promos">
+      <!-- ---------- 06 · Акции ---------- -->
+      <!-- Тексты дословно из 01-content/site-content.md, блок «АКЦИИ».
+           Источник — 4 строки таблицы: две «Бизнес-перекур» сведены в одну
+           карточку (тот же повод, разные цены — с чаем/ежедневно), это
+           решение по составу, не изменение текста внутри карточек. -->
+      <section class="l-section promo" id="promos" data-promo>
         <div class="l-container">
           <header class="l-section__head">
-            <p class="t-label">06 / Акции</p>
-            <h2 class="t-h2">Акции</h2>
+            <p class="t-label" data-reveal="text">06 / Акции</p>
+            <h2 class="t-h2" data-reveal="title">Акции</h2>
           </header>
+
+          <ul class="promo__grid" data-reveal="cards">
+            <li class="promo-card promo-card--accent">
+              <p class="promo-card__value">−20%</p>
+              <h3 class="promo-card__title">В день рождения</h3>
+              <p class="promo-card__text">
+                20% на всё меню в честь дня рождения, действует 3 дня до и 3 дня после.
+              </p>
+            </li>
+
+            <li class="promo-card">
+              <p class="promo-card__value">13–18</p>
+              <h3 class="promo-card__title">Бизнес-перекур</h3>
+              <p class="promo-card__text">
+                С 13:00 до 18:00 с чаем (классический) по спец цене 1 400 ₽ или ежедневно
+                по спец цене 1 100 ₽.
+              </p>
+            </li>
+
+            <li class="promo-card">
+              <p class="promo-card__value">15%</p>
+              <h3 class="promo-card__title">Первый раз</h3>
+              <p class="promo-card__text">15% скидка на первое посещение по промокоду «П7».</p>
+            </li>
+
+            <li class="promo-card">
+              <p class="promo-card__value">1000</p>
+              <h3 class="promo-card__title">Система лояльности</h3>
+              <p class="promo-card__text">
+                1000 бонусов для новых участников в подарок.
+                <a class="promo-card__link" href="https://tsinist.wallet.open-s.info/" target="_blank" rel="noopener">
+                  Оформить карту
+                </a>
+              </p>
+            </li>
+          </ul>
+
+          <a class="btn btn--primary promo__cta" href="#book">Забронировать</a>
         </div>
       </section>
 
-      <section class="l-section" id="book">
+      <!-- ---------- 07 · Бронирование ---------- -->
+      <!-- Текст дословно из 01-content/site-content.md, блок «БРОНИРОВАНИЕ».
+           Контакты и часы — те же значения, что в футере (§7). Форма ничего
+           никуда не отправляет: submitBooking() в src/scripts/book.ts —
+           заглушка с TODO, см. комментарий там же и docs/client-questions.md. -->
+      <section class="l-section book" id="book" data-book>
         <div class="l-container">
-          <header class="l-section__head">
-            <p class="t-label">07 / Бронирование</p>
-            <h2 class="t-h2">Забронировать стол</h2>
-          </header>
+          <div class="book__grid">
+            <header class="book__head">
+              <p class="t-label" data-reveal="text">07 / Бронирование</p>
+              <h2 class="t-h2" data-reveal="title">Забронировать стол</h2>
+              <p class="t-lead" data-reveal="text">
+                Забронируйте стол через короткую форму резерва. После заполнения, мы свяжемся
+                с вами для подтверждения бронирования.
+              </p>
+
+              <address class="book__contacts">
+                <a class="link" href="tel:+79936412986">+7 (993) 641-29-86</a>
+                <a class="link" href="tel:+78122444460">+7 (812) 244-44-60</a>
+                <span class="t-dim">Санкт-Петербург, ул. Полтавская, 7</span>
+                <span class="t-dim">Вс–Чт 13:00–00:00 · Пт–Сб 13:00–06:00</span>
+              </address>
+            </header>
+
+            <form class="book__form" data-book-form data-reveal="cards" novalidate>
+              <div class="field">
+                <label class="field__label" for="book-name">Имя</label>
+                <input class="field__input" id="book-name" name="name" type="text" autocomplete="name" required />
+                <p class="field__error" data-field-error>Укажите имя</p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="book-phone">Телефон</label>
+                <input
+                  class="field__input"
+                  id="book-phone"
+                  name="phone"
+                  type="tel"
+                  inputmode="tel"
+                  autocomplete="tel"
+                  placeholder="+7 (___) ___-__-__"
+                  data-phone-mask
+                  required
+                />
+                <p class="field__error" data-field-error>Укажите телефон в формате +7 (999) 999-99-99</p>
+              </div>
+
+              <div class="field--row">
+                <div class="field">
+                  <label class="field__label" for="book-date">Дата</label>
+                  <input class="field__input" id="book-date" name="date" type="date" required />
+                  <p class="field__error" data-field-error>Укажите дату</p>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="book-time">Время</label>
+                  <input class="field__input" id="book-time" name="time" type="time" required />
+                  <p class="field__error" data-field-error>Укажите время</p>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="book-guests">Гостей</label>
+                  <input
+                    class="field__input"
+                    id="book-guests"
+                    name="guests"
+                    type="number"
+                    inputmode="numeric"
+                    min="1"
+                    max="20"
+                    value="2"
+                    required
+                  />
+                  <p class="field__error" data-field-error>От 1 до 20</p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="book-comment">Комментарий</label>
+                <textarea class="field__input field__input--area" id="book-comment" name="comment" rows="3"></textarea>
+              </div>
+
+              <div class="field field--check">
+                <label class="field__check">
+                  <input type="checkbox" name="consent" required />
+                  <span>
+                    Согласен(на) на обработку персональных данных (152-ФЗ)
+                  </span>
+                </label>
+                <p class="field__error" data-field-error>Нужно согласие на обработку персональных данных</p>
+              </div>
+
+              <div class="field field--check">
+                <label class="field__check">
+                  <input type="checkbox" name="adult" required />
+                  <span>Подтверждаю, что мне есть 18 лет</span>
+                </label>
+                <p class="field__error" data-field-error>Бронирование доступно только совершеннолетним</p>
+              </div>
+
+              <button class="btn btn--primary book__submit" type="submit">
+                Забронировать
+              </button>
+
+              <p class="book__status" data-book-status role="status" aria-live="polite"></p>
+            </form>
+          </div>
         </div>
       </section>
 

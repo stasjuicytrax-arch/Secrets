@@ -1,0 +1,140 @@
+/* 07 · Бронирование. Слева контакты, справа форма. ТЗ §2 блок 09, §5. */
+
+.book__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--sp-8) var(--gutter-col);
+  align-items: start;
+  margin-block-start: var(--heading-gap);
+}
+
+.book__head {
+  grid-column: 1 / span 5;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.book__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-block-start: var(--sp-4);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--c-concrete);
+}
+
+.book__form {
+  grid-column: 7 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.field--row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+}
+
+.field__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--t-secondary);
+  text-transform: uppercase;
+}
+
+.field__input {
+  min-height: 48px;
+  padding-inline: var(--sp-4);
+  font-family: var(--f-text);
+  font-size: var(--fs-body);
+  color: var(--t-primary);
+  background-color: var(--s-glass);
+  border: 1px solid var(--s-stroke);
+  border-radius: var(--r-sm);
+  transition: border-color var(--d-fast) var(--e-out);
+}
+
+.field__input--area {
+  min-height: 96px;
+  padding-block: var(--sp-3);
+  resize: vertical;
+}
+
+.field__input:focus-visible {
+  outline: 2px solid var(--c-orange-hot);
+  outline-offset: 2px;
+}
+
+/* Ошибка передаётся не только цветом рамки (дизайн-система §9) — рядом
+   текст field__error, который проявляется только когда поле помечено
+   invalid (book.ts ставит data-invalid). */
+.field[data-invalid='true'] .field__input {
+  border-color: var(--c-orange-hot);
+}
+
+.field__error {
+  display: none;
+  font-size: var(--fs-label);
+  color: var(--c-orange-hot);
+}
+
+.field[data-invalid='true'] .field__error {
+  display: block;
+}
+
+.field__check {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+  font-size: var(--fs-small);
+  color: var(--t-secondary);
+}
+
+.field__check input {
+  /* Тач-зона 44px без визуального укрупнения самого чекбокса. */
+  width: 20px;
+  height: 20px;
+  margin-block-start: 2px;
+  accent-color: var(--c-orange);
+  flex: none;
+}
+
+.book__submit {
+  align-self: start;
+  margin-block-start: var(--sp-2);
+}
+
+.book__status {
+  min-height: 1.5em;
+  font-size: var(--fs-small);
+}
+
+.book__status[data-state='success'] {
+  color: var(--c-moss-hi);
+}
+
+.book__status[data-state='error'] {
+  color: var(--c-orange-hot);
+}
+
+@media (width < 1200px) {
+  .book__head,
+  .book__form {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (width < 640px) {
+  .field--row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
