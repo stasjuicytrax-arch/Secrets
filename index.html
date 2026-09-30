@@ -757,20 +757,27 @@
 
         <!-- Дефолт без JS — обычная горизонтальная прокрутка со snap: это же
              поведение сохраняется на тач по ТЗ §7. anim/bar.ts включает pin
-             поверх него только на десктопе с мышью и без reduce. -->
+             и курсор-drag поверх него только на десктопе с мышью и без reduce.
+
+             Единая система карточек (30.09.2026): все, кроме первой (широкая
+             акцентная «Бар Secrets»), одного типа и высоты — фото 4:3 сверху,
+             название/состав/цена снизу, без пустоты посередине. У девяти
+             карточек без настоящего фото напитка — атмосферный кадр зала/бара
+             (не выдаём его за фото конкретного коктейля), помечен TODO и
+             занесён в docs/photo-requests.md. -->
         <div class="bar__wrap" data-bar-wrap>
           <ul class="bar__track" data-bar-track>
-            <li class="bar-card bar-card--photo">
+            <li class="bar-card bar-card--wide">
               <picture>
                 <source
                   type="image/avif"
                   srcset="/img/bar/pour-hero-420.avif 420w, /img/bar/pour-hero-720.avif 720w"
-                  sizes="300px"
+                  sizes="420px"
                 />
                 <img
                   src="/img/bar/pour-hero-720.webp"
                   srcset="/img/bar/pour-hero-420.webp 420w, /img/bar/pour-hero-720.webp 720w"
-                  sizes="300px"
+                  sizes="420px"
                   width="1680"
                   height="2520"
                   alt="Бармен наливает коктейль в дымящийся бокал"
@@ -781,130 +788,275 @@
               <p class="bar-card__caption">Бар Secrets</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Дайкири) -->
+            <li class="bar-card bar-card--daiquiri">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/bar-portrait-720.avif 720w" sizes="300px" />
+                  <img
+                    src="/img/venue/bar-portrait-720.webp"
+                    sizes="300px"
+                    width="720"
+                    height="1080"
+                    alt="Барная стойка Secrets с тёплой подсветкой (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Дайкири</h3>
                 <ul class="bar-card__notes">
                   <li>белый ром</li>
                   <li>сок лимона</li>
                   <li>сахарный сироп</li>
                 </ul>
+                <p class="bar-card__price">750 ₽</p>
               </div>
-              <p class="bar-card__price">750 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Негрони) -->
+            <li class="bar-card bar-card--negroni">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <img
+                    src="/img/venue/hall-tables-640.webp"
+                    sizes="300px"
+                    width="640"
+                    height="960"
+                    alt="Зал Secrets с оранжевыми креслами (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Негрони</h3>
                 <ul class="bar-card__notes">
                   <li>джин</li>
                   <li>красный вермут</li>
                   <li>биттер</li>
                 </ul>
+                <p class="bar-card__price">850 ₽</p>
               </div>
-              <p class="bar-card__price">850 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Апероль Спритц) -->
+            <li class="bar-card bar-card--aperol">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/hall-neon-640.avif 640w" sizes="300px" />
+                  <img
+                    src="/img/venue/hall-neon-640.webp"
+                    sizes="300px"
+                    width="640"
+                    height="853"
+                    alt="Неоновая вывеска Secrets над барной зоной (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Апероль Спритц</h3>
                 <ul class="bar-card__notes">
                   <li>апероль</li>
                   <li>игристое вино</li>
                   <li>содовая</li>
                 </ul>
+                <p class="bar-card__price">800 ₽</p>
               </div>
-              <p class="bar-card__price">800 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--photo">
-              <picture>
-                <source type="image/avif" srcset="/img/bar/citrus-highball-420.avif 420w" sizes="300px" />
-                <img
-                  src="/img/bar/citrus-highball-420.webp"
-                  sizes="300px"
-                  width="700"
-                  height="1050"
-                  alt="Цитрусовый коктейль в высоком бокале"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
-              <p class="bar-card__caption">Цитрусовый хайбол</p>
+            <li class="bar-card">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/bar/citrus-highball-420.avif 420w" sizes="300px" />
+                  <img
+                    src="/img/bar/citrus-highball-420.webp"
+                    sizes="300px"
+                    width="700"
+                    height="1050"
+                    alt="Цитрусовый коктейль в высоком бокале"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
+                <h3 class="bar-card__name">Цитрусовый хайбол</h3>
+              </div>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Секрет) -->
+            <li class="bar-card bar-card--secret">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/bar-counter-768.avif 768w" sizes="300px" />
+                  <img
+                    src="/img/venue/bar-counter-768.webp"
+                    sizes="300px"
+                    width="768"
+                    height="512"
+                    alt="Стойка бара Secrets, широкий план (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Секрет</h3>
                 <ul class="bar-card__notes">
                   <li>белый ром</li>
                   <li>Мартини Фиеро</li>
                   <li>кордиал роза-грейпфрут</li>
                 </ul>
+                <p class="bar-card__price">800 ₽</p>
               </div>
-              <p class="bar-card__price">800 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Обнажённый) -->
+            <li class="bar-card bar-card--nude">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <img
+                    src="/img/venue/hall-tables-640.webp"
+                    sizes="300px"
+                    width="640"
+                    height="960"
+                    alt="Зал Secrets, вид от кресел (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Обнажённый</h3>
                 <ul class="bar-card__notes">
                   <li>белый ром</li>
                   <li>пюре маракуйя и манго</li>
                   <li>игристое вино</li>
                 </ul>
+                <p class="bar-card__price">800 ₽</p>
               </div>
-              <p class="bar-card__price">800 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Осака) -->
+            <li class="bar-card bar-card--osaka">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/hall-portrait-720.avif 720w" sizes="300px" />
+                  <img
+                    src="/img/venue/hall-portrait-720.webp"
+                    sizes="300px"
+                    width="720"
+                    height="1080"
+                    alt="Зал Secrets с бархатным освещённым декором (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Осака</h3>
                 <ul class="bar-card__notes">
                   <li>амаретто</li>
                   <li>персиковый ликёр</li>
                   <li>сок лимона</li>
                 </ul>
+                <p class="bar-card__price">700 ₽</p>
               </div>
-              <p class="bar-card__price">700 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Лимончелло Спритц) -->
+            <li class="bar-card bar-card--limoncello">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/bar-portrait-720.avif 720w" sizes="300px" />
+                  <img
+                    src="/img/venue/bar-portrait-720.webp"
+                    sizes="300px"
+                    width="720"
+                    height="1080"
+                    alt="Барная стойка Secrets, дальний план (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Лимончелло Спритц</h3>
                 <ul class="bar-card__notes">
                   <li>лимончелло</li>
                   <li>игристое вино</li>
                   <li>содовая</li>
                 </ul>
+                <p class="bar-card__price">750 ₽</p>
               </div>
-              <p class="bar-card__price">750 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Электро) -->
+            <li class="bar-card bar-card--electro">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <img
+                    src="/img/venue/hall-tables-640.webp"
+                    sizes="300px"
+                    width="640"
+                    height="960"
+                    alt="Зал Secrets, дальний план с растениями (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Электро</h3>
                 <ul class="bar-card__notes">
                   <li>апероль</li>
                   <li>белый вермут</li>
                   <li>ананасовый сок</li>
                 </ul>
+                <p class="bar-card__price">800 ₽</p>
               </div>
-              <p class="bar-card__price">800 ₽</p>
             </li>
 
-            <li class="bar-card bar-card--drink">
-              <div>
+            <!-- TODO: replace with client photo (Мозаика) -->
+            <li class="bar-card bar-card--mosaic">
+              <figure class="bar-card__media">
+                <picture>
+                  <source type="image/avif" srcset="/img/venue/wreath-glow-640.avif 640w" sizes="300px" />
+                  <img
+                    src="/img/venue/wreath-glow-640.webp"
+                    sizes="300px"
+                    width="640"
+                    height="853"
+                    alt="Круглый декор с тёплой подсветкой в зале Secrets (временный кадр, не фото напитка)"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+              <div class="bar-card__body">
                 <h3 class="bar-card__name">Мозаика</h3>
                 <ul class="bar-card__notes">
                   <li>джин</li>
                   <li>красный вермут</li>
                   <li>сироп чёрная смородина</li>
                 </ul>
+                <p class="bar-card__price">800 ₽</p>
               </div>
-              <p class="bar-card__price">800 ₽</p>
             </li>
           </ul>
+        </div>
+
+        <div class="l-container">
+          <div class="bar__progress" data-bar-progress aria-hidden="true">
+            <div class="bar__progress-fill"></div>
+          </div>
         </div>
       </section>
 

@@ -4,10 +4,16 @@
 
    По умолчанию карточки лежат в обычной горизонтальной прокрутке
    (без JS работает уже так — прогрессивное улучшение). anim/bar.ts
-   включает pin только когда есть точный курсор и разрешено движение;
-   ТЗ §7 отдельно требует, чтобы на тач pinned-секции заменялись
+   включает pin и курсор-drag только когда есть точный курсор и разрешено
+   движение; ТЗ §7 отдельно требует, чтобы на тач pinned-секции заменялись
    вертикальным листанием — здесь это не запасной путь на случай сбоя,
-   а СОЗНАТЕЛЬНО дефолтное поведение для тач. */
+   а СОЗНАТЕЛЬНО дефолтное поведение для тач.
+
+   Единая система карточек, 30.09.2026: раньше были два типа (фото-карточка
+   с подписью и текстовая карточка-«бархат» без фото), разной высоты, с
+   пустотой между составом и ценой у текстовых. Теперь один тип для всех,
+   кроме первой (широкая акцентная «Бар Secrets»): фото 4:3 сверху + тело
+   снизу, состав и цена идут подряд без промежутка. */
 
 .bar {
   position: relative;
@@ -30,6 +36,7 @@
 
 .bar__track {
   display: flex;
+  align-items: flex-start;
   gap: var(--sp-5);
   padding-inline: var(--gutter);
   padding-block-end: var(--sp-3);
@@ -41,7 +48,7 @@
 /* Режим pin включает anim/bar.ts на десктопе с точным курсором и без
    prefers-reduced-motion. Секция занимает экран целиком, трек ведёт GSAP
    трансформом, а не нативной прокруткой — своя прокрутка тут не нужна
-   и мешала бы твину. */
+   и мешала бы твину. Курсор-grab подсказывает, что ленту можно тащить. */
 .bar__wrap[data-bar-mode='pinned'] {
   min-height: 100svh;
   display: flex;
@@ -53,29 +60,204 @@
   overflow: visible;
   padding-inline-start: var(--gutter);
   padding-block-end: 0;
+  cursor: grab;
+  /* Без этого браузер трактует скролл strainицы во время активного
+     курсор-drag как «пользователь скроллит», и обрывает поток
+     pointermove через pointercancel после первого же события. */
+  touch-action: none;
 }
+
+.bar__wrap[data-bar-mode='pinned'] .bar__track[data-dragging='true'] {
+  cursor: grabbing;
+}
+
+/* ---------- Единая карточка ---------- */
 
 .bar-card {
   flex: none;
   scroll-snap-align: start;
-  width: clamp(230px, 22vw, 300px);
-  aspect-ratio: 2 / 3;
+  /* Ширина карточки меньше "следующей" видимой полосы — справа всегда
+     виден край соседней карточки, подсказка, что ленту можно листать. */
+  width: clamp(240px, 20vw, 300px);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
   position: relative;
   overflow: clip;
+  background-color: var(--c-ink);
+  border: 1px solid var(--s-stroke);
   border-radius: var(--r-md);
+  transition:
+    transform var(--d-base) var(--e-out),
+    box-shadow var(--d-base) var(--e-out);
 }
 
-/* ---------- Фото-карточки ---------- */
-/* Только две: реальных снимков конкретных коктейлей у заказчика два
-   (см. src/data/cocktails.ts). Остальные — бархат, не фото-заглушка. */
+.bar-card:hover {
+  box-shadow: var(--sh-card);
+  transform: translateY(-4px);
+}
 
-.bar-card--photo img {
+.bar-card__media {
+  position: relative;
+  flex: none;
+  aspect-ratio: 4 / 3;
+  /* Гасит min-height: auto флекс-итема — тот же флекс-капкан, что уже
+     задокументирован в menu.css: без этого высота съезжает к натуральному
+     аспекту фото (карточка «Дайкири» была 447px вместо 225px). */
+  min-height: 0;
+  overflow: clip;
+}
+
+/* <picture> строчный и без своего размера — img{height:100%} резолвится
+   не от .bar-card__media (4:3), а от него, откатываясь к натуральному
+   аспекту кадра. Тот же баг и тот же фикс, что в menu.css. */
+.bar-card__media picture {
+  display: contents;
+}
+
+.bar-card__media img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.bar-card--photo::after {
+/* Лёгкое затемнение сверху фото — не ради читаемости текста (текст теперь
+   под фото, не поверх), а чтобы верх карточки визуально не спорил с
+   соседними по яркости. */
+.bar-card__media::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 40%;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--c-void) 35%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+.bar-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+}
+
+.bar-card__name {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.bar-card__notes {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  /* Не var(--t-secondary) (62% белого): тот же токен на карточке-«бархат»
+     этой секции раньше в этой сессии уже мерился 4.47:1 — ниже порога.
+     92% вместо 62% давало 6.83-8.12:1 там; здесь фон карточки ещё темнее
+     (плоский --c-ink вместо --g-moss), так что запас не меньше. */
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Цена: оранжевая (--c-orange — основной акцент по токенам, не --c-amber),
+   но меньше названия — раньше была самой крупной деталью карточки и
+   перетягивала внимание. Идёт сразу за составом, без margin-top:auto —
+   именно эта пружина растягивала пустоту между составом и ценой раньше. */
+.bar-card__price {
+  margin-block-start: var(--sp-1);
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-orange);
+}
+
+/* ---------- Плейсхолдер-кадры без реального фото напитка ---------- */
+/* Кроп под каждый кадр — свой (см. docs/photo-requests.md), но общая
+   логика одна: показать деталь заведения, а не пытаться изобразить
+   конкретный напиток. */
+
+/* Три "сцены" зала по кругу (стойка / кресла-у-ТВ / венок-зеркало), чтобы
+   у соседних карточек никогда не совпадал сюжет — см. docs/photo-requests.md
+   и комментарий в разметке про порядок A/B/C. Ротация означает, что три
+   файла встречаются по 2-3 раза каждый — у каждого повтора свой кроп. */
+
+.bar-card--daiquiri .bar-card__media img {
+  /* bar-portrait, 1-е использование */
+  object-position: 50% 62%;
+}
+
+.bar-card--negroni .bar-card__media img {
+  /* hall-tables, 1-е использование */
+  object-position: 60% 55%;
+}
+
+.bar-card--aperol .bar-card__media img {
+  /* hall-neon, 1-е использование */
+  object-position: 70% 48%;
+}
+
+.bar-card--secret .bar-card__media img {
+  /* bar-counter, 1-е использование */
+  object-position: 50% 45%;
+}
+
+.bar-card--nude .bar-card__media img {
+  /* hall-tables, 2-е использование — другой кроп, не соседняя карточка */
+  object-position: 30% 45%;
+}
+
+.bar-card--osaka .bar-card__media img {
+  /* hall-portrait, 1-е использование */
+  object-position: 65% 55%;
+}
+
+.bar-card--limoncello .bar-card__media img {
+  /* bar-portrait, 2-е использование — другой кроп, не соседняя карточка */
+  object-position: 50% 30%;
+}
+
+.bar-card--electro .bar-card__media img {
+  /* hall-tables, 3-е использование — третий кроп */
+  object-position: 85% 60%;
+}
+
+.bar-card--mosaic .bar-card__media img {
+  /* wreath-glow, 1-е использование */
+  object-position: 50% 55%;
+}
+
+/* ---------- Широкая акцентная карточка (первая, «Бар Secrets») ---------- */
+/* Единственное официально разрешённое исключение из единой системы —
+   ширина и полнокадровое фото задают тон ленты, а не карточка товара. */
+
+.bar-card--wide {
+  width: clamp(300px, 26vw, 400px);
+}
+
+/* Своя разметка, без .bar-card__media/__body: одно фото на всю карточку,
+   а не фото-сверху-тело-снизу — тот же приём picture{display:contents},
+   что у обычных карточек и в menu.css, по той же причине. */
+.bar-card--wide picture {
+  display: contents;
+}
+
+.bar-card--wide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bar-card--wide::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -101,60 +283,36 @@
   color: var(--t-primary);
 }
 
-/* ---------- Карточка-«бархат» ---------- */
-/* Дизайн-система §7 прямо называет коктейли её случаем. */
+/* ---------- Индикатор прогресса ---------- */
+/* Ведёт anim/bar.ts: --bar-progress от 0 до 1, в дефолтном режиме — от
+   нативного scroll ленты, в pinned — от прогресса ScrollTrigger. */
 
-.bar-card--drink {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: var(--sp-5);
-  background-image: var(--g-moss);
-  border: 1px solid var(--s-stroke-moss);
-  transition:
-    border-color var(--d-base) var(--e-out),
-    transform var(--d-base) var(--e-out);
+.bar__progress {
+  position: relative;
+  margin-block-start: var(--sp-5);
+  block-size: 2px;
+  background-color: var(--c-concrete);
+  border-radius: 2px;
 }
 
-.bar-card--drink:hover {
-  border-color: var(--s-stroke-warm);
-  transform: translateY(-4px);
-}
-
-.bar-card__name {
-  font-family: var(--f-display);
-  font-size: var(--fs-h4);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-}
-
-.bar-card__notes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-1);
-  margin-block-start: var(--sp-3);
-  font-size: var(--fs-small);
-  /* Не var(--t-secondary): на светлом крае --g-moss тот же токен, что
-     работает в тёмных секциях, давал по замеру 4.47:1 — чуть ниже порога
-     PRODUCT.md (вторичный текст ≥4.5:1). Замер по реальным глиф-пикселям,
-     медиана без антиалиасинг-краёв (тот же метод, что в scripts/contrast.mjs).
-     92% непрозрачности вместо 62%: 6.83–8.12:1 на обоих концах градиента. */
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.bar-card__price {
-  margin-block-start: var(--sp-4);
-  font-family: var(--f-display);
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-  color: var(--c-amber);
+.bar__progress-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  transform: scaleX(var(--bar-progress, 0));
+  transform-origin: left;
+  background-color: var(--c-orange);
+  border-radius: inherit;
 }
 
 @media (width < 600px) {
   .bar-card {
     width: clamp(180px, 62vw, 240px);
+    height: 360px;
+  }
+
+  .bar-card--wide {
+    width: clamp(220px, 78vw, 300px);
   }
 }
