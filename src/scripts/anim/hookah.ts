@@ -1,9 +1,13 @@
 /**
  * Сцена секции «Кальян»: заголовок по словам, clip-path раскрытие фото,
- * stagger-заполнение декоративных шкал, параллакс ±30px у круглого фото,
- * 3D-наклон карточек миксов за курсором. Всё, кроме CSS-заглушки
- * (scale 0.98 на тач/reduce для карточек), выключено при
- * prefers-reduced-motion — без исключений.
+ * интерактивные шкалы вкуса/крепости/дымности активного микса, параллакс
+ * ±30px у круглого фото, 3D-наклон карточек миксов за курсором.
+ *
+ * Клик по карточке (initHookahStats) — единственная часть сцены, которая
+ * работает и при prefers-reduced-motion: карточки должны быть кликабельны
+ * всегда, только без анимации заливки делений (мгновенная смена атрибута
+ * вместо gsap.to). Всё остальное (заголовок, раскрытие фото, параллакс,
+ * 3D-наклон) выключено при reduced motion без исключений, как раньше.
  */
 import { loadGsap } from '../gsap';
 import { prefersReducedMotion } from '../motion';
@@ -13,6 +17,118 @@ const CIRCLE_PARALLAX = 30; // px
 const MAX_TILT = 8; // deg
 const TILT_DURATION = 0.4;
 const SHIFT = 8; // px, встречный сдвиг фото-слоя
+
+const PARAM_KEYS = ['taste', 'strength', 'smoke'] as const;
+type ParamKey = (typeof PARAM_KEYS)[number];
+
+const PARAM_LABELS: Record<ParamKey, string> = {
+  taste: 'Вкус',
+  strength: 'Крепость',
+  smoke: 'Дымность',
+};
+
+/**
+ * Клик/Enter/Space по карточке миксa делает её активной и перерисовывает
+ * шкалы .hookah__params под текущие data-taste/-strength/-smoke.
+ * Работает независимо от GSAP: getGsap() до загрузки бандла (или при
+ * reduced motion, когда он не грузится вовсе) отдаёт null, и заливка
+ * делений меняется мгновенно атрибутом [data-filled], без анимации —
+ * то же самое требование, что и у остальных сцен при reduced motion,
+ * но эта часть обязана продолжать работать, поэтому вынесена отдельно
+ * и запускается до любых проверок prefers-reduced-motion в initHookah.
+ */
+const initHookahStats = (
+  section: HTMLElement,
+  getGsap: () => typeof import('gsap').gsap | null,
+): (() => void) => {
+  const cards = [...section.querySelectorAll<HTMLElement>('[data-blend-card]')];
+  if (!cards.length) return () => {};
+
+  const scales = new Map<ParamKey, HTMLElement>();
+  const liveTexts = new Map<ParamKey, HTMLElement>();
+  for (const key of PARAM_KEYS) {
+    const scale = section.querySelector<HTMLElement>(`[data-param-scale="${key}"]`);
+    const live = section.querySelector<HTMLElement>(`[data-param-live="${key}"]`);
+    if (scale) scales.set(key, scale);
+    if (live) liveTexts.set(key, live);
+  }
+
+  // GSAP парсит цвет по regex (hex/rgb/hsl/именованный) — сырой var(...)
+  // под этот разбор не подходит и твин молча не сработает, поэтому
+  // берём уже посчитанные браузером значения токенов один раз.
+  const rootStyle = getComputedStyle(document.documentElement);
+  const orange = rootStyle.getPropertyValue('--c-orange').trim();
+  const concrete = rootStyle.getPropertyValue('--c-concrete').trim();
+
+  const applyValue = (key: ParamKey, value: number, animate: boolean): void => {
+    const scale = scales.get(key);
+    if (scale) {
+      const dots = [...scale.querySelectorAll<HTMLElement>('span')];
+      for (const [i, dot] of dots.entries()) dot.dataset.filled = i < value ? 'true' : 'false';
+
+      const gsap = animate ? getGsap() : null;
+      if (gsap) {
+        gsap.to(dots, {
+          backgroundColor: (i: number) => (i < value ? orange : concrete),
+          duration: 0.35,
+          ease: 'power2.out',
+          stagger: 0.05,
+          overwrite: 'auto',
+        });
+      } else {
+        // Без анимации (reduced motion или GSAP ещё не загрузился) —
+        // очищаем инлайн-стиль от прошлых твинов, цвет берёт CSS
+        // из [data-filled] мгновенно, без transition.
+        for (const dot of dots) dot.style.backgroundColor = '';
+      }
+    }
+
+    const live = liveTexts.get(key);
+    if (live) live.textContent = `${PARAM_LABELS[key]}: ${value} из 5`;
+  };
+
+  let active: HTMLElement | null = null;
+
+  const setActive = (card: HTMLElement, animate: boolean): void => {
+    if (card === active) return; // повторный клик по активной — no-op
+    active = card;
+
+    for (const c of cards) {
+      const isActive = c === card;
+      c.dataset.active = String(isActive);
+      c.setAttribute('aria-pressed', String(isActive));
+    }
+
+    for (const key of PARAM_KEYS) {
+      const raw = card.dataset[key];
+      applyValue(key, raw ? Number(raw) : 0, animate);
+    }
+  };
+
+  const cleanups: Array<() => void> = [];
+  for (const card of cards) {
+    const onClick = (): void => setActive(card, true);
+    const onKeydown = (event: KeyboardEvent): void => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      setActive(card, true);
+    };
+    card.addEventListener('click', onClick);
+    card.addEventListener('keydown', onKeydown);
+    cleanups.push(() => {
+      card.removeEventListener('click', onClick);
+      card.removeEventListener('keydown', onKeydown);
+    });
+  }
+
+  // Активна первая карточка сразу, без анимации и без ScrollTrigger —
+  // до этой строчки шкалы не должны ни на кадр показывать чужие значения.
+  setActive(cards[0], false);
+
+  return () => {
+    for (const fn of cleanups) fn();
+  };
+};
 
 const initTiltCard = (
   card: HTMLElement,
@@ -85,13 +201,20 @@ export const initHookah = async (): Promise<(() => void) | void> => {
   const section = document.querySelector<HTMLElement>('[data-hookah]');
   if (!section) return;
 
-  if (prefersReducedMotion()) return;
+  // Клик по карточке обязан работать даже при reduced motion — заводим
+  // раньше проверки ниже. До того как GSAP (если вообще будет) загрузится,
+  // getGsap() отдаёт null и applyValue() внутри меняет заливку мгновенно.
+  let statsGsap: typeof import('gsap').gsap | null = null;
+  const cleanupStats = initHookahStats(section, () => statsGsap);
+
+  if (prefersReducedMotion()) return cleanupStats;
 
   const bundle = await loadGsap();
-  if (!bundle) return;
+  if (!bundle) return cleanupStats;
   const { gsap, ScrollTrigger } = bundle;
+  statsGsap = gsap;
 
-  const cleanups: Array<() => void> = [];
+  const cleanups: Array<() => void> = [cleanupStats];
   const track = (tween: gsap.core.Tween | gsap.core.Timeline): void => {
     cleanups.push(() => {
       tween.scrollTrigger?.kill();
@@ -153,21 +276,9 @@ export const initHookah = async (): Promise<(() => void) | void> => {
     );
   }
 
-  // ---------- Заполнение шкал ----------
-
-  const scales = [...section.querySelectorAll<HTMLElement>('.param__scale')];
-  if (scales.length) {
-    track(
-      gsap.to(scales, {
-        scaleX: 1,
-        duration: 0.6,
-        ease: 'expo.out',
-        stagger: 0.15,
-        immediateRender: false,
-        scrollTrigger: { trigger: '[data-hookah-params]', start: 'top 85%', once: true },
-      }),
-    );
-  }
+  // Заполнение шкал — не scroll-triggered реveal, а initHookahStats() выше:
+  // деления перерисовываются по клику карточки, а не один раз при входе
+  // в кадр.
 
   // 3D-наклон — только точный курсор. На тач/reduce карточки остаются как
   // в CSS (нажатие scale 0.98, тот же @media перехватывает и reduce —

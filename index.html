@@ -394,29 +394,34 @@
                 крепости, дымности и другим критериям.
               </p>
 
-              <!-- Декоративные шкалы, не измерения по конкретному миксу: сам
-                   текст выше уже называет вкус/крепость/дымность критериями
-                   подбора, но цифр по ним у заказчика нет и не будет для
-                   каждого микса — только это и иллюстрируют шкалы. Ничего
-                   не измеряют, поэтому у всех одна и та же заливка. -->
+              <!-- Шкалы вкуса/крепости/дымности активного микса. Значения
+                   берутся из data-taste/data-strength/data-smoke на карточке
+                   в .hookah__blends ниже (те же цифры — src/data/hookah.ts,
+                   поле stats) и обновляются кликом по карточке —
+                   anim/hookah.ts. Числа подобраны редакционно по составу
+                   чаши, не от заказчика — см. TODO у Blend.stats и
+                   docs/client-questions.md. -->
               <div class="hookah__params" data-hookah-params>
                 <div class="param">
                   <p class="param__label">Вкус</p>
-                  <div class="param__scale" aria-hidden="true">
+                  <div class="param__scale" data-param-scale="taste" aria-hidden="true">
                     <span></span><span></span><span></span><span></span><span></span>
                   </div>
+                  <p class="u-visually-hidden" data-param-live="taste" aria-live="polite"></p>
                 </div>
                 <div class="param">
                   <p class="param__label">Крепость</p>
-                  <div class="param__scale" aria-hidden="true">
+                  <div class="param__scale" data-param-scale="strength" aria-hidden="true">
                     <span></span><span></span><span></span><span></span><span></span>
                   </div>
+                  <p class="u-visually-hidden" data-param-live="strength" aria-live="polite"></p>
                 </div>
                 <div class="param">
                   <p class="param__label">Дымность</p>
-                  <div class="param__scale" aria-hidden="true">
+                  <div class="param__scale" data-param-scale="smoke" aria-hidden="true">
                     <span></span><span></span><span></span><span></span><span></span>
                   </div>
+                  <p class="u-visually-hidden" data-param-live="smoke" aria-live="polite"></p>
                 </div>
               </div>
 
@@ -467,9 +472,25 @@
 
             <!-- Авторские миксы. Названия, состав и цены — из кальянного меню
                  заказчика (assets/menu-scans/scan-15,17,18,19.jpg), фото —
-                 кроп самого кальяна оттуда же, текст и плашка с ценой срезаны. -->
+                 кроп самого кальяна оттуда же, текст и плашка с ценой срезаны.
+
+                 Карточка кликабельна (role="button", клавиатура — Enter/
+                 Space): выбирает активный микс и обновляет шкалы вкуса/
+                 крепости/дымности выше — anim/hookah.ts. data-taste/
+                 data-strength/data-smoke здесь обязаны совпадать с
+                 src/data/hookah.ts (Blend.stats), это статическая разметка
+                 без рендера из TS, см. комментарий в начале того файла. -->
             <ul class="hookah__blends" data-reveal="cards">
-              <li class="blend">
+              <li
+                class="blend"
+                role="button"
+                tabindex="0"
+                aria-pressed="true"
+                data-blend-card
+                data-taste="4"
+                data-strength="3"
+                data-smoke="3"
+              >
                 <div class="blend__media">
                   <picture>
                     <source
@@ -501,7 +522,16 @@
                 </div>
               </li>
 
-              <li class="blend">
+              <li
+                class="blend"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                data-blend-card
+                data-taste="5"
+                data-strength="2"
+                data-smoke="2"
+              >
                 <div class="blend__media">
                   <picture>
                     <source
@@ -534,7 +564,16 @@
                 </div>
               </li>
 
-              <li class="blend">
+              <li
+                class="blend"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                data-blend-card
+                data-taste="4"
+                data-strength="3"
+                data-smoke="4"
+              >
                 <div class="blend__media">
                   <picture>
                     <source
@@ -566,7 +605,16 @@
                 </div>
               </li>
 
-              <li class="blend">
+              <li
+                class="blend"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                data-blend-card
+                data-taste="3"
+                data-strength="5"
+                data-smoke="5"
+              >
                 <div class="blend__media">
                   <picture>
                     <source

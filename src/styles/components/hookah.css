@@ -37,12 +37,12 @@
   max-width: 52ch;
 }
 
-/* ---------- Параметры (декоративные шкалы) ---------- */
-/* Не измерения по конкретному миксу — заказчик не давал цифр ни по
-   одному из них, а придумывать нечестно. Три критерия названы уже в
-   тексте выше («по вкусу, крепости, дымности») — шкалы здесь только
-   иллюстрируют сам факт, что кальян под гостя подбирают по этим осям,
-   поэтому у всех трёх одна и та же заливка, не разная «на глаз». */
+/* ---------- Параметры (интерактивные шкалы активного микса) ---------- */
+/* Клик по карточке в .hookah__blends ниже делает её активной и меняет
+   заливку делений здесь — anim/hookah.ts, initHookahStats(). Цифры
+   редакционные (data-taste/-strength/-smoke на карточке = Blend.stats
+   в src/data/hookah.ts), не от заказчика — см. TODO там и
+   docs/client-questions.md. */
 .hookah__params {
   display: flex;
   margin-block-start: var(--sp-2);
@@ -72,18 +72,23 @@
   display: flex;
   gap: var(--sp-1);
   margin-block-start: var(--sp-3);
-  /* Заполнение — stagger 0.15s МЕЖДУ тремя шкалами (не между делениями
-     внутри одной), anim/hookah.ts; scaleX(1) в покое под
-     prefers-reduced-motion — та ветка вообще не грузит анимацию. */
-  transform: scaleX(0);
-  transform-origin: left;
 }
 
+/* Заливка по делению, не по всей шкале: ширина каждого span константна
+   (flex: 1 1 0), меняется только background-color — деления не мигают
+   и не "прыгают" при смене активной карточки. Пустое/заполненное решает
+   [data-filled] (anim/hookah.ts, gsap.to на не-reduced-motion, иначе
+   мгновенно атрибутом — эта пара цветов работает без единой строчки JS,
+   на случай если GSAP не загрузился). */
 .param__scale span {
   flex: 1 1 0;
   block-size: 3px;
-  background-color: var(--c-orange);
+  background-color: var(--c-concrete);
   border-radius: 2px;
+}
+
+.param__scale span[data-filled='true'] {
+  background-color: var(--c-orange);
 }
 
 .hookah__cta {
@@ -144,12 +149,12 @@
   position: absolute;
   z-index: 3;
   inset-block-end: var(--sp-5);
-  /* ~30% собственного диаметра заходит на основное фото: при 140px
-     ширины это 42px перекрытия — правый край кружка должен стоять на
-     +42px от левого края фото, то есть левый край кружка на -98px
-     (140 - 42). Считать в % от .hookah__side некорректно: у кружка
-     фиксированный px-размер. */
-  inset-inline-start: -98px;
+  /* Было inset-inline-start: -98px (кружок на 98 из 140px уезжал ЗА
+     левый край .hookah__side) — у родителя overflow: clip, и уехавшая
+     часть кружка резалась ровно по границе, видна была обрезанная дуга
+     вместо целого круга. По прямому замечанию клиента кружок больше не
+     выходит за левый край фото — стоит вплотную к нему изнутри. */
+  inset-inline-start: 0;
   inline-size: 140px;
   aspect-ratio: 1 / 1;
   overflow: clip;
@@ -185,12 +190,24 @@
   border-radius: var(--r-md);
   border: 1px solid var(--s-stroke-moss);
   transform-style: preserve-3d;
+  /* role="button" на <li>, не <button>: сохраняет разметку/3D-наклон
+     без сброса UA-стилей кнопки. Курсор — единственная нужная подсказка,
+     :focus-visible уже глобальный (base.css). */
+  cursor: pointer;
 }
 
 /* Наведённая карточка — выше соседей, чтобы наклон в их сторону не
    уводил её под край соседней (ставит anim/hookah.ts). */
 .blend[data-tilt-active='true'] {
   z-index: 2;
+}
+
+/* Активная карточка (клик/Enter/Space) — тонкая оранжевая обводка без
+   тени; border-width меняется только у активной, не у всех сразу, поэтому
+   базовые 1px соседей не трогает. */
+.blend[data-active='true'] {
+  border-color: var(--c-orange);
+  border-width: 1.5px;
 }
 
 .blend__media {
@@ -268,6 +285,11 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--t-primary);
+  transition: transform var(--d-fast) var(--e-out);
+}
+
+.blend[data-active='true'] .blend__name {
+  transform: translateY(-2px);
 }
 
 .blend__notes {
@@ -338,15 +360,6 @@
 }
 
 /* ---------- Адаптив ---------- */
-
-/* initHookah() выходит целиком при prefers-reduced-motion — заполнение
-   шкал (scaleX(0) в покое, см. .param__scale) там некому запустить.
-   Без этого правила деления остались бы навсегда схлопнутыми. */
-@media (prefers-reduced-motion: reduce) {
-  .param__scale {
-    transform: scaleX(1);
-  }
-}
 
 /* Тач и prefers-reduced-motion: вместо 3D-наклона (не включается вовсе,
    см. anim/hookah.ts) — лёгкое нажатие. Чистый CSS, без JS. */
