@@ -13,30 +13,37 @@
   overflow: clip;
 }
 
-/* Тёплое свечение за коллажем + едва заметная зелёная тень снизу-слева.
-   Оранжевое (g-section к тёплому краю) и зелёное (g-moss) разведены по
-   диагонали и не пересекаются — дизайн-система §3 запрещает их касание. */
+/* Тёплое свечение за коллажем (верх-право) + едва заметная зелёная тень
+   снизу-слева, у противоположного угла секции — оранжевое и зелёное не
+   пересекаются (дизайн-система §3 запрещает их касание). Два отдельных
+   элемента, а не псевдоэлемент друг в друге: так проще держать их
+   размеры и позиционирование независимыми и доказуемо не касающимися.
+
+   --g-section — не тёплый (это тональный ink→ink-2→ink без цвета,
+   см. tokens.css); настоящий тёплый радиальный blur — --g-hero, тот же
+   токен, что уже даёт оранжевое свечение в мобильной nav-panel. */
 .about__glow {
   position: absolute;
   z-index: var(--z-glow);
   pointer-events: none;
-  inset-block-start: -10%;
-  inset-inline-end: -15%;
-  inline-size: 62%;
-  block-size: 70%;
-  background-image: var(--g-section);
-  opacity: 0.6;
+  inset-block-start: -12%;
+  inset-inline-end: -18%;
+  inline-size: 52%;
+  block-size: 60%;
+  background-image: var(--g-hero);
+  opacity: 0.55;
 }
 
-.about__glow::after {
-  content: '';
-  position: absolute;
-  inset-block-end: -20%;
-  inset-inline-start: -25%;
-  inline-size: 55%;
-  block-size: 55%;
+.about__glow--moss {
+  inset-block-start: auto;
+  inset-block-end: -14%;
+  inset-inline-end: auto;
+  inset-inline-start: -16%;
+  inline-size: 40%;
+  block-size: 46%;
   background-image: var(--g-moss);
-  opacity: 0.32;
+  /* ТЗ: 8–10% непрозрачности — «едва заметная» тень, не полноценное пятно. */
+  opacity: 0.09;
 }
 
 /* Контурный штрих на фоне — только след, не читаемая надпись.
@@ -50,7 +57,11 @@
   inset-inline-end: -6%;
   margin: 0;
   font-family: var(--f-display);
-  font-size: clamp(160px, 22vw, 380px);
+  /* Ограничено так, чтобы штрих оставался за коллажем и уходил за ПРАВЫЙ
+     край экрана, а не растягивался на всю секцию: при 380px слово шире
+     самого вьюпорта на 1920 и вылезало заодно и за левый край, наезжая
+     на текстовую колонку. */
+  font-size: clamp(120px, 16vw, 300px);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -233,6 +244,13 @@
 
   .about__photo--main img {
     aspect-ratio: 4 / 3;
+  }
+
+  /* -12% посчитаны под десктопный коллаж (узкая колонка в гриде) — тут
+     коллаж занимает почти всю ширину контейнера, тот же процент утаскивал
+     фото за левый край вьюпорта вплотную, без обычных полей секции. */
+  .about__photo--second {
+    inset-inline-start: -2%;
   }
 
   /* Коллаж → основное фото + одно маленькое внахлёст, третье снято
