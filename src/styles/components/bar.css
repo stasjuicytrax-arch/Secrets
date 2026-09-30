@@ -18,6 +18,10 @@
 .bar {
   position: relative;
   background-color: var(--c-ink-2);
+  /* После ленты нужно 64-96px — global --section-y (96-120) на этой
+     секции даёт слишком много воздуха после уже самодостаточной ленты
+     с индикатором прогресса. */
+  padding-block-end: var(--sp-9);
 }
 
 .bar__head {
@@ -180,59 +184,16 @@
   color: var(--c-orange);
 }
 
-/* ---------- Плейсхолдер-кадры без реального фото напитка ---------- */
-/* Кроп под каждый кадр — свой (см. docs/photo-requests.md), но общая
-   логика одна: показать деталь заведения, а не пытаться изобразить
-   конкретный напиток. */
-
-/* Три "сцены" зала по кругу (стойка / кресла-у-ТВ / венок-зеркало), чтобы
-   у соседних карточек никогда не совпадал сюжет — см. docs/photo-requests.md
-   и комментарий в разметке про порядок A/B/C. Ротация означает, что три
-   файла встречаются по 2-3 раза каждый — у каждого повтора свой кроп. */
-
-.bar-card--daiquiri .bar-card__media img {
-  /* bar-portrait, 1-е использование */
-  object-position: 50% 62%;
-}
-
-.bar-card--negroni .bar-card__media img {
-  /* hall-tables, 1-е использование */
-  object-position: 60% 55%;
-}
-
-.bar-card--aperol .bar-card__media img {
-  /* hall-neon, 1-е использование */
-  object-position: 70% 48%;
-}
-
-.bar-card--secret .bar-card__media img {
-  /* bar-counter, 1-е использование */
+/* ---------- Плейсхолдер-кадр без реального фото напитка ---------- */
+/* 01.10.2026, переделано: раньше на месте заглушки были разные атмосферные
+   кадры интерьера (стойка, кресла) — по прямому указанию клиента убрано
+   в пользу ОДНОГО нейтрального фото бокала, повторённого на всех
+   карточках без реального фото (public/img/bar/cocktails/_placeholder.webp,
+   разметка — index.html, откуда фото и подмена файла — docs/photo-requests.md).
+   Один и тот же кроп у всех — object-position общий, отдельных правил
+   на карточку больше нет. */
+.bar-card__media img {
   object-position: 50% 45%;
-}
-
-.bar-card--nude .bar-card__media img {
-  /* hall-tables, 2-е использование — другой кроп, не соседняя карточка */
-  object-position: 30% 45%;
-}
-
-.bar-card--osaka .bar-card__media img {
-  /* hall-portrait, 1-е использование */
-  object-position: 65% 55%;
-}
-
-.bar-card--limoncello .bar-card__media img {
-  /* bar-portrait, 2-е использование — другой кроп, не соседняя карточка */
-  object-position: 50% 30%;
-}
-
-.bar-card--electro .bar-card__media img {
-  /* hall-tables, 3-е использование — третий кроп */
-  object-position: 85% 60%;
-}
-
-.bar-card--mosaic .bar-card__media img {
-  /* wreath-glow, 1-е использование */
-  object-position: 50% 55%;
 }
 
 /* ---------- Широкая акцентная карточка (первая, «Бар Secrets») ---------- */

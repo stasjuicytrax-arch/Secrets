@@ -164,14 +164,6 @@
     "width": 1333,
     "height": 2000
   },
-  "bar/citrus-highball": {
-    "widths": [
-      420
-    ],
-    "ratio": 0.6667,
-    "width": 700,
-    "height": 1050
-  },
   "bar/pour-hero": {
     "widths": [
       420,
@@ -181,6 +173,16 @@
     "ratio": 0.6667,
     "width": 1680,
     "height": 2520
+  },
+  "bar/cocktails/_placeholder": {
+    "widths": [
+      420,
+      720,
+      1080
+    ],
+    "ratio": 1.3333,
+    "width": 1680,
+    "height": 1260
   },
   "hookah/guests-smoke": {
     "widths": [
@@ -201,6 +203,14 @@
     "ratio": 0.6665,
     "width": 1333,
     "height": 2000
+  },
+  "hookah/citrus-base": {
+    "widths": [
+      420
+    ],
+    "ratio": 0.6667,
+    "width": 700,
+    "height": 1050
   },
   "hookah/blend-greece": {
     "widths": [

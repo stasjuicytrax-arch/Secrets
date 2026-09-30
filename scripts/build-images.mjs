@@ -52,12 +52,27 @@ const SOURCES = [
   { src: 'assets/venue/12-__2.jpg', out: 'food/salad', preset: 'card' },
 
   // Бар
-  { src: 'assets/venue/20-DSC05123.jpg', out: 'bar/citrus-highball', preset: 'card' },
   { src: 'assets/venue/18-DSC08807.jpg', out: 'bar/pour-hero', preset: 'card' },
+  // Нейтральный кроп той же карточки для карточек коктейлей без реального
+  // фото напитка (единая заглушка + _placeholder.webp, см. index.html и
+  // docs/photo-requests.md) — тот же кадр, 4:3 вместо портрета.
+  {
+    src: 'assets/venue/18-DSC08807.jpg',
+    out: 'bar/cocktails/_placeholder',
+    preset: 'card',
+    crop: { left: 0, top: 409, width: 1680, height: 1260 },
+  },
 
   // Кальян и гости
   { src: 'assets/venue/15-DSC02430_1.jpg', out: 'hookah/guests-smoke', preset: 'card' },
   { src: 'assets/venue/16-DSC02369.jpg', out: 'hookah/guest-table', preset: 'card' },
+  // Исправлено 01.10.2026: раньше числился как «bar/citrus-highball» и
+  // выдавался за фото коктейля — на самом деле это кальян (керамическая
+  // чаша на стеклянной колбе с цитрусами и льдом внутри, не бокал с
+  // напитком). Карточка «Цитрусовый хайбол» в секции «Бар» была нечестной
+  // и убрана; сам кадр переименован в правильную категорию, файл пока
+  // нигде не используется — оставлен на будущее, не выдумывать применение.
+  { src: 'assets/venue/20-DSC05123.jpg', out: 'hookah/citrus-base', preset: 'card' },
 
   // Карточки миксов в секции «Кальян». Кроп вырезан из карточек-скетчей
   // кальянной карты заказчика (assets/menu-scans/scan-15,17-19.jpg) —

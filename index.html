@@ -853,19 +853,30 @@
               <p class="bar-card__caption">Бар Secrets</p>
             </li>
 
+            <!-- Единая заглушка вместо атмосферных кадров интерьера: нейтральное
+                 фото бокала (public/img/bar/cocktails/_placeholder.webp), один
+                 и тот же кадр под каждым slug'ом. Компонент = обычный <img> без
+                 фреймворка, поэтому «взять заглушку при отсутствии файла»
+                 сделано через onerror: src целится в файл коктейля, если
+                 заказчик его пришлёт и файл появится под тем же именем —
+                 подставится он; если нет — onerror подменяет src на
+                 _placeholder.webp. Сейчас оба пути физически ведут на один
+                 и тот же кадр (см. docs/photo-requests.md). -->
+
             <!-- TODO: replace with client photo (Дайкири) -->
-            <li class="bar-card bar-card--daiquiri">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/bar-portrait-720.avif 720w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/daiquiri-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/bar-portrait-720.webp"
+                    src="/img/bar/cocktails/daiquiri-420.webp"
                     sizes="300px"
-                    width="720"
-                    height="1080"
-                    alt="Барная стойка Secrets с тёплой подсветкой (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Дайкири»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -881,18 +892,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Негрони) -->
-            <li class="bar-card bar-card--negroni">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/negroni-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/hall-tables-640.webp"
+                    src="/img/bar/cocktails/negroni-420.webp"
                     sizes="300px"
-                    width="640"
-                    height="960"
-                    alt="Зал Secrets с оранжевыми креслами (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Негрони»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -908,18 +920,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Апероль Спритц) -->
-            <li class="bar-card bar-card--aperol">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/hall-neon-640.avif 640w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/aperol-spritz-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/hall-neon-640.webp"
+                    src="/img/bar/cocktails/aperol-spritz-420.webp"
                     sizes="300px"
-                    width="640"
-                    height="853"
-                    alt="Неоновая вывеска Secrets над барной зоной (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Апероль Спритц»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -934,39 +947,20 @@
               </div>
             </li>
 
+            <!-- TODO: replace with client photo (Секрет) -->
             <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/bar/citrus-highball-420.avif 420w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/secret-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/bar/citrus-highball-420.webp"
+                    src="/img/bar/cocktails/secret-420.webp"
                     sizes="300px"
-                    width="700"
-                    height="1050"
-                    alt="Цитрусовый коктейль в высоком бокале"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Секрет»)"
                     loading="lazy"
                     decoding="async"
-                  />
-                </picture>
-              </figure>
-              <div class="bar-card__body">
-                <h3 class="bar-card__name">Цитрусовый хайбол</h3>
-              </div>
-            </li>
-
-            <!-- TODO: replace with client photo (Секрет) -->
-            <li class="bar-card bar-card--secret">
-              <figure class="bar-card__media">
-                <picture>
-                  <source type="image/avif" srcset="/img/venue/bar-counter-768.avif 768w" sizes="300px" />
-                  <img
-                    src="/img/venue/bar-counter-768.webp"
-                    sizes="300px"
-                    width="768"
-                    height="512"
-                    alt="Стойка бара Secrets, широкий план (временный кадр, не фото напитка)"
-                    loading="lazy"
-                    decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -982,18 +976,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Обнажённый) -->
-            <li class="bar-card bar-card--nude">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/obnazhennyy-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/hall-tables-640.webp"
+                    src="/img/bar/cocktails/obnazhennyy-420.webp"
                     sizes="300px"
-                    width="640"
-                    height="960"
-                    alt="Зал Secrets, вид от кресел (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Обнажённый»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -1009,18 +1004,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Осака) -->
-            <li class="bar-card bar-card--osaka">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/hall-portrait-720.avif 720w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/osaka-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/hall-portrait-720.webp"
+                    src="/img/bar/cocktails/osaka-420.webp"
                     sizes="300px"
-                    width="720"
-                    height="1080"
-                    alt="Зал Secrets с бархатным освещённым декором (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Осака»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -1036,18 +1032,23 @@
             </li>
 
             <!-- TODO: replace with client photo (Лимончелло Спритц) -->
-            <li class="bar-card bar-card--limoncello">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/bar-portrait-720.avif 720w" sizes="300px" />
-                  <img
-                    src="/img/venue/bar-portrait-720.webp"
+                  <source
+                    type="image/avif"
+                    srcset="/img/bar/cocktails/limoncello-spritz-420.avif 420w"
                     sizes="300px"
-                    width="720"
-                    height="1080"
-                    alt="Барная стойка Secrets, дальний план (временный кадр, не фото напитка)"
+                  />
+                  <img
+                    src="/img/bar/cocktails/limoncello-spritz-420.webp"
+                    sizes="300px"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Лимончелло Спритц»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -1063,18 +1064,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Электро) -->
-            <li class="bar-card bar-card--electro">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/hall-tables-640.avif 640w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/electro-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/hall-tables-640.webp"
+                    src="/img/bar/cocktails/electro-420.webp"
                     sizes="300px"
-                    width="640"
-                    height="960"
-                    alt="Зал Secrets, дальний план с растениями (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Электро»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
@@ -1090,18 +1092,19 @@
             </li>
 
             <!-- TODO: replace with client photo (Мозаика) -->
-            <li class="bar-card bar-card--mosaic">
+            <li class="bar-card">
               <figure class="bar-card__media">
                 <picture>
-                  <source type="image/avif" srcset="/img/venue/wreath-glow-640.avif 640w" sizes="300px" />
+                  <source type="image/avif" srcset="/img/bar/cocktails/mosaic-420.avif 420w" sizes="300px" />
                   <img
-                    src="/img/venue/wreath-glow-640.webp"
+                    src="/img/bar/cocktails/mosaic-420.webp"
                     sizes="300px"
-                    width="640"
-                    height="853"
-                    alt="Круглый декор с тёплой подсветкой в зале Secrets (временный кадр, не фото напитка)"
+                    width="1680"
+                    height="1260"
+                    alt="Коктейль (временный нейтральный кадр, не «Мозаика»)"
                     loading="lazy"
                     decoding="async"
+                    onerror="this.onerror=null;this.src='/img/bar/cocktails/_placeholder-420.webp'"
                   />
                 </picture>
               </figure>
