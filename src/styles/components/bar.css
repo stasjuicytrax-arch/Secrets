@@ -1,13 +1,15 @@
-/* 04 · Бар. ТЗ §2 блок 05, §4: pinned-секция — вертикальный скролл
-   прокручивает карточки коктейлей горизонтально. Самая тяжёлая сцена
-   ТЗ §9 (этап 6).
+/* 04 · Бар. ТЗ §2 блок 05, §4.
 
-   По умолчанию карточки лежат в обычной горизонтальной прокрутке
-   (без JS работает уже так — прогрессивное улучшение). anim/bar.ts
-   включает pin и курсор-drag только когда есть точный курсор и разрешено
-   движение; ТЗ §7 отдельно требует, чтобы на тач pinned-секции заменялись
-   вертикальным листанием — здесь это не запасной путь на случай сбоя,
-   а СОЗНАТЕЛЬНО дефолтное поведение для тач.
+   01.10.2026, третий заход: GSAP-pin (весь anim/bar.ts, ScrollTrigger
+   pin+scrub+drag) удалён целиком. Три раза подряд одна и та же категория
+   бага — pin-обёртка (сначала min-height:100svh, потом margin-сбросы под
+   pinned-режим) давала гигантские пустоты, которые невозможно было
+   стабильно посчитать: pin-spacer, margin и высота трека взаимно
+   зависели друг от друга, и любой фикс одного числа ломал другое. Клиент
+   прямо разрешил откат на обычный скролл, если pin нельзя оставить без
+   пустот — это тот случай. Теперь лента — только overflow-x:auto со
+   scroll-snap, без JS вообще: то же самое поведение, что раньше было
+   дефолтом на тач/reduced-motion, теперь дефолт для всех.
 
    Единая система карточек, 30.09.2026: раньше были два типа (фото-карточка
    с подписью и текстовая карточка-«бархат» без фото), разной высоты, с
@@ -18,14 +20,21 @@
 .bar {
   position: relative;
   background-color: var(--c-ink-2);
-  /* После ленты нужно 64-96px — global --section-y (96-120) на этой
-     секции даёт слишком много воздуха после уже самодостаточной ленты
-     с индикатором прогресса. */
-  padding-block-end: var(--sp-9);
+  /* После ленты нужно ровно 96px (64 на мобильном по общему правилу),
+     а .bar__track ниже несёт свои +12px padding-block-end (запас под
+     нативный скроллбар при overflow-x:auto) — они складываются с этим
+     отступом, поэтому здесь на 12 меньше, чтобы сумма была ровно 96. */
+  padding-block-end: calc(var(--sp-9) - var(--sp-3));
 }
 
 .bar__head {
   max-width: 62ch;
+  /* .l-section__head (второй класс на этом элементе) несёт свой
+     margin-block-end: var(--heading-gap) — на 1920 это 64px, и оно
+     схлопывается (margin collapse через .l-container без padding-block)
+     с .bar__wrap margin-block-start ниже, выигрывая как max(64,56)=64.
+     Обнулено здесь, чтобы зазор целиком держал только .bar__wrap. */
+  margin-block-end: 0;
 }
 
 .bar__lead {
@@ -34,7 +43,9 @@
 
 .bar__wrap {
   position: relative;
-  margin-block-start: var(--sp-8);
+  /* Ровно 56px до верха первой карточки — не бьётся с шагом 4 в шкале
+     отступов (4·8·12·16·24·32·48·64…), явное число по прямому замеру. */
+  margin-block-start: 56px;
   overflow: clip;
 }
 
@@ -42,37 +53,31 @@
   display: flex;
   align-items: flex-start;
   gap: var(--sp-5);
-  padding-inline: var(--gutter);
+  /* Первая карточка должна встать вровень с заголовком секции, хотя
+     .bar__wrap лежит ВНЕ .l-container (иначе лента не могла бы уезжать
+     за правый край экрана — см. разметку, .bar__head в контейнере,
+     .bar__wrap нет). Простой var(--gutter) слева этого не давал: сам
+     .l-container на широких экранах ещё и ЦЕНТРИРУЕТСЯ (margin-inline:
+     auto) сверх max-width, и левый край его контента —
+     max(gutter, (100vw − container) / 2), а не просто gutter (на 1920
+     это 240px, а не 76.8) — .bar__track был без второго слагаемого,
+     карточка стояла на 163px левее заголовка. Формула ниже — то же
+     самое вычисление, что .l-container делает через max-width+margin:auto,
+     но явное, потому что запараллелить сам .l-container сюда нельзя
+     (тогда лента не сможет вылезать за правый край). */
+  padding-inline-start: max(var(--gutter), calc((100vw - var(--container)) / 2));
+  padding-inline-end: var(--gutter);
   padding-block-end: var(--sp-3);
   overflow-x: auto;
   scroll-snap-type: x proximity;
+  /* Без scroll-padding браузер сам сдвигал scrollLeft на старте до ~gutter
+     (проверено: уже на domcontentloaded, ни одной строчки JS ещё не
+     выполнилось) — scroll-snap-align:start у первой карточки считает
+     границей скролл-порта scroll-padding (по умолчанию 0), а не обычный
+     padding, и «доезжает» до эстетики норм. snap-точки. Явно совпадает
+     с визуальным полем — первая карточка остаётся на месте. */
+  scroll-padding-inline-start: max(var(--gutter), calc((100vw - var(--container)) / 2));
   scrollbar-width: thin;
-}
-
-/* Режим pin включает anim/bar.ts на десктопе с точным курсором и без
-   prefers-reduced-motion. Секция занимает экран целиком, трек ведёт GSAP
-   трансформом, а не нативной прокруткой — своя прокрутка тут не нужна
-   и мешала бы твину. Курсор-grab подсказывает, что ленту можно тащить. */
-.bar__wrap[data-bar-mode='pinned'] {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  margin-block-start: 0;
-}
-
-.bar__wrap[data-bar-mode='pinned'] .bar__track {
-  overflow: visible;
-  padding-inline-start: var(--gutter);
-  padding-block-end: 0;
-  cursor: grab;
-  /* Без этого браузер трактует скролл strainицы во время активного
-     курсор-drag как «пользователь скроллит», и обрывает поток
-     pointermove через pointercancel после первого же события. */
-  touch-action: none;
-}
-
-.bar__wrap[data-bar-mode='pinned'] .bar__track[data-dragging='true'] {
-  cursor: grabbing;
 }
 
 /* ---------- Единая карточка ---------- */
@@ -242,29 +247,6 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--t-primary);
-}
-
-/* ---------- Индикатор прогресса ---------- */
-/* Ведёт anim/bar.ts: --bar-progress от 0 до 1, в дефолтном режиме — от
-   нативного scroll ленты, в pinned — от прогресса ScrollTrigger. */
-
-.bar__progress {
-  position: relative;
-  margin-block-start: var(--sp-5);
-  block-size: 2px;
-  background-color: var(--c-concrete);
-  border-radius: 2px;
-}
-
-.bar__progress-fill {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  inline-size: 100%;
-  transform: scaleX(var(--bar-progress, 0));
-  transform-origin: left;
-  background-color: var(--c-orange);
-  border-radius: inherit;
 }
 
 @media (width < 600px) {

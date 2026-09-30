@@ -10,7 +10,6 @@ import { initHeader } from './header';
 import { initHero } from './anim/hero';
 import { initReveal } from './anim/reveal';
 import { initMenu } from './anim/menu';
-import { initBar } from './anim/bar';
 import { initAbout } from './anim/about';
 import { initHookah } from './anim/hookah';
 import { initBook } from './book';
@@ -50,7 +49,6 @@ const bootstrap = (): void => {
     void initAbout();
     void initHookah();
     void initMenu();
-    void initBar();
     initBook();
   });
 };
