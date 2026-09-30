@@ -28,10 +28,8 @@ export const runPreloader = (onDone: () => void): void => {
   }
 
   const num = node.querySelector<HTMLElement>('[data-preloader-num]');
-  const glow = node.querySelector<HTMLElement>('[data-preloader-glow]');
   const logo = node.querySelector<HTMLElement>('[data-preloader-logo]');
 
-  if (glow) glow.style.transition = `opacity 400ms var(--e-out)`;
   if (logo) {
     logo.style.transition = `opacity 600ms var(--e-out), transform 900ms var(--e-out), filter 900ms var(--e-out)`;
     logo.style.transform = 'scale(1.06)';
@@ -39,7 +37,6 @@ export const runPreloader = (onDone: () => void): void => {
   }
 
   requestAnimationFrame(() => {
-    if (glow) glow.style.opacity = '1';
     if (logo) {
       logo.style.opacity = '1';
       logo.style.transform = 'scale(1)';

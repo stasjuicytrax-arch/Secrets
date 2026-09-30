@@ -25,15 +25,6 @@
   display: none;
 }
 
-.pre__glow {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-glow);
-  pointer-events: none;
-  background-image: var(--g-hero);
-  opacity: 0;
-}
-
 .pre__logo {
   position: relative;
   z-index: var(--z-base);

@@ -4,7 +4,6 @@
   position: relative;
   padding-block: var(--sp-10) var(--sp-7);
   background-color: var(--c-void);
-  border-block-start: 1px solid var(--s-stroke);
 }
 
 .ftr__top {

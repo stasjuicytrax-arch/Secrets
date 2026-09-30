@@ -60,13 +60,16 @@
     border-color var(--d-slow) var(--e-out);
 }
 
-/* Капсула. Обводка без тени — дизайн-система §5. */
+/* Капсула. Обводка без тени — дизайн-система §5.
+   Сводный список правок: ~90% непрозрачности (было 78%) — единое
+   значение для обоих состояний (см. 'expanded' ниже), backdrop-filter
+   blur(12px) по спеке (было 18px, держим saturate для того же тона). */
 .hdr[data-state='pill'] .hdr__shell {
   max-width: 960px;
   height: calc(var(--header-h) - 12px);
-  background-color: color-mix(in oklab, var(--c-ink) 78%, transparent);
+  background-color: color-mix(in oklab, var(--c-ink) 90%, transparent);
   border-color: var(--s-stroke);
-  backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
 }
 
 /* Разворот на скролле вверх (ТЗ §4) — тот же тёмный блюр-фон, что у капсулы,
@@ -76,9 +79,9 @@
    Прозрачным хедер остаётся только у самой вершины страницы, над героем —
    это уже другое состояние, 'top', а не 'expanded'. */
 .hdr[data-state='expanded'] .hdr__shell {
-  background-color: color-mix(in oklab, var(--c-ink) 92%, transparent);
+  background-color: color-mix(in oklab, var(--c-ink) 90%, transparent);
   border-color: var(--s-stroke);
-  backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
 }
 
 /* ---------- Лого ---------- */
@@ -224,15 +227,6 @@
   opacity: 1;
 }
 
-.nav-panel__glow {
-  position: absolute;
-  inset-block-start: -30%;
-  inset-inline: -20%;
-  z-index: var(--z-glow);
-  height: 80%;
-  pointer-events: none;
-  background-image: var(--g-hero);
-}
 
 .nav-panel__list {
   position: relative;

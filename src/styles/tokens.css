@@ -44,12 +44,13 @@
   --s-stroke-moss:  rgba(110, 154, 108, .28);
 
   /* ---------- Свечение (тёплый вольфрам) ---------- */
-  --glow-core:     rgba(255, 150, 60, .55);
-  --glow-soft:     rgba(255, 138, 40, .18);
-  --glow-edge:     rgba(255, 138, 40, .05);
+  /* Сводный список правок: --g-hero (radial-gradient blur-пятно фона) и
+     --glow-core/--glow-edge удалены как неиспользуемые — были только его
+     компонентами. --glow-soft остаётся: его использует --sh-glow (мягкая
+     тень кнопки на hover, не фоновое пятно). */
+  --glow-soft: rgba(255, 138, 40, .18);
 
   /* ---------- Градиенты ---------- */
-  --g-hero:    radial-gradient(60% 50% at 50% 38%, var(--glow-core) 0%, var(--glow-soft) 38%, transparent 72%);
   --g-section: linear-gradient(180deg, var(--c-ink) 0%, var(--c-ink-2) 55%, var(--c-ink) 100%);
   --g-cta:     linear-gradient(135deg, var(--c-amber) 0%, var(--c-orange) 45%, var(--c-rust) 100%);
   --g-card:    linear-gradient(160deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,.02) 100%);
@@ -76,7 +77,9 @@
   --sp-5: 24px;  --sp-6: 32px;   --sp-7: 48px;   --sp-8: 64px;
   --sp-9: 96px;  --sp-10: 128px; --sp-11: 160px; --sp-12: 200px; --sp-13: 260px;
 
-  --section-y: clamp(64px, 10vw, 200px);
+  /* Сводный список правок: 64px мобильный пол, 96-120px десктопный потолок
+     (было clamp(64,10vw,200) — на широких экранах доходило до 200px). */
+  --section-y: clamp(64px, 9vw, 120px);
   --gutter:    clamp(20px, 4vw, 80px);
   --container: 1440px;
 

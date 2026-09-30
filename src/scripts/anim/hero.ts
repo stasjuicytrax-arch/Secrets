@@ -1,15 +1,14 @@
 /**
  * Сцена первого экрана. ТЗ §3 и §4:
  * — заголовок выезжает построчно через SplitText, маска снизу, стагер 0.08s;
- * — свечение дышит 8s и смещается за курсором с задержкой;
  * — паралакс: заголовок уезжает вверх со скоростью 0.4, фото — 0.7;
  * — скролл-индикатор исчезает после первого скролла.
+ *
+ * Сводный список правок: декоративное свечение за контентом убрано
+ * целиком (глобальное правило — никаких blur-пятен на фоне сайта).
  */
 import { loadGsap } from '../gsap';
 import { prefersReducedMotion } from '../motion';
-
-/** Смещение свечения за курсором, в процентах от полуширины экрана. */
-const GLOW_SHIFT = 5;
 
 export const initHero = async (): Promise<(() => void) | void> => {
   const hero = document.querySelector<HTMLElement>('[data-hero]');
@@ -18,7 +17,6 @@ export const initHero = async (): Promise<(() => void) | void> => {
   const inner = hero.querySelector<HTMLElement>('.hero__inner');
   const title = hero.querySelector<HTMLElement>('[data-hero-title]');
   const media = hero.querySelector<HTMLElement>('.hero__media');
-  const glow = hero.querySelector<HTMLElement>('[data-hero-glow]');
   const scroll = hero.querySelector<HTMLElement>('[data-hero-scroll]');
 
   if (prefersReducedMotion()) {
@@ -67,37 +65,6 @@ export const initHero = async (): Promise<(() => void) | void> => {
   );
 
   cleanups.push(() => intro.kill());
-
-  // ---------- Дыхание свечения ----------
-
-  if (glow) {
-    const breathe = gsap.to(glow, {
-      scale: 1.12,
-      opacity: 0.58,
-      duration: 8,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
-    cleanups.push(() => breathe.kill());
-
-    // Смещение за курсором с задержкой. Только для мыши:
-    // на тач-устройствах курсора нет, а слушатель всё равно бы стоил кадров.
-    if (window.matchMedia('(pointer: fine)').matches) {
-      const toX = gsap.quickTo(glow, '--glow-x', { duration: 1.2, ease: 'power3.out' });
-      const toY = gsap.quickTo(glow, '--glow-y', { duration: 1.2, ease: 'power3.out' });
-
-      const onMove = (event: PointerEvent): void => {
-        const x = (event.clientX / window.innerWidth - 0.5) * 2;
-        const y = (event.clientY / window.innerHeight - 0.5) * 2;
-        toX(x * GLOW_SHIFT);
-        toY(y * GLOW_SHIFT);
-      };
-
-      window.addEventListener('pointermove', onMove, { passive: true });
-      cleanups.push(() => window.removeEventListener('pointermove', onMove));
-    }
-  }
 
   // ---------- Паралакс ----------
 

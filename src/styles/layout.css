@@ -4,7 +4,8 @@
 :root {
   --cols: 12;
   --gutter-col: 24px;
-  --heading-gap: clamp(28px, 3.4vw, 64px);
+  /* Сводный список правок: заголовок→контент 48-64px (было от 28px). */
+  --heading-gap: clamp(48px, 3.4vw, 64px);
 
   /* Плёнка зерна: feTurbulence в data-URI, без сетевого запроса и без PNG. */
   --grain-src: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="180" height="180" filter="url(%23n)"/></svg>');
@@ -78,14 +79,6 @@ main:not(:has(> .hero)) {
 .l-section__body {
   position: relative;
   z-index: var(--z-base);
-}
-
-/* Свечение всегда за контентом, никогда поверх текста (дизайн-система §3). */
-.l-glow {
-  position: absolute;
-  z-index: var(--z-glow);
-  pointer-events: none;
-  background-image: var(--g-hero);
 }
 
 /* ---------- Зерно ---------- */

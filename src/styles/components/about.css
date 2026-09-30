@@ -13,39 +13,6 @@
   overflow: clip;
 }
 
-/* Тёплое свечение за коллажем (верх-право) + едва заметная зелёная тень
-   снизу-слева, у противоположного угла секции — оранжевое и зелёное не
-   пересекаются (дизайн-система §3 запрещает их касание). Два отдельных
-   элемента, а не псевдоэлемент друг в друге: так проще держать их
-   размеры и позиционирование независимыми и доказуемо не касающимися.
-
-   --g-section — не тёплый (это тональный ink→ink-2→ink без цвета,
-   см. tokens.css); настоящий тёплый радиальный blur — --g-hero, тот же
-   токен, что уже даёт оранжевое свечение в мобильной nav-panel. */
-.about__glow {
-  position: absolute;
-  z-index: var(--z-glow);
-  pointer-events: none;
-  inset-block-start: -12%;
-  inset-inline-end: -18%;
-  inline-size: 52%;
-  block-size: 60%;
-  background-image: var(--g-hero);
-  opacity: 0.55;
-}
-
-.about__glow--moss {
-  inset-block-start: auto;
-  inset-block-end: -14%;
-  inset-inline-end: auto;
-  inset-inline-start: -16%;
-  inline-size: 40%;
-  block-size: 46%;
-  background-image: var(--g-moss);
-  /* ТЗ: 8–10% непрозрачности — «едва заметная» тень, не полноценное пятно. */
-  opacity: 0.09;
-}
-
 /* Контурный штрих на фоне — только след, не читаемая надпись.
    -webkit-text-stroke не в токенах: разовое исключение, у свойства
    нет своей design-system переменной, а множить токен ради одного

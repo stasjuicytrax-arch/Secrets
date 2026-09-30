@@ -84,11 +84,16 @@ h4,
   letter-spacing: -0.03em;
 }
 
+/* Сводный список правок: было --fs-lead (крупнее, под интро героя) —
+   абзацы-описания под заголовками секций мельче и уже. --t-secondary —
+   ближайший существующий токен к запрошенному --c-text-dim, которого
+   нет в tokens.css; секции на светлом фоне (.menu__lead) переопределяют
+   цвет через color-mix отдельным, более специфичным правилом. */
 .t-lead {
-  font-size: var(--fs-lead);
+  font-size: clamp(16px, 1.1vw, 18px);
   font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: -0.005em;
+  line-height: 1.6;
+  max-width: 52ch;
   color: var(--t-secondary);
 }
 
