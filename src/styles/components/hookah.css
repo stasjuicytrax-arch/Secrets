@@ -37,22 +37,127 @@
   max-width: 52ch;
 }
 
-/* ---------- Фото в пустой правой колонке ---------- */
-/* Рядом с заголовком (та же строка грида, колонки 7-12) — без этого
-   правая половина первого экрана секции была пустой. Растягивается по
-   высоте до уровня .hookah__head за счёт align-self:stretch (у самого
-   грида align-items:start, иначе бы фото легло по своей естественной
-   высоте, а не по высоте соседа). */
+/* ---------- Параметры (декоративные шкалы) ---------- */
+/* Не измерения по конкретному миксу — заказчик не давал цифр ни по
+   одному из них, а придумывать нечестно. Три критерия названы уже в
+   тексте выше («по вкусу, крепости, дымности») — шкалы здесь только
+   иллюстрируют сам факт, что кальян под гостя подбирают по этим осям,
+   поэтому у всех трёх одна и та же заливка, не разная «на глаз». */
+.hookah__params {
+  display: flex;
+  margin-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--c-concrete);
+}
+
+.param {
+  flex: 1 1 0;
+  padding-block: var(--sp-4);
+  padding-inline-end: var(--sp-4);
+}
+
+.param:not(:first-child) {
+  padding-inline-start: var(--sp-4);
+  border-inline-start: 1px solid var(--c-concrete);
+}
+
+.param__label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  color: var(--t-secondary);
+  text-transform: uppercase;
+}
+
+.param__scale {
+  display: flex;
+  gap: var(--sp-1);
+  margin-block-start: var(--sp-3);
+  /* Заполнение — stagger 0.15s МЕЖДУ тремя шкалами (не между делениями
+     внутри одной), anim/hookah.ts; scaleX(1) в покое под
+     prefers-reduced-motion — та ветка вообще не грузит анимацию. */
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.param__scale span {
+  flex: 1 1 0;
+  block-size: 3px;
+  background-color: var(--c-orange);
+  border-radius: 2px;
+}
+
+.hookah__cta {
+  align-self: start;
+  margin-block-start: var(--sp-2);
+}
+
+/* ---------- Фото в правой колонке ---------- */
+/* Сокращено по замечанию: раньше растягивалось на всю высоту левой
+   колонки (align-self:stretch) — теперь стоит на своей естественной
+   высоте сверху (align-self:start), не выше соседа, с потолком 560px. */
 .hookah__side {
   grid-column: 7 / -1;
-  align-self: stretch;
+  align-self: start;
   position: relative;
-  min-height: 320px;
+  aspect-ratio: 4 / 5;
+  max-height: 560px;
   overflow: clip;
   border-radius: var(--r-md);
 }
 
 .hookah__side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Неоновая вывеска «Темы меньше не обсуждать» — в верхней правой части
+     кадра; 50% по умолчанию обрезал и верх, и правый край надписи. */
+  object-position: 70% 0%;
+}
+
+/* Вертикальная моно-метка вдоль левого края — чистая типографика, без
+   свечения и без фона под текстом. writing-mode вместо rotate+translate:
+   с ручным transform-origin блок улетал за пределы фото (проверено —
+   translate(-100%) считает проценты от собственного НЕПОВЕРНУТОГО бокса,
+   а не от повёрнутого, и смещал текст выше верхнего края фото). */
+.hookah__side-label {
+  position: absolute;
+  z-index: 2;
+  /* Физические left/top, не inset-inline/block-start: у элемента свой
+     writing-mode:vertical-rl, и логические оси считаются уже ОТ НЕГО —
+     inset-inline-start уехал к правому краю фото вместо левого. */
+  top: var(--sp-6);
+  left: var(--sp-4);
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-concrete-hi);
+  pointer-events: none;
+}
+
+/* Маленький круглый кроп внахлёст — обводка цвета фона секции вместо
+   тени, тот же приём, что в about.css. */
+.hookah__side-second {
+  position: absolute;
+  z-index: 3;
+  inset-block-end: var(--sp-5);
+  /* ~30% собственного диаметра заходит на основное фото: при 140px
+     ширины это 42px перекрытия — правый край кружка должен стоять на
+     +42px от левого края фото, то есть левый край кружка на -98px
+     (140 - 42). Считать в % от .hookah__side некорректно: у кружка
+     фиксированный px-размер. */
+  inset-inline-start: -98px;
+  inline-size: 140px;
+  aspect-ratio: 1 / 1;
+  overflow: clip;
+  border-radius: 50%;
+  border: 3px solid var(--c-ink);
+}
+
+.hookah__side-second img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -234,6 +339,15 @@
 
 /* ---------- Адаптив ---------- */
 
+/* initHookah() выходит целиком при prefers-reduced-motion — заполнение
+   шкал (scaleX(0) в покое, см. .param__scale) там некому запустить.
+   Без этого правила деления остались бы навсегда схлопнутыми. */
+@media (prefers-reduced-motion: reduce) {
+  .param__scale {
+    transform: scaleX(1);
+  }
+}
+
 /* Тач и prefers-reduced-motion: вместо 3D-наклона (не включается вовсе,
    см. anim/hookah.ts) — лёгкое нажатие. Чистый CSS, без JS. */
 @media (hover: none), (prefers-reduced-motion: reduce) {
@@ -255,6 +369,31 @@
     grid-column: 1 / -1;
     min-height: 0;
     aspect-ratio: 21 / 9;
+  }
+}
+
+@media (width < 640px) {
+  /* Три равные колонки параметров слишком узкие на телефоне — в столбик,
+     тот же приём, что у .about__facts на этой же ширине. */
+  .hookah__params {
+    flex-direction: column;
+    border-block-start: none;
+  }
+
+  .param {
+    padding-inline: 0;
+    padding-block: var(--sp-3);
+    border-block-start: 1px solid var(--c-concrete);
+  }
+
+  .param:not(:first-child) {
+    padding-inline-start: 0;
+    border-inline-start: none;
+  }
+
+  .param:first-child {
+    padding-block-start: 0;
+    border-block-start: none;
   }
 }
 

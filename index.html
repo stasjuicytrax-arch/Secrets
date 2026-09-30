@@ -382,7 +382,7 @@
             <header class="hookah__head">
               <p class="t-label" data-reveal="text">02 / Кальян</p>
 
-              <h2 class="hookah__title" data-reveal="title">
+              <h2 class="hookah__title" data-hookah-title>
                 Табак только<br class="u-br" />
                 <span class="t-accent">премиальных</span> марок
               </h2>
@@ -393,31 +393,76 @@
                 сделают для вас идеальный кальян, в зависимости от ваших предпочтений по вкусу,
                 крепости, дымности и другим критериям.
               </p>
+
+              <!-- Декоративные шкалы, не измерения по конкретному миксу: сам
+                   текст выше уже называет вкус/крепость/дымность критериями
+                   подбора, но цифр по ним у заказчика нет и не будет для
+                   каждого микса — только это и иллюстрируют шкалы. Ничего
+                   не измеряют, поэтому у всех одна и та же заливка. -->
+              <div class="hookah__params" data-hookah-params>
+                <div class="param">
+                  <p class="param__label">Вкус</p>
+                  <div class="param__scale" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="param">
+                  <p class="param__label">Крепость</p>
+                  <div class="param__scale" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="param">
+                  <p class="param__label">Дымность</p>
+                  <div class="param__scale" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <a class="btn btn--primary hookah__cta" href="#book">Забронировать</a>
             </header>
 
-            <!-- Пустая правая колонка рядом с заголовком: живое фото зала с
-                 кальяном вместо чипсов «вкус/крепость/дымность» — их убрали
-                 раньше в этой сессии (нет реальных данных по каждому миксу,
-                 нечем было бы наполнить не выдумывая). Параллакс ±30px —
-                 anim/hookah.ts. -->
+            <!-- Правая колонка: фото зала (лицо, кальян, неоновая вывеска
+                 «Темы меньше не обсуждать» целиком в кадре) + маленький
+                 круглый кроп кальяна с фруктовой чашей внахлёст. Вертикальная
+                 моно-метка вдоль левого края — чистая типографика, без
+                 свечения. Клип-реveal фото и параллакс кружка — anim/hookah.ts. -->
             <figure class="hookah__side" data-hookah-side>
+              <p class="hookah__side-label" aria-hidden="true">HOOKAH / КАЛЬЯН</p>
+
               <picture>
                 <source
                   type="image/avif"
                   srcset="/img/hookah/guests-smoke-420.avif 420w, /img/hookah/guests-smoke-720.avif 720w, /img/hookah/guests-smoke-1080.avif 1080w"
-                  sizes="(width < 1200px) 100vw, 42vw"
+                  sizes="(width < 1200px) 100vw, 38vw"
                 />
                 <img
                   src="/img/hookah/guests-smoke-720.webp"
                   srcset="/img/hookah/guests-smoke-420.webp 420w, /img/hookah/guests-smoke-720.webp 720w, /img/hookah/guests-smoke-1080.webp 1080w"
-                  sizes="(width < 1200px) 100vw, 42vw"
+                  sizes="(width < 1200px) 100vw, 38vw"
                   width="720"
                   height="1080"
-                  alt="Гостья с кальяном в зале Secrets"
+                  alt="Гостья с кальяном под неоновой вывеской «Темы меньше не обсуждать» в зале Secrets"
                   loading="lazy"
                   decoding="async"
                 />
               </picture>
+
+              <figure class="hookah__side-second" data-hookah-circle>
+                <picture>
+                  <source type="image/avif" srcset="/img/hookah/blend-forest-420.avif 420w" sizes="140px" />
+                  <img
+                    src="/img/hookah/blend-forest-420.webp"
+                    sizes="140px"
+                    width="420"
+                    height="438"
+                    alt="Кальян «Хранитель леса» с чашей из ананаса"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
             </figure>
 
             <!-- Авторские миксы. Названия, состав и цены — из кальянного меню

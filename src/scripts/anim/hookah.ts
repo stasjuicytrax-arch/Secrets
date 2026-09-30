@@ -1,11 +1,14 @@
 /**
- * Сцена секции «Кальян»: 3D-наклон карточек миксов за курсором и медленный
- * параллакс фото в правой колонке. ТЗ §4/§7: только точный курсор (мышь)
- * и без prefers-reduced-motion — на тач и при reduce карточки просто не
- * наклоняются (нажатие scale 0.98 — чистый CSS, см. hookah.css).
+ * Сцена секции «Кальян»: заголовок по словам, clip-path раскрытие фото,
+ * stagger-заполнение декоративных шкал, параллакс ±30px у круглого фото,
+ * 3D-наклон карточек миксов за курсором. Всё, кроме CSS-заглушки
+ * (scale 0.98 на тач/reduce для карточек), выключено при
+ * prefers-reduced-motion — без исключений.
  */
 import { loadGsap } from '../gsap';
 import { prefersReducedMotion } from '../motion';
+
+const CIRCLE_PARALLAX = 30; // px
 
 const MAX_TILT = 8; // deg
 const TILT_DURATION = 0.4;
@@ -82,46 +85,100 @@ export const initHookah = async (): Promise<(() => void) | void> => {
   const section = document.querySelector<HTMLElement>('[data-hookah]');
   if (!section) return;
 
+  if (prefersReducedMotion()) return;
+
+  const bundle = await loadGsap();
+  if (!bundle) return;
+  const { gsap, ScrollTrigger } = bundle;
+
   const cleanups: Array<() => void> = [];
+  const track = (tween: gsap.core.Tween | gsap.core.Timeline): void => {
+    cleanups.push(() => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    });
+  };
 
-  // Параллакс фото в правой колонке — сам по себе не требует точного
-  // курсора, только разрешённого движения (скролл, не наведение).
-  const side = section.querySelector<HTMLElement>('[data-hookah-side] img');
+  // ---------- Заголовок по словам ----------
 
-  if (!prefersReducedMotion() && side) {
-    const bundle = await loadGsap();
-    if (bundle) {
-      const { gsap } = bundle;
-      const tween = gsap.fromTo(
-        side,
-        { yPercent: -6 },
+  const title = section.querySelector<HTMLElement>('[data-hookah-title]');
+  if (title) {
+    await document.fonts.ready;
+    const { SplitText } = await import('gsap/SplitText');
+    gsap.registerPlugin(SplitText);
+
+    const split = new SplitText(title, { type: 'words', mask: 'words' });
+    cleanups.push(() => split.revert());
+
+    track(
+      gsap.from(split.words, {
+        yPercent: 110,
+        duration: 0.9,
+        ease: 'expo.out',
+        stagger: 0.06,
+        immediateRender: false,
+        scrollTrigger: { trigger: title, start: 'top 80%', once: true },
+      }),
+    );
+  }
+
+  // ---------- Раскрытие фото ----------
+
+  const side = section.querySelector<HTMLElement>('[data-hookah-side]');
+  const sideImg = side?.querySelector('img');
+  if (side && sideImg) {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: side, start: 'top 85%', once: true } });
+    tl.from(side, { clipPath: 'inset(100% 0 0 0)', duration: 0.9, ease: 'expo.out', immediateRender: false }).from(
+      sideImg,
+      { scale: 1.15, duration: 1.4, ease: 'expo.out', immediateRender: false },
+      0,
+    );
+    track(tl);
+  }
+
+  // ---------- Параллакс круглого фото ----------
+
+  const circle = section.querySelector<HTMLElement>('[data-hookah-circle]');
+  if (circle) {
+    track(
+      gsap.fromTo(
+        circle,
+        { y: -CIRCLE_PARALLAX },
         {
-          yPercent: 6,
+          y: CIRCLE_PARALLAX,
           ease: 'none',
           scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: true },
         },
-      );
-      cleanups.push(() => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-      });
-    }
+      ),
+    );
   }
 
-  // 3D-наклон — только точный курсор, без reduce. На тач/reduce карточки
-  // остаются как в CSS (нажатие scale 0.98, если попадёт в тот же @media).
-  if (prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) {
-    return cleanups.length ? () => cleanups.forEach((fn) => fn()) : undefined;
+  // ---------- Заполнение шкал ----------
+
+  const scales = [...section.querySelectorAll<HTMLElement>('.param__scale')];
+  if (scales.length) {
+    track(
+      gsap.to(scales, {
+        scaleX: 1,
+        duration: 0.6,
+        ease: 'expo.out',
+        stagger: 0.15,
+        immediateRender: false,
+        scrollTrigger: { trigger: '[data-hookah-params]', start: 'top 85%', once: true },
+      }),
+    );
   }
 
-  const bundle = await loadGsap();
-  if (!bundle) return cleanups.length ? () => cleanups.forEach((fn) => fn()) : undefined;
-  const { gsap } = bundle;
+  // 3D-наклон — только точный курсор. На тач/reduce карточки остаются как
+  // в CSS (нажатие scale 0.98, тот же @media перехватывает и reduce —
+  // досюда в этой ветке уже не дойти, но проверка pointer:fine своя).
+  if (window.matchMedia('(pointer: fine)').matches) {
+    gsap.set(section.querySelectorAll('.blend'), { transformPerspective: 900 });
+    const cards = [...section.querySelectorAll<HTMLElement>('.blend')];
+    for (const card of cards) cleanups.push(initTiltCard(card, gsap));
+  }
 
-  gsap.set(section.querySelectorAll('.blend'), { transformPerspective: 900 });
-
-  const cards = [...section.querySelectorAll<HTMLElement>('.blend')];
-  for (const card of cards) cleanups.push(initTiltCard(card, gsap));
+  ScrollTrigger.refresh();
 
   return () => {
     for (const fn of cleanups) fn();
