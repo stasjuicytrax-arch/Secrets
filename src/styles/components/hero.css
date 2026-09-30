@@ -22,6 +22,15 @@
   z-index: -2;
 }
 
+/* <picture> — строчный элемент без своего размера: img{height:100%}
+   резолвится не от .hero__media, а от него (auto), и на мобильном браузер
+   откатывался к аспекту из width/height-атрибутов img (1680×1119) —
+   кадр занимал верхние ~160px вместо всей высоты героя. Тот же баг и
+   тот же фикс, что уже был в menu.css и bar.css. */
+.hero__media picture {
+  display: contents;
+}
+
 .hero__media img {
   width: 100%;
   height: 100%;
@@ -72,23 +81,25 @@
 }
 
 @media (width < 900px) {
+  /* Кадр на мобильном занимает ВСЮ высоту героя (после фикса picture-бага
+     выше), а не верхнюю четверть — вертикальный object-position теперь
+     реально на что-то влияет и подобран заново под интерьер: кресла,
+     зелёный бархат, светящееся кольцо-качели в кадре. */
+  .hero__media img {
+    object-position: 62% 38%;
+  }
+
   /* На узком экране заголовок занимает всю ширину, горизонтальный
-     градиент его не закрывает — работает вертикальный. */
+     градиент его не закрывает — работает вертикальный. Верх кадра
+     остаётся ярким (0% затемнения) — тёмный слой только на нижних ~45%,
+     к сплошному --c-ink у самого низа, где сидит текст и кнопки. */
   .hero__scrim {
-    background-image:
-      linear-gradient(
-        to top,
-        var(--c-void) 0%,
-        var(--c-void) 26%,
-        color-mix(in oklab, var(--c-void) 86%, transparent) 52%,
-        color-mix(in oklab, var(--c-void) 48%, transparent) 78%,
-        color-mix(in oklab, var(--c-void) 32%, transparent) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        color-mix(in oklab, var(--c-void) 42%, transparent) 0%,
-        transparent var(--header-offset)
-      );
+    background-image: linear-gradient(
+      to top,
+      var(--c-ink) 0%,
+      color-mix(in oklab, var(--c-ink) 70%, transparent) 25%,
+      transparent 45%
+    );
   }
 }
 
@@ -142,7 +153,10 @@
   /* На 375px заголовок занимает 4 строки, и место под фотографию
      отыгрывается ритмом блока, а не дальнейшим уменьшением кегля. */
   .hero {
-    padding-block: calc(var(--header-offset) + var(--sp-3)) var(--sp-6);
+    /* env() — безопасная зона снизу на iPhone (домашний индикатор):
+       без неё нижняя кнопка на 375+ садится вплотную к краю экрана. */
+    padding-block: calc(var(--header-offset) + var(--sp-3))
+      calc(var(--sp-6) + env(safe-area-inset-bottom));
   }
 
   .hero__inner {

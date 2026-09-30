@@ -181,22 +181,25 @@
   .hdr__shell {
     grid-template-columns: auto 1fr auto;
   }
-}
 
-@media (width < 480px) {
-  /* На 375px всё ещё помещается, но впритык: сжимаем поля кнопки,
-     а не прячем её. Бронь — цель сайта, убирать её с мобильного нельзя. */
-  .hdr__shell {
-    gap: var(--sp-3);
-    padding-inline: var(--sp-3);
-  }
-
+  /* Кнопка компактнее и вплотную к бургеру — группа «[Забронировать][☰]»
+     у правого края, а не крупная кнопка, тянущая на себя весь центр. */
   .hdr__actions {
     gap: var(--sp-2);
   }
 
   .hdr__actions .btn {
     padding-inline: var(--sp-4);
+    font-size: var(--fs-label);
+  }
+}
+
+@media (width < 480px) {
+  /* На 375px всё ещё помещается, но впритык. Бронь — цель сайта,
+     убирать её с мобильного нельзя. */
+  .hdr__shell {
+    gap: var(--sp-3);
+    padding-inline: var(--sp-3);
   }
 }
 
