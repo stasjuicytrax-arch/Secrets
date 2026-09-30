@@ -1,7 +1,69 @@
 /* 01 · О нас. Тёмная воздушная секция: крупный двухцветный текст,
-   три цифры-факта, фото. ТЗ §2 блок 03, дизайн-система §6. */
+   коллаж из трёх фото, три факта без карточек. ТЗ §2 блок 03,
+   дизайн-система §6.
+
+   Пересобрано 30.09.2026: было скудно — одно фото, факты в карточках
+   с заливкой (визуально спорят с карточками кальяна/бара ниже по
+   странице), плоский чёрный фон. Теперь: тёплое фоновое свечение,
+   коллаж с ритмом вместо одного портрета, факты как список с тонкими
+   разделителями (не карточки), контурный «SECRETS» едва заметным
+   фоновым штрихом. */
+
+.about {
+  overflow: clip;
+}
+
+/* Тёплое свечение за коллажем + едва заметная зелёная тень снизу-слева.
+   Оранжевое (g-section к тёплому краю) и зелёное (g-moss) разведены по
+   диагонали и не пересекаются — дизайн-система §3 запрещает их касание. */
+.about__glow {
+  position: absolute;
+  z-index: var(--z-glow);
+  pointer-events: none;
+  inset-block-start: -10%;
+  inset-inline-end: -15%;
+  inline-size: 62%;
+  block-size: 70%;
+  background-image: var(--g-section);
+  opacity: 0.6;
+}
+
+.about__glow::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -20%;
+  inset-inline-start: -25%;
+  inline-size: 55%;
+  block-size: 55%;
+  background-image: var(--g-moss);
+  opacity: 0.32;
+}
+
+/* Контурный штрих на фоне — только след, не читаемая надпись.
+   -webkit-text-stroke не в токенах: разовое исключение, у свойства
+   нет своей design-system переменной, а множить токен ради одного
+   места незачем. */
+.about__mark {
+  position: absolute;
+  z-index: var(--z-glow);
+  inset-block-start: 8%;
+  inset-inline-end: -6%;
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: clamp(160px, 22vw, 380px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--c-concrete);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
 
 .about__grid {
+  position: relative;
+  z-index: var(--z-base);
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: var(--sp-8) var(--gutter-col);
@@ -15,8 +77,10 @@
   gap: var(--sp-6);
 }
 
+/* ~15% меньше прежнего clamp(30,4.4vw,68) — крупный заголовок давил
+   на секцию сильнее, чем текст того стоит. */
 .about__title {
-  font-size: clamp(30px, 4.4vw, 68px);
+  font-size: clamp(26px, 3.7vw, 58px);
 }
 
 .about__text {
@@ -26,49 +90,86 @@
   max-width: 54ch;
 }
 
-/* Фото приподнято относительно текста: колонки не должны начинаться
-   на одной линии, иначе секция читается как таблица. */
-.about__media {
+/* ---------- Коллаж ---------- */
+/* Три фото без рамок и теней друг на друге: основное задаёт высоту
+   блока, второе и третье — абсолютно спозиционированные оверлеи с
+   разной высотой и смещением, чтобы был ритм, а не сетка 1:1. */
+.about__collage {
   grid-column: 9 / -1;
   position: relative;
-  margin-block-start: calc(var(--sp-8) * -1);
+  margin-block-start: calc(var(--sp-6) * -1);
+}
+
+.about__photo {
   overflow: clip;
   border-radius: var(--r-md);
 }
 
-.about__media img {
+.about__photo img {
+  display: block;
   width: 100%;
-  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
 
-/* ---------- Цифры-факты ---------- */
+.about__photo--main {
+  position: relative;
+  z-index: 1;
+  inline-size: 78%;
+}
+
+.about__photo--main img {
+  aspect-ratio: 3 / 4;
+}
+
+.about__photo--second {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: -9%;
+  inset-inline-start: -12%;
+  inline-size: 44%;
+}
+
+.about__photo--second img {
+  aspect-ratio: 4 / 5;
+}
+
+.about__photo--third {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: -7%;
+  inset-inline-end: -9%;
+  inline-size: 32%;
+  border-radius: 50%;
+}
+
+.about__photo--third img {
+  aspect-ratio: 1 / 1;
+}
+
+/* ---------- Факты ---------- */
+/* Список с тонкими разделителями вместо карточек — дизайн-система §7
+   резервирует заливку/бордюр за «карточкой-бархат», у фактов другая роль. */
 
 .about__facts {
   grid-column: 1 / -1;
-  display: grid;
-  /* Намеренно неравные доли: три одинаковые карточки в ряд —
-     прямой пункт запретов дизайн-системы §8. */
-  grid-template-columns: 5fr 4fr 3fr;
-  gap: var(--sp-5);
+  display: flex;
+  flex-wrap: wrap;
+  margin-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--c-concrete);
 }
 
 .fact {
+  flex: 1 1 240px;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-  padding: var(--sp-6);
-  background-image: var(--g-card);
-  border: 1px solid var(--s-stroke);
-  border-radius: var(--r-md);
-  transition:
-    background-color var(--d-base) var(--e-out),
-    transform var(--d-base) var(--e-out);
+  gap: var(--sp-3);
+  padding-block: var(--sp-6);
+  padding-inline-end: var(--sp-6);
+  border-inline-end: 1px solid var(--c-concrete);
 }
 
-.fact:hover {
-  background-color: var(--s-glass-hi);
-  transform: translateY(-4px);
+.fact:last-child {
+  border-inline-end: none;
 }
 
 .fact__num {
@@ -89,8 +190,10 @@
 
 .fact__caption {
   max-width: 30ch;
-  font-size: var(--fs-small);
+  font-family: var(--f-mono);
+  font-size: var(--fs-label);
   line-height: 1.5;
+  letter-spacing: 0.02em;
   color: var(--t-secondary);
 }
 
@@ -101,7 +204,7 @@
     grid-column: 1 / span 5;
   }
 
-  .about__media {
+  .about__collage {
     grid-column: 6 / -1;
   }
 }
@@ -112,20 +215,55 @@
   }
 
   .about__head,
-  .about__media,
+  .about__collage,
   .about__facts {
     grid-column: 1 / -1;
   }
 
-  .about__media {
+  .about__collage {
     margin-block-start: 0;
+    /* Место под смещённое вниз-влево второе фото, иначе оно вылезает
+       за пределы секции по нижнему краю на мобильном потоке. */
+    padding-block-end: var(--sp-8);
   }
 
-  .about__media img {
+  .about__photo--main {
+    inline-size: 84%;
+  }
+
+  .about__photo--main img {
     aspect-ratio: 4 / 3;
   }
 
+  /* Коллаж → основное фото + одно маленькое внахлёст, третье снято
+     совсем (в квадрат 78% ширины третьему уже нет места без наложения
+     на текст). */
+  .about__photo--third {
+    display: none;
+  }
+
+  .about__mark {
+    inset-block-start: 4%;
+    font-size: clamp(90px, 34vw, 160px);
+  }
+
   .about__facts {
-    grid-template-columns: minmax(0, 1fr);
+    flex-direction: column;
+    border-block-start: none;
+  }
+
+  .fact {
+    padding-block: var(--sp-5);
+    padding-inline-end: 0;
+    border-inline-end: none;
+    border-block-end: 1px solid var(--c-concrete);
+  }
+
+  .fact:first-child {
+    padding-block-start: 0;
+  }
+
+  .fact:last-child {
+    border-block-end: none;
   }
 }

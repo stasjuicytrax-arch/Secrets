@@ -252,7 +252,10 @@
       <!-- Порядок секций по дизайн-системе §6 (О нас → Кальян → Меню → Бар →
            Интерьер → Акции), а не по таблице ТЗ §2: §6 задаёт чередование
            плотности, и ТЗ §0 отдаёт приоритет дизайн-системе. -->
-      <section class="l-section about" id="about">
+      <section class="l-section about" id="about" data-about>
+        <div class="about__glow" aria-hidden="true"></div>
+        <p class="about__mark" aria-hidden="true">SECRETS</p>
+
         <div class="l-container">
           <div class="about__grid">
             <header class="about__head">
@@ -261,7 +264,7 @@
               <!-- Текст заказчика перенесён дословно. Единственное изменение:
                    вторая фраза разнесена между заголовком и абзацем, поэтому
                    «от ароматных кальянов» начинается с прописной. Слова те же. -->
-              <h2 class="about__title" data-reveal="title">
+              <h2 class="about__title" data-about-title>
                 Здесь каждый<br class="u-br" />
                 найдёт что-то<br class="u-br" />
                 <span class="t-accent">по душе</span>
@@ -279,31 +282,77 @@
               </div>
             </header>
 
-            <figure class="about__media" data-reveal="image">
-              <picture>
-                <source
-                  type="image/avif"
-                  sizes="(width < 900px) 100vw, 33vw"
-                  srcset="
-                    /img/venue/velvet-sofas-640.avif   640w,
-                    /img/venue/velvet-sofas-1024.avif 1024w
-                  "
-                />
-                <img
-                  src="/img/venue/velvet-sofas-1024.webp"
-                  srcset="
-                    /img/venue/velvet-sofas-640.webp   640w,
-                    /img/venue/velvet-sofas-1024.webp 1024w
-                  "
-                  sizes="(width < 900px) 100vw, 33vw"
-                  width="1333"
-                  height="2000"
-                  alt="Диваны из зелёного бархата и столик с терраццо-столешницей в зале Secrets"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
-            </figure>
+            <!-- Коллаж из трёх фото зала вместо одного портрета. Порядок в
+                 разметке = порядок ревила (главное → второе → третье),
+                 позиционирование целиком в CSS (about.css). -->
+            <div class="about__collage" data-about-collage>
+              <figure class="about__photo about__photo--main" data-about-photo="main">
+                <picture>
+                  <source
+                    type="image/avif"
+                    sizes="(width < 900px) 78vw, 26vw"
+                    srcset="
+                      /img/venue/velvet-sofas-640.avif   640w,
+                      /img/venue/velvet-sofas-1024.avif 1024w
+                    "
+                  />
+                  <img
+                    src="/img/venue/velvet-sofas-1024.webp"
+                    srcset="
+                      /img/venue/velvet-sofas-640.webp   640w,
+                      /img/venue/velvet-sofas-1024.webp 1024w
+                    "
+                    sizes="(width < 900px) 78vw, 26vw"
+                    width="1333"
+                    height="2000"
+                    alt="Диваны из зелёного бархата и столик с терраццо-столешницей в зале Secrets"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+
+              <figure class="about__photo about__photo--second" data-about-photo="second">
+                <picture>
+                  <source
+                    type="image/avif"
+                    sizes="(width < 900px) 46vw, 15vw"
+                    srcset="
+                      /img/venue/terrazzo-nook-640.avif  640w,
+                      /img/venue/terrazzo-nook-1024.avif 1024w
+                    "
+                  />
+                  <img
+                    src="/img/venue/terrazzo-nook-1024.webp"
+                    srcset="
+                      /img/venue/terrazzo-nook-640.webp  640w,
+                      /img/venue/terrazzo-nook-1024.webp 1024w
+                    "
+                    sizes="(width < 900px) 46vw, 15vw"
+                    width="1024"
+                    height="1536"
+                    alt="Зелёная стена из живых растений с неоновой вывеской над плетёными креслами и бархатным диваном"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+
+              <figure class="about__photo about__photo--third" data-about-photo="third">
+                <picture>
+                  <source type="image/avif" sizes="11vw" srcset="/img/venue/graffiti-wall-640.avif 640w" />
+                  <img
+                    src="/img/venue/graffiti-wall-640.webp"
+                    sizes="11vw"
+                    width="640"
+                    height="960"
+                    alt="Бар с граффити-стеной, пальмами и оранжевыми креслами в зале Secrets"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </figure>
+            </div>
 
             <div class="about__facts" data-reveal="cards">
               <div class="fact">
