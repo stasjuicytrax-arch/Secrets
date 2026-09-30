@@ -70,6 +70,17 @@ export const initReveal = async (root: ParentNode = document): Promise<(() => vo
     }
 
     if (kind === 'cards') {
+      // immediateRender:false обязателен на .from(): по умолчанию GSAP
+      // применяет from-значения (scale .96, y 40) СИНХРОННО в момент
+      // создания твина, до срабатывания триггера. Если между этим моментом
+      // и реальным стартом анимации где-то в другом скрипте (другая сцена,
+      // другой ScrollTrigger) прилетает ScrollTrigger.refresh(), GSAP кеширует
+      // уже применённое «съехавшее» состояние как целевое — твин потом играет
+      // из съехавшего положения в него же и застревает там навсегда, хотя
+      // opacity успевает дойти до 1 (было видно на карточках 3–6 «Меню»:
+      // opacity:1, но transform — matrix() с недокатившимся scale/translateY).
+      // clearProps в onComplete убирает инлайн-transform, чтобы он не мешал
+      // ховеру карточки (translateY(-4px) в CSS).
       track(
         gsap.from(node.children, {
           y: 40,
@@ -78,7 +89,11 @@ export const initReveal = async (root: ParentNode = document): Promise<(() => vo
           duration: 0.9,
           ease: 'expo.out',
           stagger: 0.08,
+          immediateRender: false,
           scrollTrigger: trigger,
+          onComplete: function () {
+            gsap.set(this.targets(), { clearProps: 'transform' });
+          },
         }),
       );
       continue;

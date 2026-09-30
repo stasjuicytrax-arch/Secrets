@@ -39,16 +39,17 @@
    Плюс сетка карточек ограничена по max-width — иначе на 1920px колонки
    растягиваются и высота 4:3 уходит далеко за 300px. */
 
-/* Контейнер-запрос: переключает фото карточек с 4:3 на 3:2, когда своя
-   колонка сетки становится шире ~420px — то есть именно тогда, когда
-   грид занимает всю ширину секции (см. фикс ниже), а не по глобальному
-   брейкпоинту вьюпорта, который к реальной ширине карточки отношения
-   не имеет. */
+/* 30.09.2026, второй проход: контейнер-запрос на 3:2 выше 420px убран.
+   Он менял высоту фото на ОБЕИХ строках одновременно (все 6 карточек
+   читают один и тот же контейнер), так что сам по себе не мог развести
+   карточки по высоте — но раз аспект был не константой, любая мелочь
+   (перенос названия в теле карточки) немедленно давала расхождение,
+   которое нечем было погасить. Теперь аспект зафиксирован: 4:3 всегда,
+   на всех брейкпоинтах, без исключений. */
 .menu__categories {
-  container-type: inline-size;
-  container-name: menu-grid;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: var(--sp-5) var(--gutter-col);
   margin-block-start: var(--sp-9);
 }
@@ -82,31 +83,51 @@
   overflow: clip;
 }
 
-/* 3 колонки без cap по ширине означают колонку шире ~420px при контейнере
-   шире ~1300px (3×420 + 2 гаттера) — на 4:3 карточка снова разрастается
-   по высоте. 3:2 (короче при той же ширине) держит её компактной. */
-@container menu-grid (width > 1300px) {
-  .category-card__media {
-    aspect-ratio: 3 / 2;
-  }
-}
-
-/* Тот же порог для сетки в 2 колонки (<1100px, см. медиа-блок ниже):
-   там ширина карточки переваливает за 420px уже при контейнере ~860px —
-   вложенный container query держит правило в границах своего брейкпоинта. */
-@media (width < 1100px) {
-  @container menu-grid (width > 860px) {
-    .category-card__media {
-      aspect-ratio: 3 / 2;
-    }
-  }
+/* <picture> — строчный элемент без своего размера: img { height:100% }
+   резолвится не от .category-card__media (4:3), а от <picture> (auto),
+   а высота в проценты от auto-родителя не считается — браузер откатывает
+   img к натуральному аспекту (0.667 вместо 4:3). display:contents убирает
+   <picture> из модели блока, img становится прямым «ребёнком» медиа-бокса
+   по размеру. Из-за этого молчаливо не работал и object-position — кроп
+   был не 4:3, а полный портретный кадр. */
+.category-card__media picture {
+  display: contents;
 }
 
 .category-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Точка кадра под каждое фото: источники — вертикальные кадры блюд
+     (2:3), 4:3-кроп видит только половину высоты. Подобрано глазами по
+     фактическому рендеру на 1280/1920, чтобы блюдо было в кадре целиком
+     и по центру, а не обрезано снизу. Индекс — порядок карточек в разметке
+     (Стартеры, Горячее, Паста, Салаты, Япония, Стрит-фуд). */
   transition: scale var(--d-slow) var(--e-out);
+}
+
+.menu__categories li:nth-child(1) .category-card__media img {
+  object-position: 50% 60%; /* тартар: тарелка ниже центра кадра */
+}
+
+.menu__categories li:nth-child(2) .category-card__media img {
+  object-position: 50% 42%; /* ростбиф: мясо чуть выше центра, соус в кадре */
+}
+
+.menu__categories li:nth-child(3) .category-card__media img {
+  object-position: 50% 78%; /* паста: миска целиком, а не только рука с вилкой */
+}
+
+.menu__categories li:nth-child(4) .category-card__media img {
+  object-position: 50% 88%; /* салат: тарелка целиком, бокал вторичен и обрежется */
+}
+
+.menu__categories li:nth-child(5) .category-card__media img {
+  object-position: 50% 82%; /* поке: миска целиком, а не тёмная стена сверху */
+}
+
+.menu__categories li:nth-child(6) .category-card__media img {
+  object-position: 50% 68%; /* бургер: меньше пустого тёмного верха */
 }
 
 .category-card:hover .category-card__media img {
@@ -115,6 +136,10 @@
 
 .category-card__body {
   display: flex;
+  /* Фиксированная высота подписи — иначе перенос длинного названия на
+     узкой карточке («Стрит-фуд») делает его СТРОКУ ряда сетки выше
+     соседней, и карточки в разных рядах расходятся по высоте. */
+  min-height: calc(var(--sp-4) * 2 + 23px);
   align-items: baseline;
   justify-content: space-between;
   gap: var(--sp-3);
@@ -123,11 +148,14 @@
 }
 
 .category-card__name {
+  overflow: hidden;
   font-family: var(--f-display);
   font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--t-on-light);
+  white-space: nowrap;
+  text-overflow: ellipsis;
   transition: transform var(--d-base) var(--e-out);
 }
 
@@ -190,6 +218,9 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--sp-1);
+    /* Две строки (название + цена) вместо одной — своя фиксированная
+       высота вместо десктопной. */
+    min-height: calc(var(--sp-3) * 2 + var(--sp-1) + 14px + 12px);
     padding: var(--sp-3);
   }
 
