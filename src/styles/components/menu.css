@@ -39,11 +39,17 @@
    Плюс сетка карточек ограничена по max-width — иначе на 1920px колонки
    растягиваются и высота 4:3 уходит далеко за 300px. */
 
+/* Контейнер-запрос: переключает фото карточек с 4:3 на 3:2, когда своя
+   колонка сетки становится шире ~420px — то есть именно тогда, когда
+   грид занимает всю ширину секции (см. фикс ниже), а не по глобальному
+   брейкпоинту вьюпорта, который к реальной ширине карточки отношения
+   не имеет. */
 .menu__categories {
+  container-type: inline-size;
+  container-name: menu-grid;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--sp-5) var(--gutter-col);
-  max-width: 920px;
   margin-block-start: var(--sp-9);
 }
 
@@ -74,6 +80,26 @@
      и высота съезжает к натуральному aspect-ratio картинки. */
   min-height: 0;
   overflow: clip;
+}
+
+/* 3 колонки без cap по ширине означают колонку шире ~420px при контейнере
+   шире ~1300px (3×420 + 2 гаттера) — на 4:3 карточка снова разрастается
+   по высоте. 3:2 (короче при той же ширине) держит её компактной. */
+@container menu-grid (width > 1300px) {
+  .category-card__media {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* Тот же порог для сетки в 2 колонки (<1100px, см. медиа-блок ниже):
+   там ширина карточки переваливает за 420px уже при контейнере ~860px —
+   вложенный container query держит правило в границах своего брейкпоинта. */
+@media (width < 1100px) {
+  @container menu-grid (width > 860px) {
+    .category-card__media {
+      aspect-ratio: 3 / 2;
+    }
+  }
 }
 
 .category-card__media img {
@@ -149,7 +175,6 @@
 @media (width < 1100px) {
   .menu__categories {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 640px;
   }
 }
 
@@ -159,7 +184,6 @@
   .menu__categories {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--sp-3);
-    max-width: none;
   }
 
   .category-card__body {

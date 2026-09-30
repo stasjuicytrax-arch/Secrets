@@ -12,8 +12,12 @@ const initScrollState = async (header: HTMLElement): Promise<void> => {
   const bundle = await loadGsap();
 
   if (!bundle) {
-    // prefers-reduced-motion: капсула не нужна, линия прогресса не нужна.
-    header.dataset.state = 'top';
+    // prefers-reduced-motion: без ScrollTrigger некому отслеживать
+    // позицию, а 'top' (прозрачно) навсегда означало нечитаемый хедер
+    // на любой светлой секции ниже героя. 'expanded' — тот же тёмный
+    // блюр-фон, что у капсулы, но в полную ширину: статично, без анимации
+    // морфинга (которой здесь и не должно быть), и всегда читаемо.
+    header.dataset.state = 'expanded';
     return;
   }
 
@@ -23,9 +27,14 @@ const initScrollState = async (header: HTMLElement): Promise<void> => {
     onUpdate: (self) => {
       header.style.setProperty('--read-progress', self.progress.toFixed(4));
 
+      // Три состояния, две независимые оси: компакт/полная ширина (по
+      // направлению скролла, ТЗ §4) и прозрачный/с фоном (по позиции —
+      // прозрачно только у самой вершины, над героем). 'top' — только
+      // там; глубже в странице шапка всегда с тёмным блюром, иначе
+      // светлая секция под ней просвечивает и текст нечитаем.
       const y = self.scroll();
       if (y <= PILL_FROM) header.dataset.state = 'top';
-      else header.dataset.state = self.direction === 1 ? 'pill' : 'top';
+      else header.dataset.state = self.direction === 1 ? 'pill' : 'expanded';
     },
   });
 };
