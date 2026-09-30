@@ -99,11 +99,23 @@
   aspect-ratio: 3 / 4;
 }
 
+/* Обводка = фон секции: единственный способ отделить фото на фото без
+   тени и без карточки-в-карточке. Сама секция плоский --c-ink (см.
+   .about ниже — фона на градиенте больше нет), поэтому обводка тем же
+   токеном сливается со страницей вокруг коллажа. */
+.about__photo--second,
+.about__photo--third {
+  border: 3px solid var(--c-ink);
+}
+
 .about__photo--second {
   position: absolute;
   z-index: 2;
   inset-block-end: -9%;
-  inset-inline-start: -12%;
+  /* Перекрытие с основным фото ~25% СОБСТВЕННОЙ ширины (11 из 44%
+     инлайн-размера): правый край второго фото заходит на основное на
+     11% ширины коллажа, остальное уходит влево за его пределы. */
+  inset-inline-start: -33%;
   inline-size: 44%;
 }
 
@@ -115,7 +127,11 @@
   position: absolute;
   z-index: 3;
   inset-block-start: -7%;
-  inset-inline-end: -9%;
+  /* Перекрытие ~34% собственного диаметра (11 из 32% инлайн-размера) —
+     левый край кружка заходит на основное фото; правый край кружка на
+     1% ВНУТРИ границы коллажа (= границы контейнера, колонка 9/-1 —
+     последняя), не правее её. */
+  inset-inline-end: 1%;
   inline-size: 32%;
   border-radius: 50%;
 }
@@ -140,14 +156,27 @@
   flex: 1 1 240px;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
-  padding-block: var(--sp-6);
+  /* Цифра → подпись: было sp-3 (12px), нужно 16px. */
+  gap: var(--sp-4);
+  /* Линия → цифры: было sp-6 (32px) сверху и снизу симметрично, нужно
+     ≥48px именно сверху; низ можно меньше — ритм после факта до края
+     секции уже держит --section-y (96-120px) на уровне секции. */
+  padding-block-start: var(--sp-7);
+  padding-block-end: var(--sp-6);
   padding-inline-end: var(--sp-6);
   border-inline-end: 1px solid var(--c-concrete);
 }
 
 .fact:last-child {
   border-inline-end: none;
+}
+
+/* 2-й и 3-й столбец: раньше цифры стояли прямо на вертикальной линии
+   слева — паддинг был только с одной стороны (перед разделителем), не
+   после него. У первого столбца паддинга слева нет (край текстовой
+   колонки). */
+.fact:not(:first-child) {
+  padding-inline-start: var(--sp-6);
 }
 
 .fact__num {
@@ -161,7 +190,8 @@
 }
 
 .fact__unit {
-  font-size: 0.5em;
+  /* Было 0.5em — «от»/«₽» ещё соперничали с цифрой за внимание. */
+  font-size: 0.4em;
   font-weight: 600;
   letter-spacing: 0;
 }
@@ -239,9 +269,15 @@
 
   .fact {
     padding-block: var(--sp-5);
-    padding-inline-end: 0;
+    padding-inline: 0;
     border-inline-end: none;
     border-block-end: 1px solid var(--c-concrete);
+  }
+
+  /* Мобильный — колонка в один ряд, вертикальных линий нет: левый
+     паддинг 2-го/3-го факта (для десктопных столбцов) тут не нужен. */
+  .fact:not(:first-child) {
+    padding-inline-start: 0;
   }
 
   .fact:first-child {
